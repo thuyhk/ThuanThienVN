@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "Manage orders";
+}
+
+@using HGT.Admin;
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">List orders</h1>
+    </div>
+</div>
+
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel">
+            <div id="grid" style="padding: 0; margin: 0">
+                <table class="table table-striped table-bordered table-hover mb0 mt30">
+                    <colgroup>
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                    </colgroup>
+                    <thead class="k-grid-header">
+                        <tr>
+                            <th class="k-header" data-field="CustomerName" data-title="CustomerName" scope="col">Name</th>
+                            <th class="k-header txt_align_c" data-field="Phone" data-title="Phone" scope="col" style="text-align: center">Phone</th>
+                            <th class="k-header" data-field="Email" data-title="Email" scope="col">Email</th>
+                            <th class="k-header txt_align_c" data-field="OrderStatus" data-title="OrderStatus" scope="col" style="text-align: center">Status</th>
+                            <th class="k-header txt_align_c" data-field="CreatedDate" data-title="CreatedDate" scope="col" style="text-align: center">Created date</th>
+                            <th scope="col" class="txt_align_c"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="t-no-data">
+                            <td colspan="6"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                @{Html.RenderPartial("~/Areas/Admin/Views/Shared/_GridPager.cshtml");}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+<!-- /.row -->
+@section scripts
+{
+    <script type="text/javascript" src="~/Areas/Admin/Scripts/order.list.js"></script>
+}

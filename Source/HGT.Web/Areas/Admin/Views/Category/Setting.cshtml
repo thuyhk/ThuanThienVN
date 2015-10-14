@@ -1,0 +1,143 @@
+﻿@model HGT.Core.Models.CategorySettingsModel
+@using HGT.Admin;
+@using Kendo.Mvc.UI;
+@{
+    ViewBag.Title = "Category setting";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="page-header">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+</div>
+
+<!-- /.row -->
+@using (Html.BeginForm("EditSetting", "Category", FormMethod.Post, new { @id = "editForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PageSize) <span>*</span>
+                <br />
+                @(Html.Kendo().NumericTextBox<int>()
+                    .Name("PageSize")
+                    .Format("#")
+                    .Value(Model.PageSize)
+                )
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.EnableImage)
+                @Html.CheckBoxFor(model => model.EnableImage)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ImageWidth) <span>*</span>
+                <br />
+                @(Html.Kendo().NumericTextBox<int>()
+                    .Name("ImageWidth")
+                    .Format("#")
+                    .Value(Model.ImageWidth)
+                )
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ImageHeight) <span>*</span>
+                <br />
+                @(Html.Kendo().NumericTextBox<int>()
+                    .Name("ImageHeight")
+                    .Format("#")
+                    .Value(Model.ImageHeight)
+                )
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ImageBackground) <span>*</span>
+                @Html.TextBoxFor(model => model.ImageBackground, new { @class = "form-control", tabindex = "1" })
+
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.EnableSorting)
+                @Html.CheckBoxFor(model => model.EnableSorting)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.AllowErase)
+                @Html.CheckBoxFor(model => model.AllowErase)
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12" style="text-align: right">
+            <button type="button" class="btn btn-primary btnSave" tabindex="4"><i class="fa  fa-save fa-fw"></i>Save</button>
+            <button type="reset" class="btn btn-primary btnReset" tabindex="5"><i class="fa fa-eraser fa-fw"></i>Reset</button>
+        </div>
+    </div>
+
+}
+<!-- /.row -->
+@section scripts{    
+
+    <script type="text/javascript">
+        var frm = $('#editForm');
+
+        $(document).ready(function () {            
+            var validatable =frm.kendoValidator().data("kendoValidator");
+
+            $(".btnSave").click(function () {
+                if (validatable.validate() === false) {
+                    return false;
+                }
+
+                $.ajax({
+                    url: frm.attr('action'),
+                    type: frm.attr('method'),
+                    data: frm.serialize(),
+                    dataType: 'json',
+                    cache: false,
+                    async: false,
+                    beforeSend: function () {
+                        $("#divLoading").show();
+                    },
+                    success: function (data) {
+                        if (data.Status == 1)
+                            ConfirmMessageBox(null, data.Message, onClosePopup, false);
+                        else
+                            ConfirmMessageBox(null, data.Message, function () { }, false);
+                    },
+                    error: function () {
+                        $("#divLoading").hide();
+                    },
+                    complete: function () {
+                        $("#divLoading").hide();
+                    }
+                });
+                return false;
+            });
+
+            frm.submit(function () {
+                return false;
+            })
+        });
+
+        //event enter
+        function keypressHandler(e) {
+            if (e.which == 13) {
+                $(this).blur();
+                $('.btnSave').focus().click();//give your submit an ID
+            }
+        }
+
+        frm.keypress(keypressHandler);
+
+        $(".btnReset").click(function () {
+            frm[0].reset();
+        });
+
+        // event when close popup windows
+        function onClosePopup(e) {
+            location.reload();
+        }
+    </script>
+}

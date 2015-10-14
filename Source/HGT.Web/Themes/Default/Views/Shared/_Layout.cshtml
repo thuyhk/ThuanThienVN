@@ -1,0 +1,96 @@
+﻿@using HGT.Core;
+@using HGT.Core.Utility;
+
+@{
+    var appSetting = AppSettings.Settings;
+    var pathFile = Globals.ImagePath(appSetting.LogoURL);
+}
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>@ViewBag.Title - @appSetting.SiteName</title>
+    @Styles.Render("~/Content/cssDefault")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("header", required: false)
+    <!--[if IE]> <script src="js/html5.js"></script><![endif]-->
+    <!-- Not using mini cart -->
+    @*<style type="text/css">
+        .logo
+        {
+            margin: 0 0 4px;
+        }
+
+        #search
+        {
+            margin: 30px 0 8px;
+        }
+    </style>*@
+</head>
+<body>
+    <script src="@Url.Content("~/Scripts/browserdetect.min.js")"></script>
+    <div id="body">
+        <header class="top">
+            <div class="contentTop">
+                @*<div class="logo2">
+                    <a href="/">
+                        <img src="@Url.Content(_webHelper.Images.LogoSmallURL)" alt="@_webHelper.Generals.SiteName" /></a>
+                </div>*@
+                @* <p class="login"><a href="#">Allerede kunde? <span>Logg inn</span></a><a href="#">lkke kunde ennå? <span>Registrer deg her</span></a></p>*@
+
+                <!--Mini Shopping Cart Start-->
+                <div id="cartSummany">
+                    <div class="heading">
+                        @{Html.RenderAction("_CartSummary", "ShoppingCart");}
+                    </div>
+                    @*<div class="contentCart" id="showMiniCart">
+                        @{Html.RenderAction("_MiniCart", "ShoppingCart");}
+                    </div>*@
+                </div>
+                <!--Mini Shopping Cart End-->
+                <div class="clear2"></div>
+                <div class="logo">
+                    <a href="/">
+                        <img src="@pathFile" alt="@appSetting.SiteName" /></a>
+                </div>
+                @{Html.RenderAction("_QuickSearch", "Common");}
+                @{Html.RenderAction("_NavMenu", "Common");}
+            </div>
+        </header>
+        <div class="clear"></div>
+        @RenderSection("slideBanner", required: false)
+        <article class="main">
+            <div class="content">
+                <aside class="colLeft">
+                    @RenderSection("colLeft", required: false)
+                </aside>
+                <div class="colRight">
+                    @RenderBody()
+                </div>
+                <div class="clear"></div>
+            </div>
+        </article>
+        <div class="clear"></div>
+        @*@{Html.RenderAction("_FooterInfo", "Common");}*@
+        @{Html.RenderAction("_Footer", "Common");}
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        </div>
+    </div>
+    <div id="divLoading" class="loading" style="display: none;"> </div>
+    @Scripts.Render("~/bundles/jsDefault")
+    @Scripts.Render("~/bundles/jsValidation")
+    <script>
+        $(document).ready(function () {
+            $(function () { $(window).scroll(function () { if ($(this).scrollTop() != 0) { $('#top').fadeIn(); } else { $('#top').fadeOut(); } }); $('#top').click(function () { $('body,html').animate({ scrollTop: 0 }, 800); }); });
+        });
+        $(window).on('hidden.bs.modal', function () {
+            $('#myModal').empty().hide();
+        });
+
+    </script>
+
+    @Scripts.Render("~/bundles/jsBootstrap")
+    @RenderSection("footer", required: false)
+</body>
+</html>

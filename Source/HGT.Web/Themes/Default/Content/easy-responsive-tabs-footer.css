@@ -1,0 +1,102 @@
+﻿.tabSale{ width:570px; float:left; margin-right:20px}
+#horizontalTabFooter{}
+#horizontalTabFooter ul.resp-tabs-list{height:34px; padding:0; border-bottom: 1px solid #FF5C00;}
+#horizontalTabFooter .resp-tabs-list li { padding: 7px 14px 7px 25px ; margin: 0; list-style: none; cursor: pointer; float: left; color: #8B8B8B; line-height: 20px; display:inline-block; font-size: 16px; text-transform: uppercase; font-weight: normal;text-align: center; }
+#horizontalTabFooter .resp-tabs-list li:first-child{ padding-left:0}
+#horizontalTabFooter .resp-tabs-list li:hover { color: #FF5C00; border-bottom: 3px solid #FF5C00;}
+#horizontalTabFooter .resp-tabs-container {float:left; width:100%; padding:5px 0 15px; margin:0 -12px}
+#horizontalTabFooter h3.resp-accordion { cursor: pointer; padding: 5px; display: none; margin-bottom: 0 !important; font-size: 16px; text-transform: uppercase; font-weight: normal; color:#fff; background:#086b6e}
+#horizontalTabFooter .resp-tab-content { display: none}
+#horizontalTabFooter .resp-tab-active { color: #FF5C00!important; border: none;  margin: 5px 0; border-bottom: 3px solid #FF5C00;}
+#horizontalTabFooter .resp-content-active, #horizontalTabFooter .resp-accordion-active { display: block; }
+#horizontalTabFooter h3.resp-accordion { font-size: 14px }
+#horizontalTabFooter h3.resp-tab-active { }
+#horizontalTabFooter h3.resp-tab-title:last-child { border-bottom: 12px solid #DDD !important; background: blue; }
+/*-----------Vertical tabs-----------*/
+#horizontalTabFooter .resp-vtabs ul.resp-tabs-list { float: left; width: 30%; }
+#horizontalTabFooter .resp-vtabs .resp-tabs-list li { display: block; padding: 15px 15px !important; margin: 0; cursor: pointer; float: none; }
+#horizontalTabFooter .resp-vtabs .resp-tabs-container { padding: 0px; background-color: #fff; border: 1px solid #DDD; float: left; width: 68%; min-height: 250px; border-radius: 4px; clear: none; }
+#horizontalTabFooter .resp-vtabs .resp-tab-content { border: none; }
+#horizontalTabFooter .resp-vtabs li.resp-tab-active { border: 1px solid #DDD; border-right: none; background-color: #fff; position: relative; z-index: 1; margin-right: -1px !important; padding: 14px 15px 15px 14px !important; }
+#horizontalTabFooter .resp-arrow { width: 0; height: 0; float: right; margin-top: 5px; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 12px solid #DDD; }
+#horizontalTabFooter h3.resp-tab-active span.resp-arrow { border: none; border-left: 6px solid transparent; border-right: 6px solid transparent; border-bottom: 12px solid #fff; }
+/*-----------Accordion styles-----------*/
+#horizontalTabFooter h3.resp-tab-active, #horizontalTabFooter h3:hover {  width: 96%; padding: 0 2%; margin: 0; color:#fff !important; background:#03ced5!important }
+#horizontalTabFooter .resp-easy-accordion h3.resp-accordion { display: block; }
+#horizontalTabFooter .resp-easy-accordion .resp-tab-content { border: 1px solid #DDD; }
+#horizontalTabFooter .resp-easy-accordion .resp-tab-content:last-child { border-bottom: 1px solid #DDD !important; }
+#horizontalTabFooter .resp-jfit { width: 100%; margin: 0px; }
+#horizontalTabFooter .resp-tab-content-active { display: block; }
+#horizontalTabFooter h3.resp-accordion:first-child { border-top: 1px solid #DDD !important; margin-bottom: 0 }
+#horizontalTabFooter .contenttab ul{ list-style:none; padding:0; margin:0}
+#horizontalTabFooter .contenttab li{ width:120px; margin:10px 12px; float:left}
+#horizontalTabFooter .contenttab li:nth-child(4n){ margin-right:0}
+#horizontalTabFooter .contenttab p{padding:0 0 0 12px;}
+/*  css product sale */
+.contentSale { float: left; width: 100%; text-align: center  }
+.imgSale{ float: left; width:30%}
+.contentSale img { opacity: 1;  margin-bottom:4px; width:100% }
+.contentSale img:hover { opacity: 0.7 }
+.contentSale .priceSale { line-height: 22px; font-size:18px; font-weight:bold; color: #000; float:left; text-align:center; text-align:center; width:100% }
+.contentSale  a{color:#000}
+{}
+.contentSale p { margin-bottom:4px}
+
+@media only screen and (max-width: 1240px) {
+
+#horizontalTabFooter .resp-tabs-container{width:100%}
+.contenttab li{ width:265px}
+
+}
+@media only screen and (max-width: 1180px) {
+#horizontalTabFooter .resp-tabs-container{ margin:0 -1%; width:101%}
+#horizontalTabFooter .contenttab li{ width:23.2%; margin:0 1%}
+.nyhetesbrev input{ width:58%}
+}
+
+@media only screen and (max-width: 1100px) {
+
+}
+
+@media only screen and (max-width: 980px) {
+
+}
+@media only screen and (max-width: 880px) {
+
+}
+/*Here your can change the breakpoint to set the accordion, when screen resolution changed*/
+@media only screen and (max-width: 768px) {
+#horizontalTabFooter ul.resp-tabs-list { display: block; }
+#horizontalTabFooter .resp-tab-content {  }
+#horizontalTabFooter .resp-vtabs .resp-tabs-container { border: none; float: none; width: 100%; min-height: initial; clear: none; }
+#horizontalTabFooter .resp-accordion-closed { display: none !important; }
+#horizontalTabFooter .resp-vtabs .resp-tab-content:last-child { border-bottom: 1px solid #DDD !important; }
+#horizontalTabFooter .innerTab{ width:100%}
+}
+
+@media only screen and (max-width: 560px) {
+#horizontalTabFooter{margin:15px 0 !important}
+#horizontalTabFooter ul.resp-tabs-list { display: none; }
+#horizontalTabFooter h3.resp-accordion { display:block;  padding: 7px 3%; width: 94% ; border-bottom: 1px solid #DDD }
+#horizontalTabFooter .resp-tab-content {}
+#horizontalTabFooter .contenttab li{ float:left; width:46%; padding:0px 0%; margin:0 2% 20px}
+#horizontalTabFooter .innerTab, #horizontalTabFooter .innerTab1{overflow:hidden; padding:15px 3%; width:94%; background:#fff}
+.contenttab {
+    padding: 0%
+}
+.contentSale img{ border:1px solid #e0e2e6}
+.contentSale a {
+    color: #000
+}
+.contentSale .priceSale{color: #000}
+}
+
+@media only screen and (max-width: 400px) {
+#horizontalTabFooter .contenttab li{ float:left;width: 45%; margin:0 2% 15px}
+#horizontalTabFooter .innerTab {
+    overflow: hidden;
+    padding: 15px 0;
+    width: 100%;
+}
+
+}

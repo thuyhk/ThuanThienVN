@@ -1,0 +1,44 @@
+﻿@model IEnumerable<CategoryViewModel>
+
+@using HGT.Web.Extensions
+@using System.Collections
+@using HGT.Web.Models
+
+<div class="category">
+    <h3>Danh mục sản phẩm</h3>
+    <div id="menu-icon">Danh mục sản phẩm</div>
+    <ul id="nav" class="sf-menu-phone">
+        @if (Model != null && Model.Count() > 0)
+        {
+            foreach (var item in Model)
+            {                
+            <li>
+                @Html.RouteLink(item.Name, "CategoryDetail", new { categoryAlias = item.Alias })
+                @if (item.Childrens != null && item.Childrens.Count > 0)
+                {
+                    <ul>
+                        @foreach (var cateChildL1 in item.Childrens)
+                        {
+                            var cateChildModelL1 = cateChildL1.ToModel();
+                            <li>
+                                @Html.RouteLink(cateChildModelL1.Name, "CategoryDetail", new { categoryAlias = cateChildModelL1.Alias })
+                                @if (cateChildModelL1.Childrens != null && cateChildModelL1.Childrens.Count > 0)
+                                {
+                                    <ul>
+                                        @foreach (var cateChildL2 in cateChildModelL1.Childrens)
+                                        {
+                                            <li>
+                                                @Html.RouteLink(cateChildL2.Name, "CategoryDetail", new { categoryAlias = cateChildL2.Alias })
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                            </li>
+                        }
+                    </ul>
+                }
+            </li>
+            }
+        }
+    </ul>
+</div>

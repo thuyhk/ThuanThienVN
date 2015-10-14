@@ -1,0 +1,19 @@
+﻿@model HGT.Entities.Models.Content
+
+@{
+    ViewBag.Title = "Giới thiệu";
+}
+
+<div id="wr-two-col" class="row  wr-detail">
+    <div class="col-sm-3">
+        <div class="img-left">
+            <img src="@Url.Content("~/userfiles/images/intro.png")" alt=""/>
+        </div>
+    </div>
+    <div class="col-sm-9">  
+        <div class="wr-product-description">
+            @Html.Raw(Model.Value)
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>

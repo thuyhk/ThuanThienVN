@@ -1,0 +1,44 @@
+﻿@model NewsSettingModel
+
+@using HGT.Web.Models
+@using HGT.Core.Paging
+
+@{
+    ViewBag.Title = "Tin tức";
+
+
+    var pageInfo = ViewData["PageInfoModel"] as PagingInfo;
+    pageInfo = pageInfo ?? new PagingInfo();
+    pageInfo.ShowAllPages = false;
+    var showPaging = new HGT.Web.Extensions.SiteControl();
+}
+
+@section colLeft{
+    @{Html.RenderAction("_ListCategories", "Category");}
+}
+
+<h1>@ViewBag.Title</h1>
+
+@if (Model.Results != null && Model.Results.Count > 0)
+{ 
+    foreach (var item in Model.Results)
+    {
+        <div class="boxNew">
+            <div class="boxNewLeft">
+                <a href="/tin-tuc/@item.Alias" title="@item.Name"><img src="@Url.Content(item.Thumbnail)" alt="@item.Alias"/></a>
+            </div>
+            <div class="boxNewRight">
+                <div class="newTitle" style="font-size: 17px;">@Html.RouteLink(item.Name, "NewDetail", new { Alias = item.Alias })</div>
+                <div class="newDescription">@item.Description</div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    }
+    <div class="clear"></div>
+    if (Model.TotalPages > 1)
+    {
+        <div class="pager">
+            @showPaging.PageLinks(pageInfo)
+        </div>
+    }
+}

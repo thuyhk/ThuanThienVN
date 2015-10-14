@@ -1,0 +1,263 @@
+﻿@model SettingModel
+
+@using HGT.Admin.Models;
+@using Kendo.Mvc.UI;
+@using HGT.Core;
+@using HGT.Core.Enums;
+@using HGT.Core.Models;
+
+@{
+    ViewBag.Title = "Site settings";
+
+    var pathFile = Globals.ImagePath(Model.LogoURL ?? "default.jpg");
+    var userInfo = System.Web.HttpContext.Current.Session[ConstantKeys.UserInfo] as UserInfo;
+}
+
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li><a href="/admin"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    @using (Html.BeginForm("EditSetting", "Setting", FormMethod.Post, new { @id = "editForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id)
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-xs-12" style="padding-bottom: 12px;">
+                <button type="button" class="btn btn-danger pull-right" onclick="cancel();"><i class="fa fa-fw fa-credit-card"></i>@StringTable.Cancel</button>
+                <button type="submit" class="btn btn-primary pull-right btnSave" style="margin-right: 5px;"><i class="fa fa-fw fa-save"></i>@StringTable.Save</button>
+            </div>
+        </div>    
+        <div class="row">
+            <div class="col-md-4">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">General</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SiteName) <span>*</span>
+                            @Html.TextBoxFor(model => model.SiteName, new { @class = "form-control" })
+                            <p class="help-block">
+                                @Html.ValidationMessageFor(model => Model.SiteName, null, new { @class = "" })
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MetaKeyword)
+                            @Html.TextAreaFor(model => model.MetaKeyword, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.CheckBoxFor(model => model.ShowCaptcha, new { @class = "multi" })
+                            <span class="lbl"></span>
+                            @Html.LabelFor(model => model.ShowCaptcha)
+                        </div>
+                        <div class="form-group">
+                            <div class="uploadFile">
+                                @Html.TextBoxFor(model => model.ImageUpload, new { @type = "file", @onchange = "uploadImage(this)", @accept = "image/*", @style = "float:left;color:transparent;width:150px;", @datavalextension = "Invalid file extension", @datavalregex = ".jpg|.png|.gif|.bmp$" })
+                            </div>
+                            <div class="img_thumb">
+                                <img id="ThumbnailPath"  src="@Url.Content(Model.ThumbPath)" />
+                                <img id="LoadingImage" src="@Url.Content("~/Areas/Admin/Content/img/loading-violet.gif")" style="display: none;" alt="loading..." />
+                            </div>
+                            @Html.HiddenFor(x => x.LogoURL)
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="box box-success">
+                    <div class="box-header">
+                        <h3 class="box-title">Company profiles</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CompanyName) <span>*</span>
+                            @Html.TextBoxFor(model => model.CompanyName, new { @class = "form-control" })
+                            <p class="help-block">
+                                @Html.ValidationMessageFor(model => Model.CompanyName, null, new { @class = "" })
+                            </p>
+                        </div>
+                        @*<div class="form-group">
+                            @Html.LabelFor(model => model.CompanyPhone)
+                            @Html.TextBoxFor(model => model.CompanyPhone, new { @class = "form-control" })
+                        </div>*@
+                        @*<div class="form-group">
+                            @Html.LabelFor(model => model.CompanyFaxNo)
+                            @Html.TextBoxFor(model => model.CompanyFaxNo, new { @class = "form-control" })
+                        </div>*@
+                        <div class="form-group">
+                            Email to
+                            @Html.TextBoxFor(model => model.CompanyEmail, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            Email cc 
+                            @Html.TextBoxFor(model => model.EmailOrder, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            Hotline KD HCM
+                            @Html.TextBoxFor(model => model.Phone1, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            Hotline KD Hà Nội
+                            @Html.TextBoxFor(model => model.Phone2, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            Hotline hỗ trợ 24/7
+                            @Html.TextBoxFor(model => model.Phone3, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="box box-warning">
+                    <div class="box-header">
+                        <h3 class="box-title">Email setting</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.HostServer) <span>*</span>
+                            @Html.TextBoxFor(model => model.HostServer, new { @class = "form-control" })
+                            <p class="help-block">
+                                @Html.ValidationMessageFor(model => Model.HostServer, null, new { @class = "" })
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Port) <span>*</span>
+                            <br />
+                            @(Html.Kendo().NumericTextBox<int>()
+                                                        .Name("Port")
+                                                        .Format("#")
+                                                        .Value(Model.Port))
+                        </div>
+                        <div class="form-group">
+                            @Html.CheckBoxFor(model => model.EnableSSL, new { @class = "multi" })
+                            <span class="lbl"></span>
+                            @Html.LabelFor(model => model.EnableSSL)
+                        </div>
+                        <div class="form-group">
+                            @Html.CheckBoxFor(model => model.SMTPAuthentication, new { @class = "multi" })
+                            <span class="lbl"></span>
+                            @Html.LabelFor(model => model.SMTPAuthentication)
+                        </div>
+                        <div class="form-group" id="divUserName">
+                            @Html.LabelFor(model => model.SMTPAccount) <span>*</span>
+                            @Html.TextBoxFor(model => model.SMTPAccount, new { @class = "form-control" })
+
+                        </div>
+                        <div class="form-group" id="divPassword">
+                            @Html.LabelFor(model => model.SMTPPassword) <span>*</span>
+                            @Html.TextBoxFor(model => model.SMTPPassword, new { @class = "form-control", @type = "password" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12" style="padding-bottom: 12px;">
+                <button type="button" class="btn btn-danger pull-right" onclick="cancel();"><i class="fa fa-fw fa-credit-card"></i>@StringTable.Cancel</button>
+                <button type="submit" class="btn btn-primary pull-right btnSave" style="margin-right: 5px;"><i class="fa fa-fw fa-save"></i>@StringTable.Save</button>
+            </div>
+        </div>    
+    }
+</section>
+<!-- /.content -->
+
+<input type="hidden" id="formInformation" data-image-upload-url="/admin/setting/uploadImage" />
+
+@section scripts{
+    @Scripts.Render("~/bundles/jsValidation")
+
+    <script type="text/javascript">
+        var frm = $('#editForm');
+        $('.btnSave').click(function () {
+            if (frm.valid() === false) return false;
+
+            $.ajax({
+                url: frm.attr('action'),
+                type: frm.attr('method'),
+                data: frm.serialize(),
+                dataType: 'json',
+                cache: false,
+                async: false,
+                beforeSend: function () {
+                    //$("#divLoading").show();
+                },
+                success: function (data) {
+                    if (data.Status == 1)
+                        ConfirmMessageBox(null, data.Message, onClosePopup, false);
+                    else
+                        ConfirmMessageBox(null, data.Message, function () { }, false);
+                },
+                error: function () {
+                    //$("#divLoading").hide();
+                },
+                complete: function () {
+                    //$("#divLoading").hide();
+                }
+            });
+
+            return false;
+        });
+
+        frm.submit(function () {
+            return false;
+        });
+
+        $(document).ready(function () {
+            visbleUserPass();
+        });
+
+        //check show and hide input user/pass of host
+        var visbleUserPass = function () {
+            if ($("#SMTPAuthentication:checked").is(':checked')) {
+                $("#divUserName").removeAttr("style");
+                $("#divPassword").removeAttr("style");
+                $('#SMTPAccount').attr('readonly', false); $('#SMTPPassword').attr('readonly', false);
+            }
+            else {
+                $("#divUserName").css("display", "none");
+                $("#divPassword").css("display", "none");
+                $('#SMTPAccount').attr('readonly', true); $('#SMTPPassword').attr('readonly', true);
+            }
+        };
+
+        $("#SMTPAuthentication[type=checkbox]").on("click", visbleUserPass);
+
+
+        function onClosePopup(e) {
+            window.location = "/admin/setting/";
+        }
+        function cancel() {
+            window.location = "/admin/setting/";
+        }
+    </script>
+
+    <script>
+        var fInfo = $("#formInformation");
+        var UPLOADURL = fInfo.attr("data-image-upload-url");
+
+        function uploadImage(node) {
+            if (!validFileExtension($(node), 'datavalregex', 'section.clo_right', 'datavalextension'))
+                ConfirmMessageBox(null, "Please insert an image file...", function () { }, false);
+
+            doUploadFile(UPLOADURL, 'ImageUpload', 'LoadingImage', { id: '@(Model.Id)' },
+                function (result) {
+                    if (result.ImagePath) {
+                        $("#LogoURL").val(result.FileName);
+                        $("#ThumbnailPath").attr('src', result.ImagePath).show();
+                    }
+                });
+        }
+
+    </script>
+
+    <script src="@Url.Content("~/Areas/Admin/Scripts/uploadImage.js")"></script>
+    <script src="@Url.Content("~/Scripts/ajaxfileupload.js")"></script>
+}

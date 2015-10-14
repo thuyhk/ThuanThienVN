@@ -1,0 +1,147 @@
+﻿@model HGT.Admin.Models.EmailTemplateModel
+
+@using HGT.Admin;
+@using Kendo.Mvc.UI;
+
+@{
+    ViewBag.Title = "Edit email template";
+}
+
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li><a href="/admin"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="active">Edit email</li>
+    </ol>
+</section>
+<!-- /.row -->
+@using (Html.BeginForm("EditEmail", "Content", FormMethod.Post, new { @id = "editForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.EmailTemplateId)
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name) <span>*</span>
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control", tabindex = "1" })
+                <p class="help-block">
+                    @Html.ValidationMessageFor(model => Model.Name, null, new { @class = "" })
+                </p>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Subject) <span>*</span>
+                @Html.TextBoxFor(model => model.Subject, new { @class = "form-control", tabindex = "1" })
+                <p class="help-block">
+                    @Html.ValidationMessageFor(model => Model.Subject, null, new { @class = "" })
+                </p>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Content)
+                @Html.TextArea("Content", Model.Content, new { @class = "form-control myckeditor" })
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12" style="text-align: right">
+            <button type="submit" class="btn btn-primary btnSave"><i class="fa  fa-save fa-fw"></i>Save</button>
+            <button type="button" class="btn btn-primary" onclick="cancel();"><i class="fa fa-undo fa-fw"></i>Back</button>
+        </div>
+    </div>
+    
+    <div class="clearfix mb10"></div>
+}
+<!-- /.row -->
+@section scripts{
+    <script src="~/Utility/ckeditor/ckeditor.js"></script>
+    <script src="~/Utility/ckfinder/ckfinder.js"></script>
+
+    <script type="text/javascript">
+        //<![CDATA[
+        if (typeof (CKFinder) != 'undefined') CKFinder.setupCKEditor(null, '/utility/ckfinder/');
+
+        var txt = null;
+        function loadEditor(objId) {
+            var instance = CKEDITOR.instances[objId];
+            if (instance != null) {
+                CKEDITOR.remove(instance);
+                instance.destroy();
+                instance = null;
+            }
+
+            var newInstance = null;
+            newInstance = CKEDITOR.replace(objId, { toolbar: 'Full', width: '100%', height: '300px' }); //toolbar: 'Basic'
+            txt = newInstance;
+        }
+        //]]>
+
+        $(document).ready(function () {
+            var textarea = $(".myckeditor");
+            if (textarea.length > 0) {
+                for (var i = 0; i < textarea.length; i++) {
+                    loadEditor(textarea[i].id);
+                }
+            }
+
+            var validatable = $("#editForm").kendoValidator().data("kendoValidator");
+
+            $('.btnSave').click(function () {
+
+                if (validatable.validate() === false) {
+                    return false;
+                }
+                //set value for content
+                var contenthtml = CKEDITOR.instances['Content'].getData();
+                $('#Content').html(contenthtml);
+
+                $.ajax({
+                    url: "/admin/content/EditEmail",
+                    type: "POST",
+                    data: $('#editForm').serialize(),
+                    dataType: 'json',
+                    cache: false,
+                    async: false,
+                    success: function (data) {
+                        if (data.Status == 1)
+                            ConfirmMessageBox(null, data.Message, onClosePopup, false);
+                        else
+                            ConfirmMessageBox(null, data.Message, function () { }, false);
+                    },
+                    complete: function () { }
+                });
+                return false;
+            });
+
+            $('#editForm').submit(function () {
+                return false;
+            })
+        });
+
+        function cancel() {
+            var siteUrl = null;
+            siteUrl = "/admin/content/template/";
+            window.location = siteUrl;
+            return false;
+
+        }
+        
+
+        ////event enter
+        //function keypressHandler(e) {
+        //    if (e.which == 13) {
+        //        $(this).blur();
+        //        $('.btnSave').focus().click();//give your submit an ID
+        //    }
+        //}
+        //$('#editForm').keypress(keypressHandler);
+
+        // event when close popup windows
+        function onClosePopup(e) {
+            var siteUrl = null;
+            siteUrl = "/admin/content/template/";
+            window.location = siteUrl;
+            return false;
+        }
+    </script>
+}

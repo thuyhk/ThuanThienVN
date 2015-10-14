@@ -1,0 +1,304 @@
+﻿@model HGT.Core.Models.CategoryModel
+
+@using Kendo.Mvc.UI;
+@using HGT.Core;
+@using HGT.Core.Utility;
+@using HGT.Core.Extensions;
+@{
+    var pageTitle = Model.Id > 0 ? "Cập nhật danh mục" : "Thêm danh mục mới"; //model.Thumbnail != null ? model.Thumbnail : "default.jpg";
+    ViewBag.Title = pageTitle;
+
+    var categories = ViewData["ListCategory"] as List<SelectListItem>;
+    var currentSite = "/admin/category";
+}
+
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li><a href="/admin"><i class="fa fa-dashboard"></i>@StringTable.Home</a></li>
+        <li><a href="@currentSite">Danh mục</a></li>
+        <li class="active">@(Model.Id > 0 ? Model.Name : StringTable.AddNew)</li>
+    </ol>
+</section>
+
+<section class="content">
+    @using (Html.BeginForm("Input", "Category", FormMethod.Post, new { @id = "editForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id)
+        <div class="row">
+            <div class="col-xs-12" style="padding-bottom: 12px;">
+                <button type="button" class="btn btn-danger pull-right" onclick="cancel();"><i class="fa fa-fw fa-credit-card"></i>@StringTable.Cancel</button>
+                <button type="submit" class="btn btn-primary pull-right btnSave" style="margin-right: 5px;"><i class="fa fa-fw fa-save"></i>@StringTable.Save</button>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-3  no-padding-right">
+                <div class="pull-right">
+                    @Html.LabelFor(model => model.Name) <span>*</span>
+                </div>
+            </div>
+            <div class="col-md-5">
+                @Html.TextBoxFor(model => model.Name, new
+           {
+               @class = "form-control",
+               @onblur = string.Format("translateAlias(this, 'Alias', {0})", Model.Id == 0 ? "true" : "false")
+           })
+            </div>
+            <div class="col-md-4">
+                <p class="help-block">
+                    @Html.ValidationMessageFor(model => Model.Name, null, new { @class = "" })
+                </p>
+            </div>
+        </div>             
+        <div class="row form-group">
+            <div class="col-md-3  no-padding-right">
+                <div class="pull-right">
+                    @Html.LabelFor(model => model.Brief)
+                </div>
+            </div>
+            <div class="col-md-9">
+                @Html.TextAreaFor(model => model.Brief, new { @class = "form-control", @row = 3 })
+            </div>
+        </div>        
+        <div class="row form-group">
+            <div class="col-md-3 no-padding-right">
+                <div class="pull-right">
+                    @Html.LabelFor(model => model.Description)
+                </div>
+            </div>
+            <div class="col-md-9">
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control ckeditor_standard" })
+                @*<div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab_1" data-toggle="tab">
+                            <label>Description</label></a></li>
+                        <li><a href="#tab_2" data-toggle="tab">@Html.LabelFor(model => model.Solution)</a></li>
+                        <li><a href="#tab_3" data-toggle="tab">@Html.LabelFor(model => model.HowIt)</a></li>
+                        <li><a href="#tab_4" data-toggle="tab">@Html.LabelFor(model => model.KeyBenefit)</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_1">
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control ckeditor_standard" })
+                        </div>
+                        <div class="tab-pane" id="tab_2">
+                            @Html.TextAreaFor(model => model.Solution, new { @class = "form-control ckeditor_basic" })
+                        </div>
+                        <div class="tab-pane" id="tab_3">
+                            @Html.TextAreaFor(model => model.HowIt, new { @class = "form-control ckeditor_basic" })
+                        </div>
+                        <div class="tab-pane" id="tab_4">
+                            @Html.TextAreaFor(model => model.KeyBenefit, new { @class = "form-control ckeditor_basic" })
+                        </div>
+                    </div>
+                </div>*@
+
+            </div>
+        </div>        
+        <div class="row form-group">
+            <div class="col-md-3  no-padding-right">
+                <div class="pull-right">
+                    @Html.LabelFor(model => model.Alias) <span>*</span>
+                </div>
+            </div>
+            <div class="col-md-5">
+                @Html.TextBoxFor(model => model.Alias, new { @class = "form-control" })
+            </div>
+            <div class="col-md-4">
+                <p class="help-block">@Html.ValidationMessageFor(model => Model.Alias, null, new { })</p>
+            </div>
+        </div>  
+        <div class="row form-group">
+            <div class="col-md-3  no-padding-right">
+                <div class="pull-right">
+                    @Html.LabelFor(model => model.RootId) <span>*</span>
+                </div>
+            </div>
+            <div class="col-md-5 ">
+                @Html.DropDownListFor(model => model.RootId, categories, null, new { @class = "form-control" })
+            </div>
+            <div class="col-md-4">
+                <p class="help-block">
+                    @Html.ValidationMessageFor(model => Model.RootId, null, new { @class = "" })
+                </p>
+            </div>
+        </div>    
+        <div class="row form-group">
+            <div class="col-md-3  no-padding-right">
+                <div class="pull-right">
+                    @Html.LabelFor(model => model.Thumbnail)
+                    <br />
+                    (272 x 186)
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="uploadFile">
+                    @Html.TextBoxFor(model => model.ImageUpload, new { @type = "file", @onchange = "uploadImage(this)", @accept = "image/*", @style = "float:left;color:transparent;width:150px;", @datavalextension = "Invalid file extension", @datavalregex = ".jpg|.png|.gif|.bmp$" })
+                </div>
+                <div class="img_thumb">
+                    <img id="ThumbnailPath"  src="@Url.Content(Model.ThumbPath)" />
+                    <img id="LoadingImage" src="@Url.Content("~/Areas/Admin/Content/img/loading-violet.gif")" style="display: none;" alt="loading..." />
+                </div>
+                @Html.HiddenFor(x => x.Thumbnail)
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-3  no-padding-right">
+                <div class="pull-right">
+                    @Html.LabelFor(model => model.IsActive)
+                </div>
+            </div>
+            <div class="col-md-9">
+                @Html.CheckBoxFor(model => model.IsActive, new { @class = "multi" })
+                <span class="lbl"></span>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-3  no-padding-right">
+                <div class="pull-right">
+                    @Html.LabelFor(model => model.IsFeature)
+                </div>
+            </div>
+            <div class="col-md-9">
+                @Html.CheckBoxFor(model => model.IsFeature, new { @class = "multi" })
+                <span class="lbl"></span>
+            </div>
+        </div>                 
+        <div class="row form-group">
+            <div class="col-md-3  no-padding-right">
+                <div class="pull-right">
+                    @Html.LabelFor(model => model.EnableGallery)
+                </div>
+            </div>
+            <div class="col-md-9">
+                @Html.CheckBoxFor(model => model.EnableGallery, new { @class = "multi" })
+                <span class="lbl"></span>
+            </div>
+        </div> 
+        @*<div class="row form-group">
+            <div class="col-md-3  no-padding-right">
+                <div class="pull-right">
+                    @Html.LabelFor(model => model.EnablePrintCapbility)
+                </div>
+            </div>
+            <div class="col-md-9">
+                @Html.CheckBoxFor(model => model.EnablePrintCapbility, new { @class = "multi" })
+                <span class="lbl"></span>
+            </div>
+        </div>*@ 
+        <div class="row form-group">
+            <div class="col-md-3  no-padding-right">
+                <div class="pull-right">
+                    @Html.LabelFor(model => model.DisplayOrder)
+                </div>
+            </div>
+            <div class="col-md-5 ">
+                @(Html.Kendo().NumericTextBox<int>().Name("DisplayOrder").Format("#").Value(Model.DisplayOrder))
+            </div>
+            <div class="col-md-4">
+                <p class="help-block">
+                    @Html.ValidationMessageFor(model => Model.DisplayOrder, null, new { @class = "" })
+                </p>
+            </div>
+        </div>    
+        <div class="row">
+            <div class="col-xs-12" style="padding-top: 12px;">
+                <button type="button" class="btn btn-danger pull-right" onclick="cancel();"><i class="fa fa-fw fa-credit-card"></i>@StringTable.Cancel</button>
+                <button type="submit" class="btn btn-primary pull-right btnSave" style="margin-right: 5px;"><i class="fa fa-fw fa-download"></i>@StringTable.Save</button>
+            </div>
+        </div>        
+    }
+</section>
+
+<input type="hidden" id="formInformation" data-id="@Model.Id" data-image-upload-url="/admin/category/uploadImage" />
+
+@section scripts{
+    <script src="/Utility/ckeditor/ckeditor.js" type="text/javascript"></script>
+    <script src="/Utility/ckfinder/ckfinder.js" type="text/javascript"></script>
+    <script src="/Utility/hgt.editor.js" type="text/javascript"></script>
+    <script src="/Utility/init.editor.js" type="text/javascript"></script>
+    @Scripts.Render("~/bundles/jsValidation")
+
+    <script type="text/javascript">
+        //event enter
+        var frm = $('#editForm');
+        $(document).ready(function () {
+            if(@Model.Id < 1)
+            {
+                $("#Alias").attr("readonly", "readonly");
+            }
+
+            $(".sidebar-menu li.liCategory").addClass("active");
+
+            $('.btnSave').click(function (e) {
+                if (frm.valid() === false) { return false; }
+
+                //set value for content
+                var contentHtml = CKEDITOR.instances['Description'].getData();
+                $('#Description').html(contentHtml);
+
+                ////set value for how it works
+                //var howitHtml = CKEDITOR.instances['HowIt'].getData();
+                //$('#HowIt').html(howitHtml);
+
+                ////set value for key benefits
+                //var keyHtml = CKEDITOR.instances['KeyBenefit'].getData();
+                //$('#KeyBenefit').html(keyHtml);
+
+                ////set value for solution
+                //var solHtml = CKEDITOR.instances['Solution'].getData();
+                //$('#Solution').html(solHtml);
+
+                $.ajax({
+                    url: frm.attr('action'),
+                    type: frm.attr('method'),
+                    data: frm.serialize(),
+                    dataType: 'json',
+                    cache: false,
+                    async: false,
+                    success: function (data) {
+                        if (data.Status == 1)
+                            ConfirmMessageBox(null, data.Message, onClosePopup, false);
+                        else
+                            ConfirmMessageBox(null, data.Message, function () { }, false);
+                    },
+                    complete: function () { }
+                });
+                return false;
+                
+
+                // prevent the default event behaviour    
+                e.preventDefault();
+            });
+
+            frm.submit(function () {
+                return false;
+            })
+        });
+
+        function cancel() { window.location = '@currentSite'; return false; }
+
+        function onClosePopup(e) { window.location = '@currentSite'; return false; }
+
+    </script>
+
+    <script>
+        var fInfo = $("#formInformation");
+        var UPLOADURL = fInfo.attr("data-image-upload-url");
+
+        function uploadImage(node) {
+            if (!validFileExtension($(node), 'datavalregex', 'section.clo_right', 'datavalextension'))
+                ConfirmMessageBox(null, "Please insert an image file...", function () { }, false);
+
+            doUploadFile(UPLOADURL, 'ImageUpload', 'LoadingImage', { id: '@(Model.Id)' },
+                function (result) {
+                    if (result.ImagePath) {
+                        $("#Thumbnail").val(result.FileName);
+                        $("#ThumbnailPath").attr('src', result.ImagePath).show();
+                    }
+                });
+        }
+
+    </script>
+    <script src="@Url.Content("~/Areas/Admin/Scripts/uploadImage.js")"></script>
+    <script src="@Url.Content("~/Scripts/ajaxfileupload.js")"></script>
+}

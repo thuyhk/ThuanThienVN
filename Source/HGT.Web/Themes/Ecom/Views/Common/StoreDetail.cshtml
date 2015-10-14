@@ -1,0 +1,54 @@
+﻿@model Store
+
+@using HGT.Entities.Models;
+
+@{
+    
+    if (Model.Id > 0)
+    {
+        ViewBag.Title = Model.Name ?? "";
+    }
+    else
+    {
+        ViewBag.Title = "Không tìm thấy bài viết";
+    }
+}
+
+@section header{
+    <link href="~/Themes/Default/Content/easy-responsive-tabs.css" rel="stylesheet" />
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#horizontalTab').easyResponsiveTabs({
+                type: 'default', //Types: default, vertical, accordion           
+                width: 'auto', //auto or any width like 600px
+                fit: true,   // 100% fit in a container
+                closed: 'accordion', // Start closed if in accordion view
+                activate: function (event) { // Callback function if tab is switched
+                    var $tab = $(this);
+                    var $info = $('#tabInfo');
+                    var $name = $('span', $info);
+                    $name.text($tab.text());
+                    $info.show();
+                }
+            });
+        });
+    </script>
+    @Styles.Render("~/Content/kendo_css")
+}
+
+@section colLeft{
+    @{Html.RenderAction("_ListCategories", "Category");}
+}
+
+@if (Model.Id > 0)
+{
+    <h1>@Model.Name</h1>
+    <div class="info_omoss">
+        @Html.Raw(Model.Content)
+    </div>
+    //{Html.RenderAction("_ListNewsOTher", "News", new { storeId = Model.Id });}
+}
+else
+{
+    @Html.Partial("_NotFoundContent")
+}

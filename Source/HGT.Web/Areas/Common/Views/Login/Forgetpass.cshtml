@@ -1,0 +1,117 @@
+﻿@model HGT.Admin.Models.ForgetPassModel
+@using HGT.Admin
+@{
+    ViewBag.Title = "Forget Password";
+}
+<div class="panel-heading">
+    <h3 class="panel-title">Forget Password</h3>
+</div>
+<div class="panel-body">
+    <form role="form" id="frmForget">
+        @Html.AntiForgeryToken()
+
+        <fieldset>
+            <div class="form-group">
+                @Html.LabelFor(model => model.EmailTo) <span>*</span>
+                @Html.TextBoxFor(m => m.EmailTo, new { @class = "form-control", tabindex = "1" })
+                @Html.ValidationMessageFor(m => m.EmailTo)
+            </div>
+            @if (Model.CaptchaShow)
+            {
+                <section class="wr_capcha" id="wr_capcha">
+                    @Html.TextBoxFor(m => m.Captcha, new { @class = "form-control", placeholder = "Enter security code", autocomplete = "off", tabindex = "4" })
+                    @Html.ValidationMessageFor(m => m.Captcha)
+                    <br />
+                    <img id="CaptchaImageLogin" src="@Url.Action("GenerateCaptcha")" alt="" class="captchaImage">
+                    <a id="FreshCaptchaLogin" class="" style="cursor: pointer;"><i class="fa  fa-refresh fa-fw"></i>Refresh</a> <span class="error"></span>
+                </section>
+            }
+            else
+            {
+                @Html.HiddenFor(model => model.Captcha)
+            }
+            <input type="button" value="Send" class="btn btn-lg btn-success btn-block" id="btnSend" tabindex="4" />
+            <div class="form-group">
+                <label>
+                    <span class="error" id="messageBox"></span>
+                </label>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+    //event enter
+    function keypressHandler(e) {
+        if (e.which == 13) {
+            $(this).blur();
+            $('#btnSend').focus().click();//give your submit an ID
+        }
+    }
+    $('#frmForget').keypress(keypressHandler);
+    //
+
+    var emailToBool = true;
+    var validatable = $("#frmForget").kendoValidator({
+        onfocusout: true,
+        onkeyup: true,
+        rules: {
+            EmailTo: function (input) {
+                if (input.is("[name=EmailTo]")) {
+                    if (input.val() != '') {
+                        $.post("/common/Login/DoesUserEmailExist", {
+                            email: $("#EmailTo").val(), userId: null
+                        }, function (data) { emailToBool = !data; })
+                        return emailToBool;
+                    }
+                }
+                return true;
+            }
+        },
+        messages: {
+            EmailTo: "Email not correct!",
+        }
+    }).data("kendoValidator");
+
+    //
+    function refeshCaptcha() {
+        $('#CaptchaImageLogin').attr('src', '/common/Login/GenerateCaptcha?rnd=' + Math.random());
+    }
+    //
+    $("#FreshCaptchaLogin").click(function () {
+        refeshCaptcha();
+    });
+
+    $("#btnSend").click(function () {
+        if (validatable.validate() === false) {
+            return false;
+        }
+
+        $.ajax({
+            url: "/common/Login/Forgetpass",
+            type: "POST",
+            data: $('#frmForget').serialize(),
+            dataType: 'json',
+            cache: false,
+            async: false,
+            success: function (data) {
+                if (data.Status == "1") {
+                    $('#messageBox').show();
+                    $('#messageBox').html(data.Message)
+
+                }
+                else {
+                    if ('@Model.CaptchaShow'.toLowerCase() == 'true')
+                        refeshCaptcha();
+
+                    $('#messageBox').show();
+                    $('#messageBox').html(data.Message)
+                    $('input[id="Password"]').focus();
+                }
+            },
+            complete: function () { }
+        });
+    });
+
+
+</script>
+

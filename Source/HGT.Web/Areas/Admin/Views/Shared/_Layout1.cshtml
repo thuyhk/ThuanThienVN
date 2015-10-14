@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>@ViewBag.Title</title>
+
+    <!-- jQuery -->
+    <script src="~/Scripts/jquery-2.1.1.min.js"></script>
+    @Scripts.Render("~/bundles/kendo_script")
+
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- MetisMenu CSS -->
+    <link href="~/Areas/Admin/Content/css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="~/Areas/Admin/Content/css/sb-admin-2.css" rel="stylesheet" />
+
+    <!-- Morris Charts CSS -->
+    <link href="~/Areas/Admin/Content/css/plugins/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="~/Areas/Admin/Content/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HGT custom style -->
+    <link href="~/Content/bootstrap.custom.css" rel="stylesheet" />
+    <link href="~/Areas/Admin/Content/css/sb-admin-2.edit.css" rel="stylesheet" />
+
+    <!-- Add news styles -->
+    @Styles.Render("~/Content/kendo_css")
+    @RenderSection("styles", required: false)
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <!-- /.navbar-header -->
+            @Html.Partial("_HeaderPartial")
+            <!-- /.navbar-top-links -->
+            @Html.Partial("_TopPartial")
+            <!-- /.navbar-static-side -->
+            @Html.Partial("_LeftPartial")
+
+        </nav>
+
+        <div id="page-wrapper">
+            @RenderBody()
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <div id="divLoading" class="loading" style="display: none;"> </div>
+    <!-- Message diglog windows-->
+    <input type="hidden" id="confirmDialogTitleDefault" value="Information" />
+    <input type="hidden" id="confirmDialogContentDefault" value="Do you want to delete this record?" />
+
+    <script type="text/x-kendo-template" id="confirmationPublic">
+         <div id="modal">
+            <div class="col-lg-12Edit">
+                <div class="row">
+                    <h4 class="txt_align_c"><span></span></h4>
+                    <div class="form-group mt30 Msgconfirm" style="display: none;">
+                        <div class="btn-center">
+                            <button class="confirmMsg btn btn-default" type="button"><i class="fa fa-check"></i> Yes</button>
+                            <button class="cancelMsg btn btn-default" type="button"><i class="fa  fa-exclamation-circle"></i> No</button>
+                        </div>
+                    </div>
+                    <div class="BoxShowError mt30 form-group" style="display: none;">
+                        @*<div class="form-group">
+                            <p class="form-control-static MsgErr"></p>
+                        </div>*@
+                        <div class="btn-center">
+                            <button class="cancelError btn btn-default" type="button"><i class="glyphicon glyphicon-ok"></i>OK</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group mt30 MsgOk" style="display: none;">
+                        <section class="btn-center">
+                            <button class="okMsg btn btn-default" type="button"><i class="glyphicon glyphicon-ok"></i>OK</button>
+                        </section>
+                    </div>
+                </div>
+            </div>
+
+            @*<h4><span></span></h4>
+            <div class="wr_bottom_popup_s mt30 Msgconfirm" style="display: none;">
+                <section class="wr_btn_action">
+                    <button class="confirmMsg save_big" type="button">Yes</button>
+                </section>
+                <section class="wr_btn_action">
+                    <button class="cancelMsg cancel_big" type="button">No</button>
+                </section>
+            </div>
+            <div class="BoxShowError" style="display: none;">
+                <div class="wr_bottom_popup_s_1 MsgErr">
+                </div>
+                <div class="wr_bottom_popup_s">
+                    <section class="wr_btn_action">
+                        <button class="cancelError ok_big" type="button">OK</button>
+                    </section>
+                </div>
+            </div>
+
+            <div class="wr_bottom_popup_s mt30 MsgOk" style="display: none;">
+                <section class="wr_btn_action">
+                    <button class="okMsg ok_big" type="button">OK</button>
+                </section>
+            </div>*@
+        </div>
+    </script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="~/Areas/Admin/Content/js/plugins/metisMenu/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="~/Areas/Admin/Content/js/sb-admin-2.js"></script>
+
+    <!-- jquery common -->
+    <script src="~/Areas/Admin/Scripts/jquery.common.js"></script>
+
+    <!-- Add scripts -->
+    @RenderSection("scripts", required: false)
+
+    <!-- Editor -->
+    @*<script src="~/Utility/ckeditor/ckeditor.js"></script>
+    <script src="~/Utility/ckfinder/ckfinder.js"></script>*@
+
+</body>
+</html>

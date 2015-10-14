@@ -1,0 +1,32 @@
+﻿@model IEnumerable<SolutionModel>
+
+@using HGT.Core
+@using HGT.Core.Models;
+@using HGT.Core.Extensions;
+
+@{
+    var imgDefault = Globals.AbsoluteImageDefault;
+}
+
+@if (Model != null && Model.Count() > 0)
+{
+    <div id="services" class="row">
+        @foreach (var item in Model)
+        {
+            var link = "giai-phap/"+ item.Alias;
+            if (item.OpenLink && !string.IsNullOrEmpty(item.Link))
+            {
+                link = item.Link;
+            }
+            <a href="@Globals.ResolveClientUrl(link)" title="@item.Alias">
+                <div class="col-xs-6 col-sm-3 col-md-3">
+                    <div class="inner">
+                        <h4>@item.Name</h4>
+                        <img src="@Globals.AbsoluteThumbPath(ConstantKeys.SolutionFolder, item.Thumbnail)" onerror="this.onerror = null; this.src = '@imgDefault'" alt="@item.Name" class="img-responsive img-circle" />
+                        <p>@item.Brief</p>
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
+}

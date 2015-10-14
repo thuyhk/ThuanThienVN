@@ -1,0 +1,97 @@
+﻿@model CheckoutModel
+@using HGT.Web.Models
+@using System.Web
+
+@*<div class="frmCheckOut">
+    @using (Ajax.BeginForm("_CheckoutInFormCart", "CheckOut", FormMethod.Post, new AjaxOptions
+    {
+        UpdateTargetId = "result",
+        //LoadingElementId = "loading", 
+        OnBegin = "onBegin",
+        OnSuccess = "onSuccess",
+        OnComplete = "onComplete",
+        InsertionMode = InsertionMode.Replace
+    }))
+    {
+ @Html.AntiForgeryToken()
+ @Html.ValidationSummary(true)
+
+
+
+        <ul>
+            <li>
+                <label for="fullName">Tên khách hàng: <span class="note">*</span></label>
+                @Html.TextBoxFor(x => x.FullName, new { @class = "inputText required" })
+                @Html.ValidationMessageFor(x => x.FullName)
+            </li>
+            <li>
+                <label for="phone">Điện thoại: <span class="note">*</span></label>
+                @Html.TextBoxFor(x => x.Phone, new { @class = "inputText required" })
+                @Html.ValidationMessageFor(x => x.Phone)
+            </li>
+            <li>
+                <label for="email">Email:</label>
+                @Html.TextBoxFor(x => x.Email, new { @class = "inputText" })
+                @Html.ValidationMessageFor(x => x.Email)
+            </li>
+            <li>
+                <label for="shippingAddress">Địa chỉ giao hàng: <span class="note">*</span></label>
+                @Html.TextBoxFor(x => x.ShippingAddress, new { @class = "inputText required" })
+                @Html.ValidationMessageFor(x => x.ShippingAddress)
+            </li>
+            <li style="margin: 18px 0 10px;">
+                <label>&nbsp;</label>
+                <span class="note">*</span> Thông tin bắt buộc 
+            </li>
+            <li>
+                <label>&nbsp;</label>
+                <button type="submit" id="btnSendOrder" class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i>Đặt hàng</button>
+            </li>
+        </ul>
+    }
+</div>*@
+
+<div id="contact-page" style="margin: 20px 0 0;">
+    @using (Ajax.BeginForm("_CheckoutInFormCart", "CheckOut", FormMethod.Post, new AjaxOptions
+    {
+        UpdateTargetId = "status-checkOut",
+        //LoadingElementId = "loading", 
+        OnBegin = "onBegin",
+        OnSuccess = "onSuccess",
+        OnComplete = "onComplete",
+        InsertionMode = InsertionMode.Replace
+    }))
+    {
+ @Html.AntiForgeryToken()
+ @Html.ValidationSummary(true)
+        <div class="contact-form">
+            <h2 class="title text-center">Thông tin đặt hàng</h2>
+            <div class="status alert alert-success" style="display: none"></div>
+            <form id="main-contact-form" class="contact-form row" name="contact-form" method="post">
+                <div class="form-group col-md-6">
+                    @* <input type="text" name="name" id="FullName" class="form-control" required="required" placeholder="Tên khách hàng">*@
+                    @Html.TextBoxFor(x => x.FullName, new { @class = "form-control required", @placeholder = "Tên khách hàng" })
+                    @Html.ValidationMessageFor(x => x.FullName)
+                </div>
+                <div class="form-group col-md-6">
+                    @Html.TextBoxFor(x => x.Phone, new { @class = "form-control", @placeholder = "Điện thoại" })
+                    @Html.ValidationMessageFor(x => x.Phone)
+                    @*<input type="text" name="phone" id="Phone" class="form-control" required="required" placeholder="Điện thoại">*@
+                </div>
+                <div class="form-group col-md-12">
+                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Địa chỉ email" })
+                    @Html.ValidationMessageFor(x => x.Email)
+                    @*<input type="email" name="email" id="Email" class="form-control" required="required" placeholder="Địa chỉ email">*@
+                </div>
+                <div class="form-group col-md-12">
+                    @Html.TextAreaFor(x => x.ShippingAddress, new { @class = "form-control required", @rows="8" , @placeholder = "Địa chỉ giao hàng" })
+                    @Html.ValidationMessageFor(x => x.ShippingAddress)
+                    @*<textarea name="message" id="ShippingAddress" required="required" class="form-control" rows="8" placeholder="Địa chỉ giao hàng"></textarea>*@
+                </div>
+                <div class="form-group col-md-12">
+                    <input type="submit" name="submit" id="btnSendOrder" class="btn btn-primary pull-right" value="Đặt hàng">
+                </div>
+            </form>
+        </div>
+    }
+</div>

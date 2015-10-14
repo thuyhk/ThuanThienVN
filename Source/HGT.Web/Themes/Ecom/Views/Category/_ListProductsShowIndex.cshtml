@@ -1,0 +1,136 @@
+﻿@model IEnumerable<HGT.Web.Models.ProductViewModel>
+
+@*<h2>Sản phẩm nổi bật</h2>
+<div id="owl1">
+    @foreach (var item in Model)
+    {
+        <div class="item1">
+            @Html.Partial("_ProductBox", item)
+        </div>
+    }
+</div>*@
+
+<div id="show768" class="recommended_items">
+    <!--recommended_items-->
+    <h2 class="title text-center">Sản phẩm nổi bật</h2>
+
+    <div id="recommended-item-carousel" class="carousel slide  slideHome" data-ride="carousel">
+        <div class="carousel-inner">
+            @for (int i4 = 0; i4 <= Model.Count() / 4; i4++)
+            {
+                var listFor = Model.Skip(4 * i4).Take(4).ToList();
+                string active = "";
+                if (i4.Equals(0))
+                {
+                    active = "active";
+                }
+                else
+                {
+                    active = "";
+                }
+                if (listFor.Count > 0)
+                {
+                <div class="item @active">
+                    @foreach (var item in listFor)
+                    {
+                        @Html.Partial("_ProductBox", item)     
+                    }
+                </div>
+                }
+            }
+        </div>
+        <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
+            <i class="fa fa-angle-left"></i>
+        </a>
+        <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
+            <i class="fa fa-angle-right"></i>
+        </a>
+    </div>
+</div>
+<div id="show767" class="recommended_items" style="display: none;">
+    <!--recommended_items-->
+    <h2 class="title text-center">Sản phẩm nổi bật</h2>
+
+    <div id="recommended-item-carousel1" class="carousel slide  slideHome" data-ride="carousel">
+        <div class="carousel-inner">
+            @for (int i2 = 0; i2 <= Model.Count() / 2; i2++)
+            {
+                var listFor = Model.Skip(4 * i2).Take(2).ToList();
+                string active = "";
+                if (i2.Equals(0))
+                {
+                    active = "active";
+                }
+                else
+                {
+                    active = "";
+                }
+                if (listFor.Count > 0)
+                {
+                <div class="item @active">
+                    @foreach (var item in listFor)
+                    {
+                        @Html.Partial("_ProductBox", item)     
+                    }
+                </div>
+                }
+            }
+        </div>
+        <a class="left recommended-item-control" href="#recommended-item-carousel1" data-slide="prev">
+            <i class="fa fa-angle-left"></i>
+        </a>
+        <a class="right recommended-item-control" href="#recommended-item-carousel1" data-slide="next">
+            <i class="fa fa-angle-right"></i>
+        </a>
+    </div>
+</div>
+<div id="show360" class="recommended_items" style="display: none;">
+    <!--recommended_items-->
+    <h2 class="title text-center">Sản phẩm nổi bật</h2>
+
+    <div id="recommended-item-carousel2" class="carousel slide  slideHome" data-ride="carousel">
+        <div class="carousel-inner">
+            @*@for (int i2 = 0; i2 <= Model.Count() / 2; i2++)
+            {
+                var listFor = Model.Skip(4 * i2).Take(2).ToList();
+                string active = "";
+                if (i2.Equals(0))
+                {
+                    active = "active";
+                }
+                else
+                {
+                    active = "";
+                }
+                if (listFor.Count > 0)
+                {
+                <div class="item @active">
+                    @foreach (var item in listFor)
+                    {
+                        @Html.Partial("_ProductBox", item)     
+                    }
+                </div>
+                }
+            }*@
+            <div class="item active">
+                    @Html.Partial("_ProductBox", Model.FirstOrDefault())
+            </div>
+
+            @foreach (var item in Model.Skip(1).ToList())
+            {                  
+                <div class="item">
+                    @Html.Partial("_ProductBox", item)
+                </div>
+            }
+
+        </div>
+        <a class="left recommended-item-control" href="#recommended-item-carousel2" data-slide="prev">
+            <i class="fa fa-angle-left"></i>
+        </a>
+        <a class="right recommended-item-control" href="#recommended-item-carousel2" data-slide="next">
+            <i class="fa fa-angle-right"></i>
+        </a>
+    </div>
+</div>
+
+

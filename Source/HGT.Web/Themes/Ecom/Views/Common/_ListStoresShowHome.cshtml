@@ -1,0 +1,10 @@
+﻿@model IEnumerable<Store>
+@using HGT.Entities.Models;
+
+<h3>ĐIỂM BÁN & PHÂN PHỐI</h3>
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>@Html.RouteLink(@item.Name, "StoreDetail", new { Alias = item.Alias})</li>
+    }
+</ul>

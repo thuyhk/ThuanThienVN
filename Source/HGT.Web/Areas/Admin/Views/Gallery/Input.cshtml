@@ -1,0 +1,187 @@
+﻿@model HGT.Core.Models.GalleryModel
+
+@using Kendo.Mvc.UI;
+@using HGT.Core;
+@using HGT.Core.Utility;
+@using HGT.Core.Extensions;
+@{
+    var pageTitle = Model.Id > 0 ? "Cập nhật hình ảnh * video" : "Thêm mới";
+    ViewBag.Title = pageTitle;
+    var redirectUrl = ViewBag.RedirectUrl;
+}
+
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li><a href="/admin"><i class="fa fa-dashboard"></i>@StringTable.Home</a></li>
+        <li class="active">@(Model.Id > 0 ? Model.FileName : @StringTable.AddNew)</li>
+    </ol>
+</section>
+
+<section class="content">
+    @using (Html.BeginForm("Input", "Gallery", FormMethod.Post, new { @id = "editForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.GalleryId)
+        <div class="row">
+            <div class="col-xs-12" style="padding-bottom: 12px;">
+                <button type="button" class="btn btn-danger pull-right" onclick="cancel();"><i class="fa fa-fw fa-credit-card"></i>@StringTable.Cancel</button>
+                <button type="submit" class="btn btn-primary pull-right btnSave" style="margin-right: 5px;"><i class="fa fa-fw fa-save"></i>@StringTable.Save</button>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-3  no-padding-right">
+                <div class="pull-right">
+                    @Html.LabelFor(model => model.Thumbnail)
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="uploadFile">
+                    @Html.TextBoxFor(model => model.ImageUpload, new { @type = "file", @onchange = "uploadImage(this)", @accept = "image/*", @style = "float:left;color:transparent;width:150px;", @datavalextension = "Invalid file extension", @datavalregex = ".jpg|.png|.gif|.bmp$" })
+                </div>
+                <div class="img_thumb">
+                    <img id="ThumbnailPath" src="@Url.Content(Model.ThumbPath)" />
+                    <img id="LoadingImage" src="@Url.Content("~/Areas/Admin/Content/img/loading-violet.gif")" style="display: none;" alt="loading..." />
+                </div>
+                @Html.HiddenFor(x => x.Thumbnail)
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-3  no-padding-right">
+                <div class="pull-right">
+                    @Html.LabelFor(model => model.FileName) <span>*</span>
+                </div>
+            </div>
+            <div class="col-md-5">
+                @Html.TextBoxFor(model => model.FileName, new { @class = "form-control" })
+            </div>
+            <div class="col-md-4">
+                <p class="help-block">
+                    @Html.ValidationMessageFor(model => Model.FileName, null, new { @class = "" })
+                </p>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-3  no-padding-right">
+                <div class="pull-right">
+                    @Html.LabelFor(model => model.IsVideo)
+                </div>
+            </div>
+            <div class="col-md-9">
+                @Html.CheckBoxFor(model => model.IsVideo, new { @class = "multi" })
+                <span class="lbl"></span>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-3  no-padding-right">
+                <div class="pull-right">
+                    @Html.LabelFor(model => model.Url)
+                </div>
+            </div>
+            <div class="col-md-9">
+                @Html.TextBoxFor(mode => Model.Url, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-3  no-padding-right">
+                <div class="pull-right">
+                    @Html.LabelFor(model => model.DisplayOrder)
+                </div>
+            </div>
+            <div class="col-md-5 ">
+                @(Html.Kendo().NumericTextBox<int>().Name("DisplayOrder").Format("#").Value(Model.DisplayOrder))
+            </div>
+            <div class="col-md-4">
+                <p class="help-block">
+                    @Html.ValidationMessageFor(model => Model.DisplayOrder, null, new { @class = "" })
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12" style="padding-top: 12px;">
+                <button type="button" class="btn btn-danger pull-right" onclick="cancel();"><i class="fa fa-fw fa-credit-card"></i>@StringTable.Cancel</button>
+                <button type="submit" class="btn btn-primary pull-right btnSave" style="margin-right: 5px;"><i class="fa fa-fw fa-download"></i>@StringTable.Save</button>
+            </div>
+        </div>
+    }
+</section>
+
+<input type="hidden" id="formInformation" data-id="@Model.Id" data-image-upload-url="/admin/gallery/uploadImage" />
+
+@section scripts{
+    @Scripts.Render("~/bundles/jsValidation")
+
+    <script type="text/javascript">
+        var frm = $('#editForm');
+        $(document).ready(function () {
+            enableVideo();
+            $('.btnSave').click(function (e) {
+                if (frm.valid() === false) { return false; }
+                $.ajax({
+                    url: frm.attr('action'),
+                    type: frm.attr('method'),
+                    data: frm.serialize(),
+                    dataType: 'json',
+                    cache: false,
+                    async: false,
+                    success: function (data) {
+                        if (data.Status == 1)
+                            ConfirmMessageBox(null, data.Message, onClosePopup, false);
+                        else
+                            ConfirmMessageBox(null, data.Message, function () { }, false);
+                    },
+                    complete: function () { }
+                });
+                return false;
+
+                e.preventDefault();
+            });
+
+            frm.submit(function () {
+                return false;
+            })
+
+        });
+
+        //check show and hide EnableHowIt
+        var enableVideo = function () {
+            if ($("#IsVideo:checked").is(':checked')) {
+                $("#Url").removeAttr("readonly");
+            }
+            else {
+                $("#Url").attr("readonly", "readonly");
+            }
+        };
+        $("#IsVideo[type=checkbox]").on("click", enableVideo);
+
+        var siteUrl = "@redirectUrl";
+        siteUrl = siteUrl.replace("&amp;", "&");
+
+        function cancel() { window.location = siteUrl; return false; }
+
+        function onClosePopup(e) { window.location = siteUrl; return false; }
+
+    </script>
+    <script>
+        var fInfo = $("#formInformation");
+        var UPLOADURL = fInfo.attr("data-image-upload-url");
+
+        function uploadImage(node) {
+            if (!validFileExtension($(node), 'datavalregex', 'section.clo_right', 'datavalextension'))
+                ConfirmMessageBox(null, "Please insert an image file...", function () { }, false);
+
+            doUploadFile(UPLOADURL, 'ImageUpload', 'LoadingImage', { id: '@(Model.Id)' },
+                function (result) {
+                    if (result.ImagePath) {
+                        $("#FileName").val(result.FileName);
+                        $("#Thumbnail").val(result.FileName);
+                        $("#Url").val(result.ImagePath);
+                        $("#ThumbnailPath").attr('src', result.ImagePath).show();
+                    }
+                });
+        }
+
+    </script>
+    <script src="@Url.Content("~/Areas/Admin/Scripts/uploadImage.js")"></script>
+    <script src="@Url.Content("~/Scripts/ajaxfileupload.js")"></script>
+}

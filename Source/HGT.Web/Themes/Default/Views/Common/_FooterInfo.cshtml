@@ -1,0 +1,22 @@
+﻿@{
+    var _webHelper = new HGT.Web.Extensions.WebHelper();
+}
+
+<div class="main3">
+    <div class="content">
+
+        <div class="introduction">
+            @{Html.RenderAction("_ListAboutUs", "News");}
+        </div>
+        <div class="introduction">
+           @{Html.RenderAction("_ListStoresShowHome", "Common");}
+        </div>
+        <div class="introduction">
+            @{Html.RenderAction("_ListTopNews", "News");}
+        </div>
+        <div class="contact_oss">
+            @Html.Raw(_webHelper.GetContactOss())
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>

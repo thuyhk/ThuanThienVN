@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.Title = "List news";
+    var categories = ViewData["ListCategory"] as List<SelectListItem>;
+    var categoryId = ViewData["CategoryId"] as string;
+}
+
+@using HGT.Admin;
+@using HGT.Core;
+
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li><a href="/admin"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="active">Manage news</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <div class="box-title">
+                        <a class="btn btn-primary" href="/admin/news/input">
+                            <i class="fa fa-plus-square fa-fw"></i>@StringTable.AddNew
+                        </a>
+                    </div>
+                    <div class="box-filter">
+                        <select id="listCategories" onchange="onChange();" class="form-control">
+                            @foreach (var item in categories)
+                            {
+                                if (item.Value.Equals(categoryId))
+                                {
+                                <option value="@item.Value" selected>@item.Text</option>
+                                }
+                                else
+                                {
+                                <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="box-tools">
+                        <div class="input-group">
+                            @{Html.RenderPartial("~/Areas/Admin/Views/News/_Search.cshtml");}
+                        </div>
+                    </div>
+                </div>
+                <div id="grid" class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <colgroup>
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th class="k-header" data-field="Title" data-title="Title" scope="col">Title</th>
+                                <th class="k-header txt-center" data-field="IsActive" data-title="IsActive" scope="col">Active</th>
+                                <th class="k-header txt-center" data-field="CreatedDate" data-title="CreatedDate" scope="col">Created date</th>
+                                <th scope="col" class="txt-center"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="4"></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                             <tr class="t-no-data">
+                                <td colspan="4">@StringTable.NotFoundItem</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    @{Html.RenderPartial("~/Areas/Admin/Views/Shared/_GridPager.cshtml");}
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+<input type="hidden" id="categoryId" value="@categoryId" />
+
+@section scripts
+{
+    <script type="text/javascript" src="~/Areas/Admin/Scripts/news.list.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".sidebar-menu li.liNews").addClass("active");
+        });
+
+        // dropdownlist onchange event
+        function onChange() {
+            var value = $("#listCategories").val();
+            if (value >= 0) {
+                window.location = "/admin/news/index?categoryId=" + value;
+            }
+        };
+    </script>
+}
+

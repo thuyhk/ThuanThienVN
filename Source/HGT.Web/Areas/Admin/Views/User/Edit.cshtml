@@ -1,0 +1,402 @@
+﻿@using HGT.Admin
+@model HGT.Admin.Models.UserModel
+@using Kendo.Mvc.UI;
+@{
+    ViewBag.Title = "Edit User";
+    string save = "save";
+    string back = "back";
+}
+
+@section styles
+{
+    <style type="text/css">
+        #imgLogo, #imgUploaded {
+            max-height: 120px;
+        }
+
+        .profile-info-row select {
+            width: 99%;
+            height: 24px;
+            border: 0;
+            padding: 2px 5px !important;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="page-header">
+            <h1>@ViewBag.Title</h1>
+            <div class="navbar-right" style="margin-top: -56px;">
+
+                <button type="submit" class="btn btn-primary btnSave"><i class="fa  fa-save fa-fw"></i>@save</button>
+                <button type="button" class="btn btn-primary" onclick="cancel();"><i class="fa fa-undo fa-fw"></i>@back</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("Edit", "User", FormMethod.Post, new { @id = "EditUser" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.UserId)
+         
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.FullName) <span>*</span>
+                @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", tabindex = "1" })
+                <p class="help-block">
+                    @Html.ValidationMessageFor(model => Model.FullName, null, new { @class = "" })
+                </p>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.UserName) <span>*</span>
+                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", tabindex = "1" })
+                <p class="help-block">
+                    @Html.ValidationMessageFor(model => Model.UserName, null, new { @class = "" })
+                </p>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password) <span>*</span>
+                <a  href="#" onclick="showPopupChange(@Model.UserId,'@Model.UserName')">
+                    <i class="fa fa-edit ">Change Password</i>
+                </a>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email) <span>*</span>
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", tabindex = "1" })
+                <p class="help-block">
+                    @Html.ValidationMessageFor(model => Model.Email, null, new { @class = "" })
+                </p>
+            </div>
+
+        </div>
+        <div class="col-lg-6">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.RoleId) <span>*</span>
+                @Html.DropDownListFor(model => model.RoleId, Model.RoleList, "Choose role...", new { @class = "form-control", tabindex = "10" })
+                <p class="help-block">
+                    @Html.ValidationMessageFor(model => Model.RoleId, null, new { @class = "" })
+                </p>
+
+            </div>
+            <div class="checkbox">
+                <label>
+                    @Html.CheckBoxFor(model => model.Active, new { @class = "", tabindex = "1" }) Active
+                </label>
+
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Phone)
+                @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", tabindex = "1" })
+
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Mobile)
+                @Html.TextBoxFor(model => model.Mobile, new { @class = "form-control", tabindex = "1" })
+
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Image)
+                <span class="profile-picture">
+                    <img id="imgLogo" class="editable img-responsive  editable-empty" src="@Url.Content(HGT.Core.Globals.ImagePath(HGT.Core.ConstantKeys.AvatarFolder, Model.Image))" alt="@Model.Image" />
+                    <img id="imgUploaded" class="editable img-responsive  editable-empty" src="" alt="Add user" style="display: none" />
+                </span>
+                <div class="space-12"></div>
+            </div>
+            <div class="form-group">
+                @(Html.Kendo().Upload()
+                    .Multiple(false)
+                    .Name("file")
+                    .Async(a => a
+                        .Save("SaveLogoUpload", "user")
+                        .Remove("RemoveLogoUpload", "user")
+                        .AutoUpload(true)
+                    )
+                    .Events(events => events
+                    .Select("onSelect")
+                    .Success("onSuccess")
+                )
+                )
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12" style="text-align: right">
+            <button type="submit" class="btn btn-primary btnSave"><i class="fa  fa-save fa-fw"></i>@save</button>
+            <button type="button" class="btn btn-primary" onclick="cancel();"><i class="fa fa-undo fa-fw"></i>@back</button>
+        </div>
+    </div>
+}
+
+@section scripts{
+    <script type="text/javascript" src="~/Areas/Admin/Scripts/kendo.common.js"></script>
+
+    <script type="text/javascript">
+        function cancel() {
+            var siteUrl = null;
+            siteUrl = "/admin/user/";
+            window.location = siteUrl;
+            return false;
+
+        }
+
+        // select image
+        function onSelect(e) {
+            $.each(e.files, function (index, value) {
+                if (!checkImageUpload(value)) {
+                    ConfirmMessageBox(null, "Please insert an image file...", function () { }, false);
+                    e.preventDefault();
+                    return;
+                }
+            });
+        };
+
+        // upload success
+        function onSuccess(e) {
+            var responseTxt = jQuery.parseJSON(e.XMLHttpRequest.responseText);
+            var srcValue = responseTxt.PictureUrl;
+
+            if (srcValue != null) {
+                $("#imgLogo").hide();
+                $("#imgUploaded").attr('src', srcValue).show();
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+        //event enter
+        function keypressHandler(e) {
+            if (e.which == 13) {
+                $(this).blur();
+                $('.btnSave').focus().click();//give your submit an ID
+            }
+        }
+        $('#EditUser').keypress(keypressHandler);
+        //
+
+        $(document).ready(function () {
+            var emailBool = true;
+            var userNameBool = true;
+            var validatable = $("#EditUser").kendoValidator({
+                onfocusout: true,
+                onkeyup: true,
+                rules: {
+                    userName: function (input) {
+                        if (input.is("[name=UserName]")) {
+                            if (input.val() != '') {
+                                $.post("/admin/User/DoesUserNameExist", {
+                                    userName: $("#UserName").val(),
+                                    userId: "@Model.UserId"
+                                }, function (data) { userNameBool = data; })
+                                return userNameBool;
+                            }
+                        }
+                        return true;
+                    },
+                    email: function (input) {
+                        if (input.is("[name=Email]")) {
+                            if ($("#Email").val() != '') {
+                                $.post("/admin/User/DoesUserEmailExist", {
+                                    email: $("#Email").val(),
+                                    userId: "@Model.UserId"
+                                }, function (data) { emailBool = data; })
+                                return emailBool;
+                            }
+                        }
+                        return true;
+                    }
+                },
+                messages: {
+                    userName: "User name exist, Please select user name other.",
+                    email: "Email exist, Please select email other."
+                }
+            }).data("kendoValidator");
+
+            $('.btnSave').click(function () {
+
+                if (validatable.validate() === false) {
+                    return false;
+                }
+
+                $.ajax({
+                    url: "/admin/user/Edit",
+                    type: "POST",
+                    data: $('#EditUser').serialize(),
+                    dataType: 'json',
+                    cache: false,
+                    async: false,
+                    success: function (data) {
+                        //isSuccess = data.IsSuccess;
+                        ConfirmMessageBox(null, data.Message, function () { }, false);
+                    },
+                    complete: function () { }
+                });
+                return false;
+            });
+
+            $('#EditUser').submit(function () {
+                return false;
+            })
+        });
+
+    </script>
+}
+@*change pass word*@
+
+
+
+
+<script type="text/x-kendo-template" id="changepass-confirmation">
+    @using (Html.BeginForm())
+    {
+        <div id="modal" class="modal_1 popupChangePass">
+            <div class="col-lg-12Edit">
+                <div class="row">
+                    <h4>Change Password</h4>
+                    <div class="dialogsShow">
+
+                        <div class="form-group">
+                            <label>Password curent</label><span>*</span>
+                            <input class="form-controlEdit" type="password" value="" id="iOldPass" name="iOldPass">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Password new</label><span>*</span>
+                            <input class="form-controlEdit" type="password" value="" id="iNewPassword" name="iNewPassword">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Password new confirm</label><span>*</span>
+                            <input class="form-controlEdit" type="password" value="" id="iComfirmPassword" name="iComfirmPassword">
+                        </div>
+
+                        <button type="button" class="btn btn-default changepass-confirm"><i class="fa  fa-save fa-fw"></i> @save</button>
+                        <button type="button" class="btn btn-default changepass-cancel"><i class="fa  fa-times-circle"></i> Cancel</button>
+
+                    </div>
+                    <div class="show_massage show_massage" style="display: none; text-align: left; color: red;">
+                        <div class="wr_btn_pp_massage">
+                            <br />
+                            <div class="btn-center"> 
+                                <button type="button" class="btn btn-default Cancel-changepass-cancel"><i class="fa fa-ban"></i> Ok</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        
+        <script type="text/javascript">
+            jQuery(function ($) {
+                var validatable = $("form .popupChangePass").kendoValidator({
+                    onfocusout: true,
+                    onkeyup: true,
+                    rules: {
+                        oldPass: function (input) {
+                            if (input.is("[name=iOldPass]")) {
+                                if (input.val() == '') {
+                                    return false;
+                                }
+                            }
+                            return true;
+                        },
+                        newPass: function (input) {
+                            if (input.is("[name=iNewPassword]")) {
+                                if (input.val() == '') {
+                                    return false;
+                                }
+                            }
+                            return true;
+                        },
+                        comfirmPass: function (input) {
+                            var ret = true;
+                            if (input.is("[name=iComfirmPassword]")) {
+                                ret = input.val() === $("#iNewPassword").val();
+                            }
+                            return ret;
+                        }
+                    },
+                    messages: {
+                        oldPass: "* Requred",
+                        newPass: "* Requred",
+                        comfirmPass: "* Confirm password not correct"
+                    }
+                }).data("kendoValidator");
+
+                $(".changepass-confirm").click(function () {
+                    if (validatable.validate() === false) {
+                        return false;
+                    }
+                });
+            });
+</script>
+    }
+</script>
+
+
+<script type="text/javascript">
+    function validate() {
+        if ($("#iOldPass").val() == '') {
+            return false;
+        }
+        if ($("#iNewPassword").val() == '') {
+            return false;
+        }
+
+        if ($("#iNewPassword").val() != $("#iComfirmPassword").val()) {
+            return false;
+        }
+        return true;
+    }
+    //show popup change password
+    function showPopupChange(id, userName) {
+        var siteUrl = "/admin/user/changePass";
+        var dialog = new CRMDialog("modal-mask");
+        var kendoWindow = dialog.showDialog("Change password", $("#changepass-confirmation").html(), 400, 350);
+        kendoWindow
+            .find(".changepass-confirm,.changepass-cancel,.Cancel-changepass-cancel")
+               .click(function () {
+                   if ($(this).hasClass("changepass-confirm")) {
+                       if (!validate()) return false;
+                       $.ajax({
+                           url: siteUrl,
+                           type: "POST",
+                           data: { id: id, user: userName, passOld: $("#iOldPass").val(), passNew: $("#iNewPassword").val() },
+                           success: function (result) {
+                               if (result.Status != null && result.Status == 1) {
+                                   window.close()
+                                   kendoWindow.data("kendoWindow").close();
+                               }
+                               if (result.Message != null & result.Status == 0) {
+                                   $(".show_massage .wr_btn_pp_massage p").remove();
+                                   $(".show_massage .wr_btn_pp_massage").prepend("<p class='help-block'>" + result.Message + "</p>");
+                                   $(".show_massage").show();
+                                   $(".dialogsShow").hide();
+
+                                   return false;
+                               }
+                           }
+                       });
+                   }
+                   else if ($(this).hasClass("changepass-cancel")) {
+                       kendoWindow.data("kendoWindow").close();
+                   }
+                   else if ($(this).hasClass("Cancel-changepass-cancel")) {
+                       $(".show_massage").hide();
+                       $(".dialogsShow").show();
+                   }
+
+               })
+               .end();
+    }
+</script>

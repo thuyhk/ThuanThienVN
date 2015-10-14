@@ -1,0 +1,123 @@
+﻿@model CheckoutModel
+@using HGT.Web.Models
+
+@{
+    ViewBag.Title = "Thông tin đặt hàng & thanh toán";
+    <style type="text/css">
+        .field-validation-error
+        {
+            margin-top: -24px;
+        }
+    </style>
+}
+
+@section colLeft{
+    @{Html.RenderAction("_ListCategories", "Category");}
+}
+
+<h1>Đặt hàng</h1>
+@if (Model != null)
+{
+    <div class="info_omoss">
+        <div id="result"></div>
+        <div class="pageCheck">
+                @using (Ajax.BeginForm("CreateOrder", "CheckOut", FormMethod.Post, new  AjaxOptions{UpdateTargetId="result"}))
+                {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                <div class="col1">
+                    <h3>
+                        <img src="/userfiles/images/inforBilling.png" alt="" />Thông tin liên hệ</h3>
+                    <div class="formInput">
+                        <fieldset>
+                            <ul>
+                                <li>
+                                    @Html.LabelFor(x => x.FullName)<span>*</span>
+                                    @Html.TextBoxFor(x => x.FullName)                                    
+                                    @Html.ValidationMessageFor(model => model.FullName)
+                                </li>
+                                <li>
+                                    @Html.LabelFor(x => x.Phone)<span>*</span>
+                                    @Html.TextBoxFor(x => x.Phone)
+                                    @Html.ValidationMessageFor(model => model.Phone)
+                                </li>
+                                <li>
+                                    @Html.LabelFor(x => x.Email)
+                                    @Html.TextBoxFor(x => x.Email)
+                                    @Html.ValidationMessageFor(model => model.Email)
+                                </li>
+                                <li>
+                                    @Html.LabelFor(x => x.ShippingAddress)<span>*</span>
+                                    @Html.TextBoxFor(x => x.ShippingAddress)
+                                    @Html.ValidationMessageFor(model => model.ShippingAddress)
+                                </li>
+                            </ul>
+                        </fieldset>
+                    </div>
+                </div>
+                @*<div class="col2">
+                    <h3>
+                        <img src="/userfiles/images/iconShip.png" alt="" />
+                        Giao hàng</h3>
+                    <ul>
+                        <li>
+                            <label>
+                                @Html.RadioButtonFor(x => x.HomeDelivery, "true")
+                                Giao hàng tận nơi                                         
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                @Html.RadioButtonFor(x => x.HomeDelivery, "false")
+                                Nhận hàng tại cửa hàng (Miến phí)
+                            </label>
+                        </li>
+                        <li>
+                            <label>Ghi chú thêm (nếu có)</label>
+                            @Html.TextBoxFor(x => x.Note, new { @class = "text2" })
+                        </li>
+                    </ul>
+                    <h3>
+                        <img src="/userfiles/images/iconpayment.png" alt="" />Thanh toán</h3>
+                    <ul>
+                        <li>
+                            <label>Thanh toán khi nhận hàng</label>
+                        </li>
+                    </ul>
+                </div>*@
+                <div class="col3">
+                    <h3>
+                        <img src="/userfiles/images/iconreview.png" alt="" />Thông tin đơn hàng (<a href="@Url.RouteUrl("ShoppingCart")" title="Giỏ hàng">Thay đổi</a>)</h3>
+                   @{Html.RenderAction("_InfoCartCheckout", "ShoppingCart");}
+                    @*<p>
+                    <label> <input type="checkbox"> Tôi xác nhận thông tin đơn hàng & đồng ý với các <a href="#">chính sách chung</a></label></p>*@                    
+                    @*<p><a href="#" class="btnBestill">Đặt hàng</a></p>*@
+                    <input type="submit" value="Đặt hàng" class="btnBestill" />
+                </div>
+                }
+        </div>
+    </div>
+}
+@section footer{
+    @Scripts.Render("~/bundles/jsValidation")
+    <script type="text/javascript">
+        $(function () {
+            $('form').submit(function () {
+                if ($(this).valid()) {
+                    $.ajax({
+                        url: this.action,
+                        type: this.method,
+                        data: $(this).serialize(),
+                        success: function (result) {
+                            $('#result').html(result);
+                            $('.colLeft').css('display', 'block');
+                            $('.colRight').css('width', '870px');
+                            //return false;
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

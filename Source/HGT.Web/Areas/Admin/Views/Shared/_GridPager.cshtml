@@ -1,0 +1,22 @@
+﻿<div class="k-pager-wrap k-grid-pager">
+    <a class="k-link k-state-disabled" data-page="1" href="javascript:void(0);" title="Go to the first page">
+        <span class="k-icon k-i-seek-w">seek-w</span>
+    </a>
+    <a class="k-link k-state-disabled" data-page="0" href="javascript:void(0);" title="Go to the previous page">
+        <span class="k-icon k-i-arrow-w">arrow-w</span>
+    </a>
+    <ul class="k-pager-numbers k-reset">
+        <li>
+            <span class="k-state-selected" data-page="1">1</span>
+        </li>
+    </ul>
+    <a class="k-link k-state-disabled" data-page="2" href="javascript:void(0);" title="Go to the next page">
+        <span class="k-icon k-i-arrow-e">arrow-e</span>
+    </a>
+    <a class="k-link k-state-disabled" data-page="1" href="javascript:void(0);" title="Go to the last page">
+        <span class="k-icon k-i-seek-e">seek-e</span>
+    </a>
+    <span class="k-pager-info k-label">No item to display</span>
+    @Html.Hidden("item-per-page-mess", "Items in page")
+    @Html.Hidden("showing-item-count", "Showing {0}-{1} from {2} data items")
+</div>

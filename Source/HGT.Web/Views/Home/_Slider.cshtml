@@ -1,0 +1,81 @@
+﻿@model IEnumerable<BannerModel>
+
+@using HGT.Core;
+@using HGT.Core.Models;
+
+@if (Model != null && Model.Count() > 0)
+{
+    <div id="slider" class="row">
+        <div class="col-sm-12">
+            <div id="slider-carousel" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    @for (int i = 0; i < Model.Count(); i++)
+                    {
+                        <li data-target="#slider-carousel" data-slide-to="@i"></li>                        
+                    }
+                </ol>
+                <div class="carousel-inner">
+                    @foreach (var item in Model) // @(ShowTenant ? "col-xs-12 col-sm-8" : "col-xs-12")
+                    {
+                        var openLink = item.OpenLink == true ? "_blank" : "_parent";                       
+                        <div class="item">
+                            <a href="@(string.IsNullOrEmpty(item.Link) == true ? "#" : item.Link)" target="@openLink">
+                                <div class="col-sm-6">
+                                    <h1>@item.Title</h1>
+                                    <p>
+                                        @item.Description
+                                    </p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <img src="@Globals.AbsoluteImagePath(ConstantKeys.BannerFolder, item.FileName)" class="img-responsive" alt="@item.Title" />
+                                </div>
+                            </a>
+                        </div>                        
+                    }
+
+                    @*<div class="item active">
+                    <div class="col-sm-6">
+                        <h1><span>Domino A</span>-Series</h1>                        
+                        <p>For over 30 years, Domino has set the industry standard for print quality and versatility in Continuous Ink Jet (CIJ) inks and printers.</p>
+                        <button type="button" class="btn btn-default get">Key benefits</button>
+                    </div>
+                    <div class="col-sm-6">
+                        <img src="/userfiles/images/banners/a-series-gp-image.jpg" class="img-responsive" alt="">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="col-sm-6">
+                        <h1><span>Domino D</span>-Series <span>i-Tech</span></h1>                        
+                        <p>Designed to reduce costs and downtime the D-Series range is the latest state of the art in scribing laser technology and the most flexible and compact one in the market.
+We use our intelligent Technology for the revolutionary modular design of the D-Series i-Tech, including our patented RapidScan technology.</p>
+                        <button type="button" class="btn btn-default get">Key benefits</button>
+                    </div>
+                    <div class="col-sm-6">
+                        <img src="/userfiles/images/banners/d-series-main.png" class="img-responsive" alt="">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="col-sm-6">
+                        <h1><span>Domino C</span>-Series</h1>   
+                        @<h2>Free Ecommerce Template</h2>*
+                        <p>Domino’s C-Series range of Drop on Demand ink jet printers allows you to print high quality graphics and supply chain readable codes at high volume.</p>
+                        <button type="button" class="btn btn-default get">Get it now</button>
+                    </div>
+                    <div class="col-sm-6">
+                        <img src="/userfiles/images/banners/c-series-hero-shot.png" class="img-responsive" alt="">
+                    </div>
+                </div>*@
+                </div>
+
+                <a href="#slider-carousel" class="left control-carousel" data-slide="prev">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                <a href="#slider-carousel" class="right control-carousel" data-slide="next">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+
+        </div>
+    </div>
+}
+@*// <div class="@(ShowTenant ? "col-xs-12 col-sm-8" : "col-xs-12")">*@

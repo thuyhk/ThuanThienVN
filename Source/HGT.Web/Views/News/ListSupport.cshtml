@@ -1,0 +1,56 @@
+﻿@model NewsPagingModel
+
+@using HGT.Web.Models;
+@using HGT.Core.Paging;
+
+@{
+    ViewBag.Title = "Hỗ trợ kỹ thuật";
+    var pageInfo = ViewData["PageInfoModel"] as PagingInfo;
+    pageInfo = pageInfo ?? new PagingInfo();
+    pageInfo.ShowAllPages = false;
+    var showPaging = new HGT.Web.Extensions.SiteControl();
+}
+
+@section styles{
+    <link href="@Url.Content("~/content/menu-list.css")" rel="stylesheet" />
+}
+<div id="wr-two-col" class="row">
+    <div class="col-sm-3">
+        @{Html.RenderAction("_ListCategories", "Category");}
+    </div>
+    <div class="col-sm-9">
+        <!-- breadcrumb -->
+        <ol class="breadcrumb">
+            <li><a href="/">Trang chủ</a></li>
+            <li>@ViewBag.Title</li>
+        </ol>
+        <div class="clearfix"></div>
+        <div class="infoSupport">
+            <div class="row">
+                <div class="col-sm-6">a</div>
+                <div class="col-sm-6">a</div>
+            </div>
+        </div>
+        <div id="news">
+            @if (Model.Results != null && Model.Results.Count > 0)
+            {
+                foreach (var item in Model.Results)
+                {
+                <div class="col-lg-12">
+                    <div class="inner">
+                        <h4>@Html.RouteLink(item.Title, "NewsDetail", new { alias = item.Alias })</h4>
+                        <p>@item.Description</p>
+                    </div>
+                </div>
+                }
+                if (Model.TotalPages > 1)
+                {
+                <div class="pager">
+                    @showPaging.PageLinks(pageInfo)
+                </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,78 @@
+﻿@model HGT.Admin.Models.ChangePasswordModel
+@using HGT.Admin
+@{
+    ViewBag.Title = "Index";
+}
+<div class="panel-heading">
+    <h3 class="panel-title">Change Password</h3>
+</div>
+<div class="panel-body">
+    <form role="form" id="frmChangePass">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.EmailCF)
+        @Html.HiddenFor(model => model.TokenPassword)
+
+        <fieldset>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password) <span>*</span>
+                @Html.TextBoxFor(m => m.Password, new { @class = "form-control", tabindex = "1" })
+                @Html.ValidationMessageFor(m => m.Password)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ConfirmPassword) <span>*</span>
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", tabindex = "2" })
+                @Html.ValidationMessageFor(m => m.ConfirmPassword)
+
+            </div>
+            <input type="button" value="Change pass" class="btn btn-lg btn-success btn-block" id="btnChange" tabindex="4" />
+            <div class="form-group">
+                <label>
+                    <span class="error" id="messageBox"></span>
+                </label>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+    //event enter
+    function keypressHandler(e) {
+        if (e.which == 13) {
+            $(this).blur();
+            $('#btnChange').focus().click();//give your submit an ID
+        }
+    }
+    $('#frmChangePass').keypress(keypressHandler);
+    //
+    var validatable = $("#frmChangePass").kendoValidator().data("kendoValidator");
+
+    $("#btnChange").click(function () {
+        if (validatable.validate() === false) {
+            return false;
+        }
+
+        $.ajax({
+            url: "/common/Login/ChangeNewPassword",
+            type: "POST",
+            data: $('#frmChangePass').serialize(),
+            dataType: 'json',
+            cache: false,
+            async: false,
+            success: function (data) {
+                if (data.Status == "1") {
+                    $('#messageBox').show();
+                    $('#messageBox').html(data.Message)
+
+                }
+                else {
+                    $('#messageBox').show();
+                    $('#messageBox').html(data.Message)
+                    $('input[id="Password"]').focus();
+                }
+            },
+            complete: function () { }
+        });
+    });
+
+
+</script>
+

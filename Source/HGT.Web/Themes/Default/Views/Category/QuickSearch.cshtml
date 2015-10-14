@@ -1,0 +1,96 @@
+﻿@model ProductSettingModel
+
+@using HGT.Web.Models
+@using HGT.Core.Paging
+
+@{
+     ViewBag.Title = "Tìm kiếm sản phẩm";
+
+    var pageInfo = ViewData["PageInfoModel"] as PagingInfo;
+    pageInfo = pageInfo ?? new PagingInfo();
+    pageInfo.ShowAllPages = false;
+    var showPaging = new HGT.Web.Extensions.SiteControl();
+}
+
+@section colLeft{
+    @{Html.RenderAction("_ListCategories", "Category");}
+}
+
+@if (Model.Results != null && Model.Results.Count > 0)
+{
+    <h1>Tìm thấy <span style="color:red">@Model.Results.Count</span> sản phẩm có từ khóa "@ViewBag.KeySearch"</h1>
+@*<div class="right_panel">
+        <div class="toplisting">
+            Velg visning <a href="#">
+                <img src="userfiles/image/graphics/grid.png" width="14" height="14" alt="" /></a> <a href="#">
+                    <img src="userfiles/image/graphics/list.png" width="13" height="14" alt="" /></a>
+        </div>
+        <div class="productForm">
+            <p>Sorter visning på:</p>
+            <div id="newsProduct">
+                <span>Nyheter</span>
+                <ul>
+                    <li>New1</li>
+                    <li>New2</li>
+                    <li>New3</li>
+                </ul>
+            </div>
+            <div id="name">
+                <span>Navn</span>
+                <ul>
+                    <li>Navn1</li>
+                    <li>Navn2</li>
+                    <li>Navn3</li>
+                </ul>
+            </div>
+            <div id="price">
+                <span>Pris</span>
+                <ul>
+                    <li>20</li>
+                    <li>100</li>
+                    <li>50</li>
+                </ul>
+            </div>
+            <div id="sale">
+                <span>Anbefalt</span>
+                <ul>
+                    <li>Navn1</li>
+                    <li>Navn2</li>
+                    <li>Navn3</li>
+                </ul>
+            </div>
+            <div id="bestSeller">
+                <span>Mest solgt</span>
+                <ul>
+                    <li>Navn1</li>
+                    <li>Navn2</li>
+                    <li>Navn3</li>
+                </ul>
+            </div>
+        </div>
+    </div>*@
+
+    <div class="productsList">
+        <ul>
+            @foreach (var item in Model.Results)
+            {
+                <li>
+                   
+                    @Html.Partial("_ProductBox", item)
+                </li>
+            }           
+        </ul>
+        <div class="clear"></div>
+        @if (Model.TotalPages > 1)
+        {
+            <div class="pager">
+                @showPaging.PageLinks(pageInfo)
+            </div>
+        }
+    </div>
+}
+else
+{    
+    <h1>Tìm thấy 0 sản phẩm </h1>
+    <a href="/">Trở về trang chủ</a>
+}

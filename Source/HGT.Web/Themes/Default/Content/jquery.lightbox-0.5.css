@@ -1,0 +1,41 @@
+/**
+ * jQuery lightBox plugin
+ * This jQuery plugin was inspired and based on Lightbox 2 by Lokesh Dhakar (http://www.huddletogether.com/projects/lightbox2/)
+ * and adapted to me for use like a plugin from jQuery.
+ * @name jquery-lightbox-0.5.css
+ * @author Leandro Vieira Pinho - http://leandrovieira.com
+ * @version 0.5
+ * @date April 11, 2008
+ * @category jQuery plugin
+ * @copyright (c) 2008 Leandro Vieira Pinho (leandrovieira.com)
+ * @license CC Attribution-No Derivative Works 2.5 Brazil - http://creativecommons.org/licenses/by-nd/2.5/br/deed.en_US
+ * @example Visit http://leandrovieira.com/projects/jquery/lightbox/ for more informations about this jQuery plugin
+ */
+#jquery-overlay { position: absolute; top: 0; left: 0; z-index: 10000; width: 100% !important;/*height: 110% !important;*/
+}
+#jquery-lightbox { position: absolute; /*top: 0;*/
+top: 0% !important; left: 0; width: 98%; z-index: 100000; text-align: center; line-height: 0; /*height:40%;*/
+height: 100%; }
+#jquery-lightbox a img { border: none; }
+#lightbox-container-image-box { position: relative; background-color: #fff; width: 250px; height: 250px; margin: 0 auto; }
+#lightbox-container-image-box { margin-top: 5%; height: auto !important; z-index: 10000; }
+#lightbox-container-image { /*padding: 10px;*/ padding: 2%; width: 96%; }
+#lightbox-container-image img {/*width:100%;*/ max-width: 100%; margin-top: 5px }
+#lightbox-loading { position: absolute; top: 40%; left: 0%; height: 25%; width: 100%; text-align: center; line-height: 0;   display: block; }
+#lightbox-loading img { display: none; }
+#lightbox-nav { position: absolute; top: 0; left: 0; height: 98%; width: 100%; z-index: 10; }
+#lightbox-container-image-box > #lightbox-nav { left: 0; }
+#lightbox-nav a { outline: none; height: 100% !important }
+#lightbox-nav-btnPrev, #lightbox-nav-btnNext { width: 30%; height: 100%; zoom: 1; display: block; }
+#lightbox-nav-btnPrev { left: 0; float: left; }
+#lightbox-nav-btnPrev:hover { background-image: url("images/lightbox-btn-prev.gif") !important; background-repeat: no-repeat; display: block; }
+#lightbox-nav-btnNext { right: 0; float: right; }
+#lightbox-nav-btnNext:hover { background-image: url("images/lightbox-btn-next.gif") !important; background-repeat: no-repeat; display: block; }
+#lightbox-container-image-data-box { font: 10px Verdana, Helvetica, sans-serif; background-color: #fff; margin: 0 auto; line-height: 1.4em; overflow: auto; width: 100%; padding: 0 10px 0; }
+#lightbox-container-image-data { padding: 0 10px; color: #666; overflow: hidden; }
+#lightbox-container-image-data #lightbox-image-details { width: 70%; float: left; text-align: left; }
+#lightbox-image-details-caption { font-weight: bold; }
+#lightbox-image-details-currentNumber { display: block; clear: left; padding-bottom: 1.0em; }
+#lightbox-secNav { }
+#lightbox-secNav-btnClose { width: 48px; float: right; background:url(images/lightbox-btn-close.gif) no-repeat 0px 0px; display: block; height:54px; cursor:pointer; position:relative; z-index:9999 }
+#lightbox-secNav-btnClose img { display: none; }

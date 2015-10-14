@@ -1,0 +1,185 @@
+﻿@model HGT.Core.Models.ProductModel
+
+@using HGT.Core;
+
+@{
+    ViewBag.Title = Model.Name;
+    var thumbnail = Globals.AbsoluteImagePath(ConstantKeys.ProductFolder, Model.Thumbnail);
+    var imgDefault = Globals.AbsoluteImageDefault;  
+}
+
+@section styles{
+
+    <link href="@Url.Content("~/content/menu-list.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/content/magnific-popup.css")" rel="stylesheet">
+<style type="text/css">
+    .fa-download:before {
+        content: "\f019";
+        padding-right: 5px;
+    }
+</style>
+
+}
+
+<div id="wr-two-col" class="row">
+    <div class="col-sm-3">
+        @{Html.RenderAction("_ListCategories", "Category");}
+    </div>
+    <div class="col-sm-9">
+        <!-- breadcrumb -->
+        <ol class="breadcrumb">
+            <li><a href="/">Trang chủ</a></li>
+            <li>@Html.RouteLink("Sản phẩm", "ListAllCategories")</li>
+            <li>@Model.Name</li>
+        </ol>
+        <div class="clearfix"></div>
+        <!-- /breadcrumb -->
+        <!-- brief summary -->
+        @*@if (!string.IsNullOrEmpty(Model.Brief))
+        {
+            <div class="wr-product-brief">
+                @Html.Raw(Model.Brief)
+                <div class="clearfix"></div>               
+            </div>
+        }*@
+        <!-- /brief summary -->
+        <!-- description -->
+        <div class="wr-product-description">
+            <img id="thumb-product" class="thumbs" src="@thumbnail" onerror="this.onerror = null; this.src = '@imgDefault'" alt="@Model.Name" />
+            @Html.Raw(Model.Brief)
+            <div class="clearfix"></div>
+            @if (!string.IsNullOrEmpty(Model.FileAttachName) && !string.IsNullOrEmpty(Model.FileAttachName))
+            {
+                <a href="@Url.Content("~/userfiles/attachments/")@Model.FileAttach" class="fa fa-download">@Model.FileAttachName</a>
+            }
+        <div class="clearfix"></div>
+        </div>
+        <!-- /description --> 
+        <!-- product tabs -->
+        <div class="wr-product-tab">
+            <ul class="nav nav-tabs">
+                @if (!string.IsNullOrEmpty(Model.Description))
+                {
+                    <li><a href="#benefit" data-toggle="tab">Tính năng sản phẩm</a></li>
+                }
+                @if (!string.IsNullOrEmpty(Model.Capability))
+                {
+                    <li><a href="#capability" data-toggle="tab">Thông số kỹ thuật </a></li>
+                }
+                @if (Model.EnableGallery && Model.Galleries.Count > 0)
+                {
+                    <li><a href="#gallery" data-toggle="tab">Hình ảnh & Videos</a></li>
+                }
+            </ul>
+            <div class="tab-content">
+               @if (!string.IsNullOrEmpty(Model.Description))
+               {
+                    <div class="tab-pane fade" id="benefit">
+                       @Html.Raw(Model.Description)
+                    </div>
+               }
+                @if (!string.IsNullOrEmpty(Model.Capability))
+                {
+                    <div class="tab-pane fade active in" id="capability">
+                        @Html.Raw(Model.Capability)
+                    </div>
+                }
+                @if (Model.EnableGallery && Model.Galleries.Count > 0)
+                {
+                    <div class="tab-pane fade" id="gallery">
+                       @foreach (var gallery in Model.Galleries)
+                        {
+                            if (!gallery.IsVideo)
+                            {
+                            <div class="col-sm-3">
+                                <div class="inner">
+                                    <img src="@Globals.AbsoluteThumbPath(ConstantKeys.GalleryFolder, gallery.Thumbnail)" alt="" 
+                                        data-at2x="@Globals.AbsoluteImagePath(ConstantKeys.GalleryFolder, gallery.Thumbnail)" />
+                                    <h4>@gallery.FileName</h4>
+                                </div>
+                            </div>
+                            }
+                            else
+                            {
+                                <div class="col-sm-3">
+                                    <div class="single-items">
+                                        <img class="portfolio-video" src="@Globals.AbsoluteThumbPath(ConstantKeys.GalleryFolder, gallery.Thumbnail)"  alt="@gallery.FileName"
+                                            data-at2x="@Globals.AbsoluteThumbPath(ConstantKeys.GalleryFolder, gallery.Thumbnail)" data-portfolio-video="@Globals.ResolveClientUrl(gallery.Url)" />
+                                        <i class="icon-circle single-items-icon fa fa-play"></i>
+                                        <h4>@gallery.FileName</h4>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        <div class="clearfix"></div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <!-- /product tabs -->
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //$('.wr-product-list .single-items p').responsiveEqualHeightGrid();
+            if ($('ul.nav-tabs').has('li').length > 0) {
+                $('.nav-tabs li:first').addClass('active');
+                $('.tab-content .tab-pane:first').addClass('active in');
+            }
+            else {
+                $('ul.nav-tabs').parent().hide();
+            }
+        });
+    </script>
+    <script src="@Url.Content("~/scripts/jquery.magnific-popup.min.js")"></script>
+    <script src="@Url.Content("~/scripts/jquery.flexslider-min.js")"></script>
+    <script src="@Url.Content("~/scripts/masonry.pkgd.min.js")"></script>
+    <script type="text/javascript">
+        $(window).load(function () {
+            // image popup  
+            $('#gallery img').magnificPopup({
+                type: 'image',
+                gallery: {
+                    enabled: true,
+                    navigateByImgClick: true,
+                    preload: [0, 1] // Will preload 0 - before current, and 1 after the current image
+                },
+                image: {
+                    tError: 'The image could not be loaded.',
+                    titleSrc: function (item) {
+                        return item.el.siblings('h4').text();
+                    }
+                },
+                callbacks: {
+                    elementParse: function (item) {
+                        if (item.el.hasClass('portfolio-video')) {
+                            item.type = 'iframe';
+                            item.src = item.el.data('portfolio-video');
+                        }
+                        else {
+                            item.type = 'image';
+                            item.src = item.el.attr('data-at2x');
+                        }
+                    }
+                }
+            });
+        });
+
+        $(window).bind("load resize", function () {
+            var widthDiv = $("#wr-two-col .col-sm-9").width();
+            var thumbImg = document.getElementById('thumb-product');
+            if (thumbImg != null) {
+                if (thumbImg.naturalWidth > 0) {
+                    if (thumbImg.naturalWidth > (widthDiv * 2) / 3) {
+                        $(".wr-product-description img.thumbs").css("width", "100%");
+                    }
+                    else {
+                        $(".wr-product-description img.thumbs").removeAttr('style');
+                    }
+                }
+            }
+        });
+    </script>
+}

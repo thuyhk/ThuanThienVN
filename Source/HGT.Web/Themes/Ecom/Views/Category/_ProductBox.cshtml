@@ -1,0 +1,60 @@
+﻿@model HGT.Web.Models.ProductViewModel
+@using HGT.Web.Extensions
+@using HGT.Core;
+
+@{
+    var imgDefault = Globals.ImageDefault;
+}
+
+@if (Model != null)
+{
+<div class="col-sm-4">
+     <div class="product-image-wrapper">
+        <div class="single-products">
+            <div class="productinfo text-center">  
+                <a href="@Globals.ResolveClientUrl(Model.Category.Alias + "/" + Model.Alias)" title="@Model.Alias">
+                    <img src="@Model.Thumbnail" onerror="this.onerror = null; this.src = '@imgDefault'" alt="@Model.Alias" /></a>
+                @if (!@Model.Price.Equals(0))
+                {
+                        <h2>@Model.Price.ToString("#,###") đ</h2>
+                }
+                else if (Model.Price.Equals(0) || Model.CallPrice)
+                {
+                        <h2>Liên hệ giá</h2>
+                }
+                <p>@Model.Name</p>
+                <a href="#" class="btn btn-default add-to-cart" data-id="@Model.Id" data-toggle="modal" data-target="#myModal" onclick="addToQuickCart(@Model.Id);" ><i class="fa fa-shopping-cart"></i>Đặt mua</a>
+            </div>
+        </div>
+    </div>
+</div>
+}
+    
+@*<div class="content_products shadow-box">
+    <div class="img_content">
+        <a href="@Globals.ResolveClientUrl(Model.Category.Alias + "/" + Model.Alias)" title="@Model.Alias">
+            <img src="@Model.Thumbnail" onerror="this.onerror = null; this.src = '@imgDefault'" alt="@Model.Alias"/></a>
+    </div>
+    <div class="text_infor">
+        <p>
+             @Html.RouteLink(Model.Name, "ProductDetail", new { categoryAlias = Model.Category.Alias, productAlias = Model.Alias })
+        </p>
+        <p class="price_product">
+            @if (!@Model.Price.Equals(0))
+            {
+                <span>@Model.Price.ToString("#,###") đ</span>
+                if (!string.IsNullOrEmpty(@Model.Unit))
+                {
+                    <span>/ @Model.Unit.Trim()</span>
+                }
+            }
+            else if (Model.Price.Equals(0) || Model.CallPrice)
+            {
+                <span>Liên hệ giá</span>
+            }
+        </p>       
+        <a href="#" class="btnLesmer" data-id="@Model.Id" data-toggle="modal" data-target="#myModal" onclick="addToQuickCart(@Model.Id);">Mua hàng</a>
+
+    </div>
+</div>
+}*@

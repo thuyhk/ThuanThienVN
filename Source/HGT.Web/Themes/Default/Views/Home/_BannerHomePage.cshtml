@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Banner>
+
+@using HGT.Entities.Models;
+
+<div class="main" style="padding-bottom: 0;">
+    <div class="content">
+        @if (Model.Count() > 0)
+        {
+
+            <div class="iosSliderFull">
+                <div class="fluidHeight">
+                    <div class="sliderContainer">
+                        <div class="iosSlider">
+                            <div class="slider">
+                                @foreach (var item in Model)
+                                {
+                                    var taget = "";
+                                    var filename = HGT.Core.Globals.ImagePath(HGT.Core.ConstantKeys.BannerFolder, item.Picture);                                                                      
+                                    <div class="item">
+                                        <div class="inner">
+                                            <img src="@Url.Content(filename)" alt="@item.Alias" />
+                                            @*@if (!string.IsNullOrEmpty(item.Link))
+                                            {
+                                                if (item.OpenLink)
+                                                {
+                                                    taget = "_blank";
+                                                }                                            
+                                                                                         
+                                                <div class="text1">
+                                                    <p><a href="@item.Link" target="@taget">@item.Name</a></p>
+                                                </div>
+                                            }*@
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="slideSelectors">
+                            <div class="prev">
+                                <div class="fs1" aria-hidden="true" data-icon="&#x34;"></div>
+                            </div>
+                            <div class="dot">
+                                @*<span class="leftconner"></span><span class="rightconner"></span>*@
+                                @foreach (var item in Model)
+                                {
+
+                                    <div class='item'></div>
+                                }
+                            </div>
+                            <div class="next">
+                                <div class="fs1" aria-hidden="true" data-icon="&#x35;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+ @*<div class="welkomen">
+            <h1>TITLE</h1>
+            <p>
+                Lorem ipsum dolor sit amet, consecte adipiscing elit, aliquam erat vo.Lorem ipsm met, consecter adipiscing elit, sed diaummy nibh euistincidunt ut laoreet dolore
+          magna aliuam erat vo.Lorem ipsum dolor sit amet, consectuer adipiing elit, sed diam nonummy nibh euisod tincidunt ut laoreet dolore maa aliquam erat vo. Lorem ipsum 
+          dolor sit amet, consectetuer adipiscig elit, aliquam erat vo
+            </p>
+        </div>*@
+    </div>
+</div>

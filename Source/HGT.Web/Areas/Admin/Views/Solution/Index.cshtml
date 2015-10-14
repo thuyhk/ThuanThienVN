@@ -1,0 +1,85 @@
+﻿@{
+    ViewBag.Title = "Giải pháp sản phẩm";
+    var a = ViewBag.Total;
+}
+
+@using HGT.Admin;
+@using HGT.Core;
+
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li><a href="/admin"><i class="fa fa-dashboard"></i>@StringTable.Home</a></li>
+        <li class="active">Quản lý giải pháp sản phẩm</li>
+        @a
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">
+                        <a class="btn btn-primary" href="/admin/solution/input">
+                            <i class="fa fa-plus-square fa-fw"></i>@StringTable.AddNew
+                        </a>
+                    </h3>
+                    <div class="box-tools">
+                        <div class="input-group">
+                            @{Html.RenderPartial("~/Areas/Admin/Views/Solution/_Search.cshtml");}
+                        </div>
+                    </div>
+                </div>
+                <div id="grid" class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <colgroup>
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th class="k-header" data-field="Name" data-title="Name" scope="col">Tên giải pháp</th>
+                                <th class="k-header txt-center" data-field="ThumbPath" data-title="ThumbPath" scope="col">Thumbnail</th>
+                                <th class="k-header txt-center" data-field="DisplayOrder" data-title="DisplayOrder" scope="col">Thứ tự sắp xếp</th>
+                                <th class="k-header txt-center" data-field="IsActive" data-title="IsActive" scope="col">Hiển thị</th>
+                                <th class="k-header txt-center" data-field="TotalGallery" data-title="TotalGallery" scope="col">Thư viện</th>
+                                <th scope="col" class="txt-center"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="7"></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                             <tr class="t-no-data">
+                                <td colspan="7">@StringTable.NotFoundItem</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    @{Html.RenderPartial("~/Areas/Admin/Views/Shared/_GridPager.cshtml");}
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+
+@section scripts
+{
+    <script type="text/javascript" src="~/Areas/Admin/Scripts/solution.list.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".sidebar-menu li.liSolution").addClass("active");
+        });
+    </script>
+}

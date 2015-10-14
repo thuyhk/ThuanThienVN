@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Email template";
+}
+
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li><a href="/admin"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">
+                    </h3>
+                </div>
+                <div id="grid" class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <colgroup>
+                            <col />
+                            <col />
+                            <col />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th class="k-header" data-field="Name" data-title="Name" scope="col">Name</th>
+                                <th class="k-header" data-field="Subject" data-title="Subject" scope="col">Subject</th>
+                                <th scope="col" class="txt-center"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="t-no-data">
+                                <td colspan="3"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    @{Html.RenderPartial("~/Areas/Admin/Views/Shared/_GridPager.cshtml");}
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+@section scripts
+{
+    <script type="text/javascript" src="~/Areas/Admin/Scripts/email.list.js"></script>
+}

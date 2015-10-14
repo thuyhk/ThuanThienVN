@@ -1,0 +1,243 @@
+﻿@model HGT.Admin.Models.NewsModel
+@using HGT.Admin
+@using Kendo.Mvc.UI
+@using HGT.Core
+@{
+    ViewBag.Title = "Edit news item";
+    string save = "save";
+    string back = "back";
+
+    var pathFile = Globals.ThumbPath(ConstantKeys.NewsFolder, Model.Picture);
+}
+
+@section styles
+{
+    <style type="text/css">
+        #imgLogo, #imgUploaded
+        {
+            max-height: 120px;
+        }
+
+        .profile-info-row select
+        {
+            width: 99%;
+            height: 24px;
+            border: 0;
+            padding: 2px 5px !important;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="page-header">
+            <h1>@ViewBag.Title</h1>
+            <div class="navbar-right" style="margin-top: -56px;">
+
+                <button type="submit" class="btn btn-primary btnSave"><i class="fa  fa-save fa-fw"></i>@save</button>
+                <button type="button" class="btn btn-primary" onclick="cancel();"><i class="fa fa-undo fa-fw"></i>@back</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.row -->
+@using (Html.BeginForm("Edit", "News", FormMethod.Post, new { @id = "editForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name) <span>*</span>
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control", tabindex = "1" })
+                <p class="help-block">
+                    @Html.ValidationMessageFor(model => Model.Name, null, new { @class = "" })
+                </p>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.MetaKey)
+                @Html.TextBoxFor(model => model.MetaKey, new { @class = "form-control", tabindex = "1" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description)
+                @Html.TextBoxFor(model => model.Description, new { @class = "form-control", tabindex = "1" })
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Picture) (180 x 130)
+                <span class="profile-picture">
+                    <img id="imgLogo" class="editable img-responsive  editable-empty" src="@Url.Content(pathFile)" alt="@Model.Name" />
+                    <img id="imgUploaded" class="editable img-responsive  editable-empty" src="" alt="edit" style="display: none" />
+                </span>
+                <div class="space-12"></div>
+            </div>
+            <div class="form-group">
+                @(Html.Kendo().Upload()
+                    .Multiple(false)
+                    .Name("file")
+                    .Async(a => a
+                        .Save("SaveLogoUpload", "News")
+                        .Remove("RemoveLogoUpload", "News")
+                        .AutoUpload(true)
+                    )
+                        .Events(events => events
+                        .Select("onSelect")
+                        .Success("onSuccess")
+                    )
+                )
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">           
+            <div class="form-group">
+                @Html.LabelFor(model => model.Content)
+                @Html.TextArea("Content", Model.Content, new { @class = "form-control myckeditor" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12" style="text-align: right">
+            <button type="submit" class="btn btn-primary btnSave"><i class="fa  fa-save fa-fw"></i>@save</button>
+            <button type="button" class="btn btn-primary" onclick="cancel();"><i class="fa fa-undo fa-fw"></i>@back</button>
+        </div>
+    </div>
+    
+    <div class="clearfix mb10"></div>
+}
+<!-- /.row -->
+@section scripts{
+    <script src="~/Utility/ckeditor/ckeditor.js"></script>
+    <script src="~/Utility/ckfinder/ckfinder.js"></script>
+
+    <script type="text/javascript">
+        //<![CDATA[
+        if (typeof (CKFinder) != 'undefined') CKFinder.setupCKEditor(null, '/utility/ckfinder/');
+
+        var txt = null;
+        function loadEditor(objId) {
+            var instance = CKEDITOR.instances[objId];
+            if (instance != null) {
+                CKEDITOR.remove(instance);
+                instance.destroy();
+                instance = null;
+            }
+
+            var newInstance = null;
+            newInstance = CKEDITOR.replace(objId, { toolbar: 'Full', width: '100%', height: '300px' }); //toolbar: 'Basic'
+            txt = newInstance;
+        }
+        //]]>
+
+        $(document).ready(function () {
+            var textarea = $(".myckeditor");
+            if (textarea.length > 0) {
+                for (var i = 0; i < textarea.length; i++) {
+                    loadEditor(textarea[i].id);
+                }
+            }
+            var emailBool = true;
+            var nameBool = true;
+            var validatable = $("#editForm").kendoValidator({
+                onfocusout: true,
+                onkeyup: true,
+                rules: {
+                    userName: function (input) {
+                        if (input.is("[name=Name]")) {
+                            if (input.val() != '') {
+                                $.post("/admin/news/CheckNewsTitleExist", {
+                                    name: $("#Name").val(),
+                                    id: "@Model.Id"
+                                }, function (data) { nameBool = data; })
+                                return nameBool;
+                            }
+                        }
+                        return true;
+                    }
+                },
+                messages: {
+                    userName: "Product name exist, Please select name other."
+                }
+            }).data("kendoValidator");
+
+             $('.btnSave').click(function () {
+
+                 if (validatable.validate() === false) {
+                     return false;
+                 }
+                 //set value for content
+                 var contenthtml = CKEDITOR.instances['Content'].getData();
+                 $('#Content').html(contenthtml);
+
+                 $.ajax({
+                     url: "/admin/news/Edit",
+                     type: "POST",
+                     data: $('#editForm').serialize(),
+                     dataType: 'json',
+                     cache: false,
+                     async: false,
+                     success: function (data) {
+                         if (data.Status == 1)
+                             ConfirmMessageBox(null, data.Message, onClosePopup, false);
+                         else
+                             ConfirmMessageBox(null, data.Message, function () { }, false);
+                     },
+                     complete: function () { }
+                 });
+                 return false;
+             });
+
+             $('#editForm').submit(function () {
+                 return false;
+             })
+        });
+
+        function cancel() {
+            var siteUrl = null;
+            siteUrl = "/admin/product/";
+            window.location = siteUrl;
+            return false;
+
+        }
+
+        // select image
+        function onSelect(e) {
+            $.each(e.files, function (index, value) {
+                if (!checkImageUpload(value)) {
+                    ConfirmMessageBox(null, "Please insert an image file...", function () { }, false);
+                    e.preventDefault();
+                    return;
+                }
+            });
+        };
+
+        // upload success
+        function onSuccess(e) {
+            var responseTxt = jQuery.parseJSON(e.XMLHttpRequest.responseText);
+            var srcValue = responseTxt.PictureUrl;
+
+            if (srcValue != null) {
+                $("#imgLogo").hide();
+                $("#imgUploaded").attr('src', srcValue).show();
+            }
+        }
+
+        //event enter
+        function keypressHandler(e) {
+            if (e.which == 13) {
+                $(this).blur();
+                $('.btnSave').focus().click();//give your submit an ID
+            }
+        }
+        $('#editForm').keypress(keypressHandler);
+        //       
+
+        function onClosePopup(e) {
+            window.location = "/admin/news/";
+        }
+
+    </script>
+}

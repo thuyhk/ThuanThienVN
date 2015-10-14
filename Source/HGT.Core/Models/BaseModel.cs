@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HGT.Core.Models
+{
+    public partial class BaseModel
+    {
+        public int Id { get; set; }
+
+        public virtual string ImageUpload { get; set; }
+    }
+}

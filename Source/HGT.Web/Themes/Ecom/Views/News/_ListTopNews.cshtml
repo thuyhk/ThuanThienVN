@@ -1,0 +1,10 @@
+﻿@model IEnumerable<News>
+@using HGT.Entities.Models;
+
+<h3>Tin tức mới</h3>
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>@Html.RouteLink(@item.Name, "NewDetail", new { Alias = item.Alias})</li>
+    }
+</ul>

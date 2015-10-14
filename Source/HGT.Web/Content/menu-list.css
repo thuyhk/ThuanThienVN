@@ -1,0 +1,79 @@
+/********************************************************/
+#wr-two-col h3.title-left-sidebar { background: #009891; padding: 8px 16px; color: #fff; font-size: 15px; text-transform: uppercase; display: block; position: relative; line-height: 24px ; margin: 0; font-weight: 400;}
+
+/* menu */
+.icon-angle-up:before { }
+li.parent > i:hover { cursor: pointer; }
+li.parent > i.icon-angle-down { float: right; font-size: 21px; position: absolute; right: 0px; top: 1px; }
+
+.left-sidebar li.parent > i.icon-angle-down { background: url(images/icon-plus.png) no-repeat left 9px }
+.left-sidebar li.parent > i.icon-angle-up { background: url(images/icon-minus.png) no-repeat left 9px}
+.left-sidebar li.parent > i.icon-angle-down:before { width: 24px; }
+
+/*****************************************************/
+#icon-left-slidebar { line-height: 23px; margin-bottom: 0; padding: 10px 15px; cursor: pointer; display: none; color: #FFFFFF; font-size: 15px; font-weight: normal; line-height: 24px; position: relative; text-transform: uppercase; background: #006b7a url(images/icon-plus.png) no-repeat 95% 14px; cursor: pointer }
+#icon-left-slidebar:after { float: right; background-image: none; background-position: 0 0; background-repeat: repeat; display: inline; font-style: normal; font-weight: normal; height: auto; line-height: normal; margin-top: 0; text-decoration: inherit; vertical-align: baseline; width: auto; display: inline-block; text-decoration: inherit; text-align: center; width: 1.25em; font-size: 20px; line-height: 30px; color: #787878; vertical-align: middle; }
+#icon-left-slidebar:hover:after { color: #fff; }
+#icon-left-slidebar.active{ background: #566069 url(images/icon-minus.png) no-repeat 95% 14px; cursor: pointer }
+
+.left-sidebar { background: #F7F7F7; padding: 0; margin: 0;border: 1px solid #ECECEC;}
+.left-sidebar li { position: relative; list-style: none; margin: 0; border-bottom: 1px dotted #E4E4E4; width:100%; padding: 0;}
+.left-sidebar li a { color: #000; margin: 0; padding: 10px 15px 10px 15px; display: block; font-weight: 500;}
+.left-sidebar li a:hover { background: #F7F7F7!important; }
+.left-sidebar li li a { padding: 10px 15px 10px 20px; display: block; color: #6E6E6E; }
+.left-sidebar li li li a { padding: 10px 15px 10px 25px; display: block; color: #9B9B9B;}
+.left-sidebar li:last-child, .left-sidebar li li:last-child { border-bottom: none }
+.left-sidebar li li.last { padding-bottom: 0 !important; }
+.left-sidebar li i { position: absolute; display: block; top: 2px; right: 0; height: 30px; width: 26px; }
+.left-sidebar li i { top: 8px; color: #717171; font-size: 20px; padding: 0 0; right: 5px }
+.left-sidebar li i.icon-angle-up:before { }
+.left-sidebar li i:hover { cursor: pointer; color: #fff; }
+.left-sidebar li i.opened { background-position: center 7px; }
+
+/** dropdown **/
+.left-sidebar ul, .left-sidebar ul li ul { width: auto; padding: 0px 0px; display: none; border-top: 1px dotted #E4E4E4; background: #FFFFFF;}
+.left-sidebar ul li.parent ul li {border-bottom: 1px dotted #E4E4E4;}
+.left-sidebar ul li.parent ul li:last-child{border: 0}
+.left-sidebar li.active > a > span { color: inherit; background: #006b7a!important; }
+.left-sidebar li.active > a, .left-sidebar li:hover > a { color: #FC3900; /* background: #F7F7F7; */ text-decoration: none }
+
+/* sl */
+@media (min-width: 768px) and (max-width: 991px) {
+    #wr-two-col .col-sm-3{padding-right:0}
+    .left-sidebar li a { font-size: 13px; padding-left: 10px;}
+    .left-sidebar li.parent a{padding-right: 28px;}
+    .left-sidebar li.parent li a{padding-left:17px}
+    .left-sidebar li li.parent li a{padding-left:25px}
+}
+
+/* sm */
+@media only screen and (min-width:768px){
+    .left-sidebar { display: block;  }
+    #icon-left-slidebar{display: none}    
+}
+
+/* md */
+@media only screen and (max-width:767px) {
+    #wr-two-col .col-sm-3{padding-bottom:12px}
+    .left-sidebar { display: none; }
+    #icon-left-slidebar { background: #EAEAEA url(images/icon-plus.png) no-repeat 97% 13px; }
+    #icon-left-slidebar.active { background: #02A39C url(images/icon-minus.png) no-repeat 97% 13px; }   
+    #icon-left-slidebar { display: block;  background: url("images/icon-plus.png") no-repeat scroll 97% 13px #02A39C; color: #FFF; font-weight: 600;}
+    #wr-two-col h3.title-left-sidebar { display: none }
+
+    .left-sidebar li a { font-size:14px;}
+    .left-sidebar li.parent a{padding-right: 28px;}
+    .left-sidebar li.parent li a{padding-left:28px}
+    .left-sidebar li li.parent li a{padding-left:40px}
+}
+
+@media only screen and (max-width:640px) {
+    .left-sidebar li a { font-size:14px; padding-left:10px}
+    .left-sidebar li.parent a{padding-right: 28px;}
+    .left-sidebar li.parent li a{padding-left:18px}
+    .left-sidebar li li.parent li a{padding-left:25px}
+}
+
+@media only screen and (max-width:420px) {
+    .left-sidebar li a { font-size:13px;}
+}

@@ -1,0 +1,172 @@
+﻿@model HGT.Web.Models.ContactModel
+@using HGT.Core.Models
+
+@{
+    ViewBag.Title = "Liên hệ";
+    var contactInfo = ViewData["ContactInfo"] as string;
+}
+
+<div id="contact">
+    <div class="row">
+        <div class="col-lg-12 main-map">                
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d244.98689915088855!2d106.61601365277448!3d10.750632013089113!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0000000000000000%3A0xf1f964921bd9d029!2zQ8O0bmcgVHkgVG5oaCBUbSAtIER2IMSQ4bqhdCBN4bu5!5e0!3m2!1sen!2s!4v1423728822106" height="100%" width="100%" border:0" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="section-title">
+                <h4>LIÊN HỆ</h4>
+            </div>
+             @using (Ajax.BeginForm("Contact", "Home", FormMethod.Post, new AjaxOptions
+            {
+                UpdateTargetId = "msgContactStatus",
+                OnBegin = "onBegin",
+                OnSuccess = "onSuccess",
+                OnComplete = "onComplete",
+                InsertionMode = InsertionMode.Replace
+            }, new { @id = "contact-form" }))
+             {
+                 //@using (Html.BeginForm("Contact", "Home", FormMethod.Post, new { @id = "contact-form", role = "form" }))
+                 //{
+                 @Html.AntiForgeryToken()
+                 @Html.ValidationSummary(true)
+                <div class="row">
+                    <div class="col-md-12">     
+                        <div id="msgContactStatus"></div>
+                        <div class="form-group">
+                            @Html.DropDownListFor(model => model.DepartmentId, Model.Departments, new { @class = "form-control" })                        
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                        @Html.TextBoxFor(x => x.ContactName, new { @class = "form-control", @placeholder = "Tên liên hệ" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">                            
+                                <div class="form-group">
+                                    @*<label for="phone"> Điện thoại</label>*@
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
+                                        @Html.TextBoxFor(x => x.ContactPhone, new { @class = "form-control", @placeholder = "Số điện thoại" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            @*<label for="email">Địa chỉ Email</label>*@
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+                                @Html.TextBoxFor(x => x.ContactEmail, new { @class = "form-control", @placeholder = "Địa chỉ email" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @*<label for="companyName"> Tên công ty</label>*@
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-credit-card"></span></span>
+                                @Html.TextBoxFor(x => x.CompanyName, new { @class = "form-control", @placeholder = "Tên công ty" })
+                            </div>
+                        </div>                       
+                        <div class="form-group">
+                            @Html.TextAreaFor(x => x.ContactContent, new { @class = "form-control", @rows = "4", @placeholder = "Nội dung" })
+                        </div>
+                        @if (Model.CaptchaShow)
+                        {
+                             <div class="form-group">
+                                @Html.TextBoxFor(m => m.Captcha, new { @class = "form-control", @placeholder = "Mã xác thực" })
+                                @Html.ValidationMessageFor(m => m.Captcha)                            
+                                <img id="captchaImage" src="@Url.Action("GenerateCaptcha")" alt="" class="captchaImage">
+                                <a id="freshCaptcha" class="" style="cursor: pointer;"><i class="fa  fa-refresh fa-fw"></i></a> <span class="error"></span>
+                            </div>
+                        }
+                        else
+                        {
+                @Html.HiddenFor(model => model.Captcha)
+                        }
+                        <button type="submit" class="btn btn-skin pull-right" id="btnContactUs">Gửi liên hệ</button>                    
+                    </div>
+                </div>
+             }
+
+        </div>
+        <div class="col-md-6">
+            <div class="section-title">
+                <h4>Văn phòng</h4>
+            </div>
+            <div class="widget-contact">
+                <address>
+                    @Html.Raw(contactInfo)
+                </address>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jsValidation")
+    <script>
+        function onBegin() {
+            $("#msgContactStatus").hide();
+            $('#btnContactUs').attr('disabled', 'disabled');
+            $("#divLoading").show();
+        }
+        function onSuccess(e) {
+            if(e.Status === 1) {
+                $("form#contact-form")[0].reset();
+            }
+
+            refeshCaptcha();
+            $("#msgContactStatus").html(e.Message).slideToggle("slow");
+        }
+        function onComplete(e) {
+            $("#divLoading").hide();
+            $('#btnContactUs').removeAttr('disabled');
+        }
+        function refeshCaptcha() {
+            $('#captchaImage').attr('src', '/GenerateCaptcha?rnd=' + Math.random());
+        }
+
+        $("#freshCaptcha").click(function () {
+            refeshCaptcha();
+        });
+
+        //var frm = $('#contact-form');
+        //$(document).ready(function () {
+        //    $('#btnContactUs').click(function (e) {
+        //        if (frm.valid() === false) { return false; }                
+
+        //            $("#divLoading").show();
+        //            $('#btnContactUs').attr('disabled', 'disabled');
+
+        //        $.ajax({
+        //            url: frm.attr('action'),
+        //            type: frm.attr('method'),
+        //            data: frm.serialize(),
+        //            dataType: 'json',
+        //            cache: false,
+        //            async: false,
+        //            success: function (data) {                        
+        //                if (data.Status == 1) {
+        //                    $("form#contact-form")[0].reset();
+        //                }
+        //                $('#btnContactUs').removeAttr('disabled');
+        //                $("#divLoading").hide();
+        //                $("#msgContactStatus").text(data.Message).slideToggle("slow");
+        //            },
+        //            complete: function () { }
+        //        });
+        //        return false;
+
+        //        // prevent the default event behaviour    
+        //        e.preventDefault();
+        //    });
+
+        //    frm.submit(function () {
+        //        return false;
+        //    })
+        //});       
+    </script>
+}

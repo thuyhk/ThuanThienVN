@@ -1,0 +1,11 @@
+/* #region #CONTACT PAGE*/
+#contact{float: left;width: 100%;}
+#contact .left{float: left;width: 38%; margin-right:  2%;}
+#contact .left .textInput{border: 1px solid #e0e0e0;float: left;height: 28px;padding: 2px 2%;border-radius: 3px;margin-bottom: 6px;width: 96%;}
+#contact .right{float: left;width: 60%;}
+#contact .right textarea {border: 1px solid #e0e0e0;height: 96px;max-height: 185px;width: 96%;padding: 8px 2%;border-radius: 3px;}
+#contact .posButton{float: left; width: 100%; margin: 6px 0 8px; text-align: center;}
+#contact .button {font-weight: 700;height: 28px;text-align: center;width: 90px;border-radius: 3px;color: #fff;background: #c40202;}
+#contact .button:hover{background: #367fc0;}
+#contact .map{margin: 8px 0;float: left;width: 100%; height: 350px}
+/* #endregion CONTACT PAGE*/

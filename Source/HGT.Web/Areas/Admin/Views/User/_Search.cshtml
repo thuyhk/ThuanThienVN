@@ -1,0 +1,57 @@
+﻿@using HGT.Admin;
+@using Kendo.Mvc.UI;
+
+<div class="input-group custom-search-form">
+    @(Html.Kendo().AutoComplete()
+        .Name("searchUsers")
+        .DataTextField("FullName")
+        .Filter("contains")
+        .MinLength(1)
+        .Height(188)
+        .Events(e => { e.Change("onSelect"); })
+        .Placeholder("Search ...")
+        .HtmlAttributes(new { @class = "form-control", @style = "min-height:33px;" }) //  @class = "nav-search-input" 
+        .DataSource(source =>
+        {
+            source.Read(read =>
+            {
+                read.Action("FilterUser", "User");//.Data("onAdditionalData");
+            })
+            .ServerFiltering(true);
+        })
+        )
+    <span class="input-group-btn">
+        <button class="btn btn-default" type="button">
+            <i class="fa fa-search"></i>
+        </button>
+    </span>
+</div>
+<script type="text/javascript">
+    $('#searchUsers').val('');
+    //function onAdditionalData(e) {
+    //    return {
+    //        projectId: $("#projectId").val()
+    //    };
+    //}
+    function onSelect(e) {
+        searchUsers();
+        return false;
+    }
+    $('.btn-default').click(function () {
+        searchUsers();
+    });
+
+    $("#searchUsers").keypress(function (event) {
+        if (event.keyCode == 13 || event.which == 13) {
+            searchUsers();
+            return false;
+        }
+    });
+
+    function searchUsers() {
+        //load gridview
+        $('#grid').data('kendoGrid').dataSource.transport.options.read.url = "/admin/user/List/?keyword=" + $("#searchUsers").val();
+        $('#grid').data('kendoGrid').dataSource.page(1);
+    }
+
+</script>

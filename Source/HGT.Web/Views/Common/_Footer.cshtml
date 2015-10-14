@@ -1,0 +1,82 @@
+﻿@{
+    var appSetting = HGT.Core.AppSettings.Settings;
+    var pathFile = HGT.Core.Globals.ImagePath(appSetting.LogoURL);
+    var contactInfo = ViewData["ContactOSS"] as string;
+}
+
+<div class="footer-top">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="companyinfo">
+                    <img src="/userfiles/images/logo.png" alt="DMC" />
+                    <h4>CÔNG TY TNHH TMDV <span>ĐẠT MỸ</span></h4>
+                    <p>Nhà phân phối độc quyền máy in phun <a>Domino</a> tại Việt Nam</p>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="col-sm-4">
+                    <div class="video-gallery text-center">
+                        <a href="#">
+                            <div class="iframe-img">
+                                <img src="/userfiles/images/products-image.jpg" alt="">
+                            </div>
+                            <div class="overlay-icon">
+                                <i class="fa fa-plus"></i>
+                            </div>
+                        </a>
+                        <p>Sản phẩm</p>
+                        <h2>Domino</h2>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="video-gallery text-center">
+                        <a href="#">
+                            <div class="iframe-img">
+                                <img src="/userfiles/images/Packaging-Solutions-Image.jpg" alt="">
+                            </div>
+                            <div class="overlay-icon">
+                                <i class="fa fa-plus"></i>
+                            </div>
+                        </a>
+                        <p>Giải pháp</p>
+                        <h2>Đóng gói</h2>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="video-gallery text-center">
+                        <a href="#">
+                            <div class="iframe-img">
+                                <img src="/userfiles/images/industrial-image.jpg" alt="">
+                            </div>
+                            <div class="overlay-icon">
+                                <i class="fa fa-plus"></i>
+                            </div>
+                        </a>
+                        <p>Ứng dụng</p>
+                        <h2>công nghiệp</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="address">
+                    <p><strong>THÔNG TIN LIÊN HỆ</strong></p>
+                    @Html.Raw(contactInfo)
+                    @*<p><strong>HCM:</strong> 12-14 Đường số 16, KDC An Lạc P. Bình Trị Đông B, Q. Bình Tân</p>
+                    <p><strong>Hà Nội:</strong> A38 KĐT Văn Quán - Quận Hà Đông</p>
+                    <p><strong>Điện thoại:</strong> (08) 37511715 - <strong>Email:</strong> info@datmy.com.vn</p>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer-bottom">
+    <div class="container">
+        <div class="row">
+            <p class="pull-left">Copyright © 2014 DMC. All rights reserved.</p>
+            <p class="pull-right">Designed by <span><a target="_blank" href="http://www.hoanggiatin.com">HGT</a></span></p>
+        </div>
+    </div>
+</div>

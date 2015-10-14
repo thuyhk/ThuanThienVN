@@ -1,0 +1,319 @@
+
+@media only screen and (max-width:1480px) {
+}
+
+@media only screen and (max-width:1380px) {
+body { max-width: 1380px }
+#back-top{ right:0; border:0}
+.payment{ padding-right:30px}
+.introduction { width: 24%;}
+.contact_oss { width: 23.8%;}
+
+}
+
+@media only screen and (max-width:1280px) {
+body { max-width: 1280px }
+.content { width: 96%; margin: auto; padding: 0 2% }
+.height{width: 96%; margin: auto; padding: 0 2%}
+.contentTop p.login { right: 2% }
+.colLeft { width: 25% }
+.colRight { width: 73%; padding-bottom: 20px }
+.productsList { width: 101%; margin: 0 -1.2% }
+.productsList ul li { width: 31.33%; margin: 1.2% }
+.productsList ul li:nth-child(4n) { margin-right: 1.2% }
+.productsList ul li:nth-child(4n+1) { clear: none }
+.productsList ul li:nth-child(3n) { margin-right: 0 }
+.productsList ul li:nth-child(3n+1) { clear: both }
+.hot { width: 101%; margin: 0 -1% 30px }
+.hot ul li { width: 31.6%; margin: 0 1% }
+.hot ul li>:nth-child(3n) { margin: 0 }
+.right_panel { margin-top: 20px; margin-bottom: 10px }
+.tabSale { width: 51%; margin-right: 2% }
+.introduction { width: 22%; margin-right: 2% }
+.contact_oss { width: 22% }
+}
+
+@media only screen and (max-width:1220px) {
+body { max-width: 1220px }
+.outBottom .col3 { width: 290px }
+.navFooter { width: 265px; margin-right: 20px }
+.outBottom .col2, .contact_oss { width: 265px; margin-right: 10px }
+.tabSale { width: 49%}
+
+}
+
+@media only screen and (max-width:1180px) {
+body { max-width: 1180px }
+.contentTop { width: 96%; padding: 10px 2% }
+.contentF { width: 96%; padding: 0 2% }
+.outBottom .col3 input { width: 61% }
+.outBottom .col2, .outBottom .col3, .contact_oss, .navFooter { width: 25%; margin: 0 }
+.payment { width: 318px }
+footer .design_by { width: auto }
+}
+
+@media only screen and (max-width:1160px) {
+body { max-width: 1160px }
+.out_bottom { margin-bottom: 24px }
+.right_panel { margin-top: 10px }
+.cartPS .buttons_added { float: right; margin: 0 12px 0 0 }
+.col3 input { width: 60% }
+.pageCheck .col2 input.text3 { width: 58% }
+}
+
+@media only screen and (max-width:1100px) {
+.nav-submenu-item a { padding: 10px 15px }
+.tabSale { margin-right: 0%; width: 100%; }
+.introduction { width: 47%; margin-right: 5% }
+.contact_oss { width: 47% }
+.payment{ padding-right:0px}
+.newTop { margin-top: 225px }
+}
+
+@media only screen and (max-width:1040px) {
+.text_sale .btnSale { padding: 10px 5px }
+.left_card_inner { margin-bottom: 22px }
+.pageCheck .col1 li p.w1 input, .pageCheck .col1 li p.w2 input { width: 74% }
+.pageCheck .col1 li p.w3 input { width: 68% }
+.pageCheck .col1 input.fonnumber { width: 50% }
+.pageCheck .col1 li select { width: 92.8% }
+.pageCheck .col3 p input.txt5 { width: 67% }
+.pageCheck .col2 input.text3 { width: 54% }
+#background{ display:none !important}
+#bgStretch{ display:none !important}
+}
+
+@media only screen and (max-width:1024px) {
+.nav-item a { padding: 11px 20px 12px !important }
+}
+
+@media only screen and (max-width:980px) {
+.nav-item a { padding: 11px 16px 12px !important }
+.omoss { padding: 2% 0 }
+.contact_form { width: 52% }
+.text_sale .btnSale { padding: 10px }
+.sok ul li { padding: 0 }
+.cartPS .single_add_to_cart_button { padding: 19px 6px }
+}
+
+@media only screen and (max-width:920px) {
+.nav { width: 100%; top: 0; left: 0;height: auto; padding-top: 44px ; background: #41B301;}
+.nav-list { display: none; float:left !important; width:100%}
+.nav-item { width: 100%; float: none; text-align: left; padding: 0; margin: 0 }
+.addArrow { background: none }
+.nav-submenu { position: static; width: 100%; padding: 0 }
+.nav-submenu2 { position: static; left: 0; top: 0; width: 100%; margin: 0; padding: 0 }
+.nav-item > a { text-align: left; margin-right: 0; color: #fff; line-height: 24px; display: block; padding: 8px 20px !important; border-bottom: 1px solid #444646}
+.nav-item:nth-child(1) { width: 100%; }
+.nav-item:nth-child(5) { width: 100%; }
+.nav-mobile,.name, .nav-click { display: block }
+.nav-item:hover .nav-submenu, .nav-submenu-item:hover .nav-submenu2 { display: none }
+.nav-mobile-open { border-radius: 5px 5px 0 0; -webkit-border-radius: 5px 5px 0 0; -moz-border-radius: 5px 5px 0 0 }
+
+.colLeft { width: 27% }
+.colRight { width: 71% }
+.resp-tabs-list li { font-size: 14px }
+.resp-tabs-container { margin-bottom: 15px }
+}
+
+@media only screen and (max-width:890px) {
+.main{ padding:15px 0}
+.price { font-size: 18px }
+.left_card_inner { margin-bottom: 15px }
+.image_product { width: 100% }
+.rightContentSP { float: left; width: 96% }
+.cartPS .buttons_added { margin-right: 33% }
+.outBottom .col2 { width: 30%; padding: 0 }
+.outBottom .col3 input { width: 40% }
+.pageCheck .col2 input.text3 { width: 50% }
+.payment { float: left; width: 100%; padding: 7px 0 }
+.payment a { margin-left: 0px; margin-right: 10px }
+.newTop { margin-top: 218px }
+
+}
+
+@media only screen and (max-width:848px) {
+.contentTop p.login { position: relative; float: left; text-align: center; padding: 0 2%; width: 96% }
+.contentTop p.login { display: inline }
+.logo { width: 100%; float: none; padding: 0 0 5px 0; text-align: center; display:block }
+#cart { background: #086b6e; padding: 10px 2% 0 2%; margin-top: 25px; width:96% }
+#search { float:none; margin:auto; display:block;padding: 0 0 15px 0}
+
+.clear2 { clear: both }
+.colLeft { width: 30% }
+.colRight { width: 68% }
+.productsList { width: 102%; margin: 0 -2% }
+.productsList ul li { width: 47%; margin: 2% }
+.productsList ul li:nth-child(3n) { margin-right: 2% }
+.productsList ul li:nth-child(3n+1) { clear: none }
+.productsList ul li:nth-child(2n) { margin-right: 0 }
+.rsDefault .rsThumb img { max-width: 78px }
+.imageGallery .bigImage a.btnZoom { top: 87% }
+.pageCheck .col1, .pageCheck .col2 { float: left; width: 100%; margin-right: 0 }
+.pageCheck .col3 { float: left; width: 100% }
+.toplabel .code { width: 209px }
+.toplabel .code input { width: 60px }
+.contact_form { float: left; width: 90% }
+.bottom .kontakt { width: 66% }
+.payment a { float: left; margin-right: 10px; margin-left: 0 }
+.outBottom .col1 { width: 100%; overflow: hidden; margin-bottom: 15px }
+.contact_oss { width: 50%; padding: 0 }
+.pageCheck .col1 li p.w4 { width: 53% }
+.pageCheck .col1 li p.w3 { float: left; width: 37% }
+.pageCheck .col1 li p.w3 input { width: 78% }
+.pageCheck .col1 li p.w1 input, .pageCheck .col1 li p.w2 input { width: 94% }
+.pageCheck .col1 li input[type=text] { width: 97% }
+.pageCheck .col1 li select { width: 99.8% }
+.pageCheck .col3 p input.txt5 { width: 74% }
+.pageCheck, .toplabel { width: 90%; margin: auto; padding: 0 5% }
+.productForm { float: left }
+.pageCheck .col1 li p.w2 { width: 50% }
+.contact_oss { width: 48% }
+}
+
+@media only screen and (max-width:787px) {
+.contact_form { width: 100%; float: left }
+.info_center { width: 100% }
+.productsList ul li { width: 47% }
+}
+
+@media only screen and (max-width:767px) {
+.contentTop { width: 96%; padding: 10px 2% 15px }
+.main2 { padding: 15px 0 }
+.colLeft{ width:100%; margin-bottom:15px}
+.colRight { float: left; width: 100%; padding-bottom: 10px }
+.productsList { width: 103%; margin: 0 -1.5% }
+.newTop { margin: 0 }
+.productsList h2 { width: 93%; margin: 0 1.5% 10px }
+.productsList ul li:nth-child(3n) { margin-right: 1.5% }
+.productsList ul li:nth-child(3n+1) { clear: none }
+.productsList ul li:nth-child(2n) { margin-right: 0 }
+.productsList ul li:nth-child(2n+1) { clear: both }
+.hot { width: 103%; padding-bottom: 10px; margin: 0 -1.5% }
+.colRight h1 { width: 100%; margin: 0 0 20px }
+.left_card_inner { width: 96%; padding: 2% }
+.productForm { float: right }
+.contentNav { width: 100%; border: none; padding: 0 }
+.boxSale{ margin:0}
+.contentF { height: auto }
+.main3{ padding-bottom:0}
+.bottom .link { float: left; width: 96%; padding: 0 2% 20px }
+.bottom .kontakt { float: left; width: 96%; padding: 10px 2% }
+.payment { float: left; width: 96% }
+.pageCheck .col1 li p.w2 { width: 50% }
+.pageCheck .col3 p input.txt5 { width: 75% }
+.pageCheck .col2 input.text3 { width: 77% }
+.pageCheck .col1 li p.w4 input { width: 89% }
+.pageCheck .col1 li p.w3 { float: left; width: 43% }
+.pageCheck .col1 li p.w3 input { width: 90% }
+.pageCheck .col1 input.hent { width: 44% }
+.box { margin-top: 15px }
+.productsList ul li, .hot ul li { width: 47%; margin: 1.5% }
+.detail_view, .contentNav .last, .pageCheck .col1 li select { width: 100% }
+.out_bottom, .rightContentSP { margin-bottom: 15px }
+.pageCheck .col1 li input[type=text], .pageCheck .col2 input.text2 { width: 98% }
+.pageCheck .col1 li p.w1 input, .pageCheck .col1 li p.w2 input, .info_omoss { width: 96% }
+#owl3 { margin:0 -2%; width:104%}
+#owl3 .item{ margin:0 3%}
+}
+
+@media only screen and (max-width:700px) {
+.colLeft { margin-bottom: 15px }
+.payment a {margin-right: 5px}
+.rightContentSP{ padding-bottom:0px} 
+}
+
+@media only screen and (max-width:600px) {
+.payment a { margin: 0 4px 4px 0 }
+}
+
+@media only screen and (max-width:560px) {
+
+.contentTop .link { float: left; margin: 10px 0 }
+.contentTop .link a { margin-left: 0; margin-right: 5px }
+.omoss { padding: 2% 0 }
+#lightbox-container-image-box { width: 90%!important }
+#lightbox-container-image-data-box { width: 85.4%!important }
+.pageCheck .col1 li p.w3 input { width: 87% }
+.pageCheck .col1 li p.w1 input, .pageCheck .col1 li p.w2 input { width: 88% }
+.pageCheck .col1 input.hent { width: 41% }
+.toplabel h4 { float: left; width: 100%; margin-bottom: 15px }
+.colRight { padding-bottom: 0; width:99.8% }
+.resp-tabs-container { margin-bottom: 15px }
+.pageCheck .col2 input.text2 { width: 95% }
+.productForm, .toplabel .code { float: left }
+.introduction { margin-right: 0%; width: 100%; }
+.contact_oss { width: 100%; }
+#horizontalTabFooter .resp-tabs-container { margin: 0 0; width: 100%; }
+.main3 { padding: 0 }
+
+}
+
+@media only screen and (max-width:400px) {
+.contentTop { width: 90%; padding: 10px 5% 15px }
+.resp-tabs-container { margin-bottom: 15px }
+.productForm { font-size: 12px; height: auto }
+#newsProduct, #name, #price, #sale, #bestSeller { font-weight: 400; margin: 0; padding: 0 8px 0 4px }
+#newsProduct, #name, #price, #sale { background: url(userfiles/image/graphics/linetopList.png) no-repeat scroll right 6px transparent }
+.productsList, .hot { width: 100%; margin: 0 }
+.toplisting ul li { font-size: 12px }
+.productsList ul { margin-right: 0 }
+.productForm p { width: 100%; font-size: 12px }
+.contact_oss, .navFooter, .outBottom .col2, .outBottom .col3 { width: 100%; padding: 0 }
+.contact_oss, .navFooter { margin-bottom: 5px }
+.payment a:nth-child(2n+1) { clear: none }
+.payment a:nth-child(2n) { margin-right: 4px }
+.pageCheck .col1 li p.w1 input, .pageCheck .col1 li p.w2 input { width: 90% }
+.pageCheck .col1 li input[type=text] { width: 95% }
+.pageCheck .col2 input.text3 { width: 63% }
+.pageCheck .col3 p input.txt5 { width: 71% }
+.productsList ul li, .hot ul li { width: 100%; margin: 0 0 15px }
+
+#owl3 { margin:0 0; width:100%}
+#owl3 .item{ margin:0 0}
+
+
+}
+
+@media only screen and (max-width:340px) {
+.contentTop p.login { font-size: 10px; padding: 0; right: 0; width: 100% }
+.content { width: 90%; padding: 0 5% }
+.contentF { width: 90%; padding: 0 5% }
+.right_panel { margin-bottom: 10px; width: 92%; padding: 0 4% }
+.colLeft .category { padding-bottom: 15px }
+.left_card_inner { width: 90%; padding: 5% }
+.right_top { width: 78%; right: 5% }
+.contact_form .button { margin-left: 0!important }
+.sok ul li label { width: 43%; float: left }
+.img_content { float: left; text-align: center; width: 90%; padding: 5% }
+.text_infor { width: 90%; padding: 0 5% 13% }
+.price_product { left: 5% }
+.sale { width: 91.8%; display: none; padding: 4% }
+.cartPS .buttons_added { margin-right: 12px }
+.flex-direction-nav .flex-prev { right: 11% }
+.imageGallery .bigImage { height: 50% }
+.imageGallery .bigImage .panel { height: 260px!important }
+.imageGallery { height: 380px!important }
+#lightbox-container-image-data-box { width: 83.4%!important }
+.pageCheck .col1 li select { width: 94.8% }
+footer .link { padding: 10px 2% }
+.pageCheck .col1 li input[type=text] { width: 90% }
+.pageCheck .col1 li p.w1 input, .pageCheck .col1 li p.w2 input { width: 78% }
+.pageCheck .col1 li p.w3 input { width: 77% }
+.pageCheck .col1 li p.w4 input { width: 82% }
+.pageCheck .col1 input.fonnumber { width: 46% }
+#cart .contentCart { width: 273px }
+.contact_form li { width: 100% }
+.contact_form { width: 96%; padding: 2% }
+.bottom .kontakt p.tel, .bottom .kontakt p.mail { width: 100%; margin: 0 }
+.sok select.op1, .sok select.op2, .sok select.op3, .sok select.op4, .sok select.op5 { width: 150px }
+.contenttab .formLeft, .contenttab .formRight { width: 100%; float: left }
+.titleSP, .single_variation { font-size: 20px }
+.contact_form .inputText, .contact_form .textarea, .info-center { width: 96%; padding: 0 2% }
+}
+
+@media only screen and (max-width:260px) {
+#search { margin-bottom: 0 }
+.htop { padding-right: 0 }
+.outLogo { padding-bottom: 15px }
+}

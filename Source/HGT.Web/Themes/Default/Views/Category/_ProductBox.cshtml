@@ -1,0 +1,47 @@
+﻿@model HGT.Web.Models.ProductViewModel
+@using HGT.Web.Extensions
+@using HGT.Core;
+
+@{
+    var imgDefault = Globals.ImageDefault;
+}
+
+@if (Model != null)
+{
+<div class="content_products shadow-box">
+    @*<div class="salePrice">20%</div>*@
+    <div class="img_content">
+        <a href="@Globals.ResolveClientUrl(Model.Category.Alias + "/" + Model.Alias)" title="@Model.Alias">
+            <img src="@Model.Thumbnail" onerror="this.onerror = null; this.src = '@imgDefault'" alt="@Model.Alias"/></a>
+    </div>
+    <div class="text_infor">
+        <p>
+             @Html.RouteLink(Model.Name, "ProductDetail", new { categoryAlias = Model.Category.Alias, productAlias = Model.Alias })
+        </p>
+        <p class="price_product">
+            @if (!@Model.Price.Equals(0))
+            {
+                <span>@Model.Price.ToString("#,###") đ</span>
+                if (!string.IsNullOrEmpty(@Model.Unit))
+                {
+                    <span>/ @Model.Unit.Trim()</span>
+                }
+            }
+            else if (Model.Price.Equals(0) || Model.CallPrice)
+            {
+                <span>Liên hệ giá</span>
+            }
+        </p>
+        @*@if (!Model.Price.Equals(0) && Model.CallPrice == false)
+        {
+            <a class="btnLesmer" onclick="quickCart(@Model.Id);">Thêm giỏ hàng</a>
+        }
+        else
+        {
+            *@
+        @*<a class="btnLesmer" onclick="quickCart(@Model.Id);">Mua hàng</a>*@
+        <a href="#" class="btnLesmer" data-id="@Model.Id" data-toggle="modal" data-target="#myModal" onclick="addToQuickCart(@Model.Id);">Mua hàng</a>
+
+    </div>
+</div>
+}

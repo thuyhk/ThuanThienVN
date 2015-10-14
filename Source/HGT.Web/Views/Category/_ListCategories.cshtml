@@ -1,0 +1,100 @@
+﻿@model IEnumerable<HGT.Entities.Models.Category>
+
+
+@if (Model != null && Model.Count() > 0)
+{
+    <h3 class="title-left-sidebar">Máy in Domino</h3>
+    <div id="icon-left-slidebar">Máy in Domino</div>
+    <ul class="left-sidebar">
+        @foreach (var category in Model)
+        {
+            if (category.Products != null && category.Products.Count > 0)
+            {
+            <li class="parent">
+                 @Html.RouteLink(category.Name, "CategoryDetail", new { categoryAlias = category.Alias })
+                <ul>
+                    @foreach (var product in category.Products)
+                    {
+                        <li>
+                            @Html.RouteLink(product.Name, "ProductDetail", new {categoryAlias = category.Alias, productAlias= product.Alias})
+                        </li>
+                    }
+                </ul>
+
+            </li>
+            }
+            else
+            {
+                <li>@Html.RouteLink(category.Name, "CategoryDetail", new { categoryAlias = category.Alias })</li>
+            }
+        }
+        @*<li class="parent"><a href="#">Lorem ipsum dolor</a>
+        <ul>
+            <li><a href="#">Lorem ipsum </a></li>
+            <li><a href="#">Lorem ipsum </a></li>
+            <li class="parent"><a href="#">Lorem ipsum</a>
+                <ul>
+                    <li><a href="#">Lorem ipsum</a> </li>
+                    <li><a href="#">Lorem ipsum</a> </li>
+                </ul>
+            </li>
+            <li><a href="#">Lorem ipsum</a> </li>
+            <li><a href="#">Lorem ipsum</a> </li>
+        </ul>
+    </li>
+    <li><a href="#">Lorem ipsum dolor</a> </li>
+    <li><a href="#">Lorem ipsum dolor</a></li>
+    <li><a href="#">Lorem ipsum dolor</a> </li>
+    <li><a href="#">Lorem ipsum dolor</a> </li>
+    <li><a href="#">Lorem ipsum dolor</a> </li>
+    <li><a href="#">Lorem ipsum dolor</a> </li>
+    <li><a href="#">Lorem ipsum dolor</a></li>
+    <li><a href="#">Lorem ipsum dolor</a> </li>
+    <li><a href="#">Lorem ipsum dolor</a> </li>
+    <li><a href="#">Lorem ipsum dolor</a> </li>*@
+    </ul>
+}
+<!--
+<div class="left-sidebar">
+    <h2>Danh mục</h2>
+    <div id="menu-icon">Danh mục</div>
+    <section class="category-products">
+        <ul id="nav" class="sf-menu-phone">
+            if (Model != null && Model.Count() > 0)
+            {
+                foreach (var item in Model)
+                {                
+                <li>
+                    Html.RouteLink(item.Name, "CategoryDetail", new { categoryAlias = item.Alias })
+                    if (item.Childrens != null && item.Childrens.Count > 0)
+                    {
+                        <ul>
+                            foreach (var cateChildL1 in item.Childrens)
+                            {
+                                var cateChildModelL1 = cateChildL1.ToModel();
+                                <li>
+                                    Html.RouteLink(cateChildModelL1.Name, "CategoryDetail", new { categoryAlias = cateChildModelL1.Alias })
+                                    if (cateChildModelL1.Childrens != null && cateChildModelL1.Childrens.Count > 0)
+                                    {
+                                        <ul>
+                                            foreach (var cateChildL2 in cateChildModelL1.Childrens)
+                                            {
+                                                <li>
+                                                    Html.RouteLink(cateChildL2.Name, "CategoryDetail", new { categoryAlias = cateChildL2.Alias })
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    }
+                </li>
+                }
+            }
+        </ul>
+    </section>
+    <div class="clearfix"></div>
+
+</div>
+-->

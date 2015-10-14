@@ -1,0 +1,131 @@
+﻿@model HGT.Core.Models.ContentModel
+
+@using HGT.Core;
+@using HGT.Admin;
+@using Kendo.Mvc.UI;
+
+@{
+    ViewBag.Title = "List contents";
+    var listContents = ViewData["ListContents"] as List<SelectListItem>;
+    var categoryId = ViewData["CategoryId"] as string;
+}
+
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li><a href="/admin"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="active">Manage content</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <div class="box-filter">
+                        <select id="listContents" onchange="onChange();" class="form-control">
+                            @foreach (var item in listContents)
+                            {
+                                if (item.Value.Equals(categoryId))
+                                {
+                                <option value="@item.Value" selected>@item.Text</option>
+                                }
+                                else
+                                {
+                                <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div id="loadContent">
+                        @using (Html.BeginForm("EditContent", "Content", FormMethod.Post, new { @id = "editForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(model => model.Id)
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Name) <span>*</span>
+                                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Value)<span>*</span>
+                                        @Html.TextArea("Value", Model.Value, new { @class = "form-control ckeditor_basic" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12" style="text-align: right">
+                                    <button type="submit" class="btn btn-primary btnSave"><i class="fa  fa-save fa-fw"></i>@StringTable.Save</button>
+                                </div>
+                            </div>    
+                            <div class="clearfix"></div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+    <script src="/Utility/ckeditor/ckeditor.js" type="text/javascript"></script>
+    <script src="/Utility/ckfinder/ckfinder.js" type="text/javascript"></script>
+    <script src="/Utility/hgt.editor.js" type="text/javascript"></script>
+    <script src="/Utility/init.editor.js" type="text/javascript"></script>
+    @Scripts.Render("~/bundles/jsValidation")
+
+    <script type="text/javascript">
+        var frm = $('#editForm');
+        $(document).ready(function () {
+            $(".sidebar-menu li.liContent").addClass("active");
+            $('.btnSave').click(function (e) {
+                if (frm.valid() === false) { return false; }
+
+                var contenthtml = CKEDITOR.instances['Value'].getData();
+                $('#Value').html(contenthtml);
+
+                $.ajax({
+                    url: frm.attr('action'),
+                    type: frm.attr('method'),
+                    data: frm.serialize(),
+                    dataType: 'json',
+                    cache: false,
+                    async: false,
+                    success: function (data) {
+                        if (data.Status == 1)
+                            ConfirmMessageBox(null, data.Message, onClosePopup, false);
+                        else
+                            ConfirmMessageBox(null, data.Message, function () { }, false);
+                    },
+                    complete: function () { }
+                });
+                return false;
+
+                // prevent the default event behaviour    
+                e.preventDefault();
+            });
+
+            frm.submit(function () {
+                return false;
+            })
+        });
+
+        // dropdownlist onchange event
+        function onChange() {
+            var value = $("#listContents").val();
+            if (value > 0) {
+                window.location = "/admin/content/index/" + value;
+            }
+        };
+
+        // event when close popup windows
+        function onClosePopup(e) {
+            location.reload();
+        }
+    </script>
+}
+
+
+

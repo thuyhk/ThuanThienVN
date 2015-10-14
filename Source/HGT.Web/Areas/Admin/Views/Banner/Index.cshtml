@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "Danh sách banner";
+}
+
+@using HGT.Core;
+@using HGT.Admin;
+
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li><a href="/admin"><i class="fa fa-dashboard"></i>@StringTable.Home</a></li>
+        <li class="active">Quản lý hình ảnh slide (trang chủ)</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">
+                        <a class="btn btn-primary" href="/admin/banner/input">
+                            <i class="fa fa-plus-square fa-fw"></i>@StringTable.AddNew
+                        </a>
+                    </h3>
+                </div>
+                <div id="grid" class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <colgroup>
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                            <col />                            
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th class="k-header" data-field="Title" data-title="Title" scope="col">Tiêu đề</th>
+                                <th class="k-header txt-center" data-field="ImagePath" data-title="ImagePath" scope="col">Hình ảnh</th>
+                                <th class="k-header" data-field="Link" data-title="Link" scope="col">Link</th>
+                                <th class="k-header txt-center" data-field="DisplayOrder" data-title="DisplayOrder" scope="col">Thứ tự sắp xếp</th>
+                                <th class="k-header txt-center" data-field="IsActive" data-title="IsActive" scope="col">Hiển thị</th>
+                                <th scope="col" class="txt-center"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="6"></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                             <tr class="t-no-data">
+                                <td colspan="6">@StringTable.NotFoundItem</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    @{Html.RenderPartial("~/Areas/Admin/Views/Shared/_GridPager.cshtml");}
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+
+@section scripts
+{
+    <script type="text/javascript" src="~/Areas/Admin/Scripts/banner.list.js"></script>
+     <script>
+         $(document).ready(function () {
+             $(".sidebar-menu li.liBanner").addClass("active");
+         });
+    </script>
+}

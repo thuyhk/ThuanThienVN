@@ -1,0 +1,13 @@
+﻿@model HGT.Entities.Models.Content 
+@{
+    ViewBag.Title = Model.Name;
+}
+
+
+@section colLeft{
+    @{Html.RenderAction("_ListCategories", "Category");}
+}
+ <h1>@Model.Name</h1>
+<div class="info_omoss">
+    @Html.Raw(Model.Value)
+</div>

@@ -1,0 +1,176 @@
+﻿@model ShoppingCartModel
+@using HGT.Web.Models
+@using HGT.Core;
+@using HGT.Core.Utility;
+
+@{
+    var checkShowTotal = false;
+    var imgDefault = Globals.ImageDefault;
+}
+
+<div class="modal-dialog" id="modalQuickCart">
+    <div class="modal-content" id="msgResult">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" title="Đóng">×</button>
+            <h4 class="modal-title">Thông tin đơn hàng</h4>
+        </div>
+        @if (Model.CartItems.Count > 0)
+        {
+            <div class="modal-body">
+                <div class="pageCart">
+                    <table>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Đơn giá</th>
+                            <th>Số lượng</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                        @foreach (var item in Model.CartItems)
+                        {
+                            var pathFile = Globals.ThumbPath(ConstantKeys.ProductFolder, item.Product.Picture);
+                            <tr id="row-@item.ProductId" >
+                                <td style="width: 46%">
+                                    <img class="removeLink" data-id="@item.ProductId" data-callPrice="@item.Product.CallPrice" src="@Url.Content("~/userfiles/images/remove-20.png")" alt="remove-product-item" />
+                                    <img class="img_pageCart" src="@Url.Content(pathFile)" onerror="this.onerror = null; this.src = '@imgDefault'"  alt="@item.Product.Alias" />
+                                    <a href="/@item.CategoryAlias/@item.Product.Alias">@item.Product.Name</a>
+                                </td>
+                                <td style="width: 18%">
+                                    @if (item.Product.CallPrice || item.Product.Price.Equals(0))
+                                    {
+                                        <span>Liên hệ</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@item.Product.Price.ToString("#,###") đ</span>
+                                    }
+                                </td>
+                                <td style="width: 18%">
+                                    <span id="item-count-@item.ProductId">
+                                        <input id="number-@item.Count" type="text" class="quantity" maxlength="1" name="quantity" onchange="updateCart(@item.ProductId, this.value)"  value="@item.Count" style="width: 20px; border: 1px solid rgb(217, 217, 217); text-align: center;" /><span id="errmsg"></span>
+                                    </span>
+                                    <span class="unitItem">(@item.Product.Unit.Trim())</span>
+                                </td>
+                                <td id="item-total-@item.ProductId" style="width:18%">
+                                    @if (item.Product.CallPrice || item.Product.Price.Equals(0))
+                                    { <span>Liên hệ</span>}
+                                    else
+                                    {<span>@item.Total.ToString("#,###") đ</span> }
+                                </td>
+                            </tr>
+                        }
+                        @if (checkShowTotal)
+                        {     
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>Vận chuyển:</td>
+                                <td>0 đ</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>Tổng:</td>
+                                <td id="cart-total-page">@Model.CartTotal.ToString("#,###") đ</td>
+                            </tr>
+                        }
+                    </table>
+                    <div id="update-message"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Tiếp tục mua hàng</button>
+                <button type="submit" id="btn_checkout" class="btn btn-primary">Thanh toán</button>
+            </div>
+        }
+        else
+        {
+            <div class="modal-body">
+                <div class="msgCart">Không tồn tại sản phẩm trong giỏ hàng.</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Tiếp tục mua hàng</button>
+            </div>
+        }
+    </div>
+</div>
+<input type="hidden" id="countItemsCart" value="@ViewData["CountItems"].ToString()" />
+
+<script>
+    $(document).ready(function () {
+
+        $(".removeLink").click(function () {
+            // Get the id from the link
+            var recordToDelete = $(this).attr("data-id");
+            if (recordToDelete != '') {
+                // Perform the ajax post
+                $.post("/ShoppingCart/RemoveFromCart", { "id": recordToDelete },
+                    function (data) {
+                        if (data.CartCount > 0) {
+                            // Successful requests get here
+                            // Update the page elements
+                            if (data.ItemCount == 0) {
+                                $('#row-' + data.DeleteId).fadeOut('slow');
+                            } else {
+                                $('#item-count-' + data.DeleteId).text(data.ItemCount);
+                                $('#item-total-' + data.DeleteId).text(formatNumber(data.ItemTotal) + " đ");
+                            }
+                            $('#cart-total-page').text(formatNumber(data.CartTotal) + " đ");
+                            $('#update-message').text(data.Message);
+                        }
+                        else {
+                            $('.pageCart').html(data.Message);
+                            $(".btn-primary").hide();
+                        }
+                        $('#cart-status').text("(" + data.CartCount + ")");
+
+                    });
+            }
+
+        });
+
+        $(".quantity").keypress(function (e) {
+            //if the letter is not digit then display error and don't type anything
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                //display error message
+                $("#update-message").html("Vui lòng nhập giá trị từ 1 tới 9").show().fadeOut(3000);
+                return false;
+            }
+        });
+
+        $("#btn_checkout").click(function () {
+            window.location.href = "/gio-hang";
+        });
+    });
+
+    //function ajaxValidate() {
+    //    return $('#modalCheckoutForm').validate().form();
+    //}
+
+    function updateCart(productId, quantity) {
+        //// Get the id from the link
+        var recordToDelete = $(this).attr("data-callPrice");
+        $.post("/ShoppingCart/UpdateCart", { "id": productId, "quantity": quantity },
+            function (data) {
+                if (data.CartCount > 0) {
+                    // Successful requests get here
+                    // Update the page elements
+                    if (data.ItemCount == 0) {
+                        $('#row-' + data.DeleteId).fadeOut('slow');
+                    } else if (data.ItemTotal == 0) {
+                        $('#item-total-' + data.DeleteId).text("Liên hệ giá");
+                    }
+                    else {
+                        $('#item-total-' + data.DeleteId).text(formatNumber(data.ItemTotal) + " đ");
+                    }
+                    $('#cart-total-page').text(formatNumber(data.CartTotal) + " đ");
+                    $('#update-message').text(data.Message);
+                }
+                else {
+                    $('.pageCart').html(data.Message);
+                    $(".btn-primary").hide();
+                }
+                $('#cart-status').text("(" + data.CartCount + ")");
+            });
+
+    };
+</script>

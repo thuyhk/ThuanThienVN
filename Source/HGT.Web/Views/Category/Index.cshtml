@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Product>
+
+@using HGT.Core;
+@using HGT.Entities.Models
+
+@{    
+    ViewBag.Title = "Sản phẩm";
+}
+
+
+@section styles{
+    <link href="@Url.Content("~/content/menu-list.css")" rel="stylesheet" />
+}
+
+<div id="wr-two-col" class="row">
+    <div class="col-sm-3">
+        @{Html.RenderAction("_ListCategories", "Category");}
+    </div>
+    <div class="col-sm-9">
+        <!-- breadcrumb -->
+        <ol class="breadcrumb">
+            <li><a href="/">Trang chủ</a></li>
+            <li>@ViewBag.Title </li>
+        </ol>
+        <div class="clearfix"></div>
+        <!-- /breadcrumb -->
+        <!-- product list -->
+        @if (Model != null && Model.Count() > 0)
+        {
+            <div class="wr-product-list" style="padding-top: 15px">
+                @foreach (var item in Model)
+                {
+                    @Html.Partial("_ProductBox", item)     
+                }
+                <div class="clearfix"></div>
+            </div>
+        }
+        <!-- /product list -->
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.wr-product-list .inner').responsiveEqualHeightGrid();
+        });
+    </script>
+}

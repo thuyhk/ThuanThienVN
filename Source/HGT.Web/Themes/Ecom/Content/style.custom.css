@@ -1,0 +1,54 @@
+﻿.fa{padding-right:4px}
+.tab-content > .tab-pane{padding: 0 14px 14px;}
+.field-validation-error {padding: 6px 0 0;color: red;font-style: italic;}
+
+/* Reccommend item */
+#show768 .slideHome .col-sm-4{width:25%; float:left;}
+#show767 .slideHome .col-sm-4{width:50%;  float:left;}
+#show360 .slideHome .col-sm-4{width:100%;  float:left;}
+
+@media (min-width: 768px){
+	#show768{display: block;}
+	#show767, #show360{display: none;}
+}
+@media (min-width: 361px) and (max-width: 767px){
+	#show768, #show360{display: none !important;}
+	#show767{display: block !important;}
+}
+@media (max-width: 360px){
+	#show768, #show767{display: none !important;}
+	#show360{display: block !important;}
+}
+
+/* end recommend item */
+
+/* Modal popup */
+.modal { z-index: 99999;  overflow-y: hidden; padding-top: 30px;}
+.modal-header, .modal-footer{background: #F8F8F8;}
+.modal-header .close { text-align: right; background: none;}
+.modal-backdrop {  z-index: 9999;}
+.modal-dialog { max-width: 480px; width: 100%;  margin: 30px auto;}
+
+.modal-title {text-transform: uppercase; color: #F78000; font-size: 16px;}
+
+.modal-body { padding: 20px 15px 20px; overflow-y: hidden; background: #FFFFFF;}
+.modal-body table { font-size: 14px;width: 100%;}
+.modal-body table tr:last-child td{border-bottom: 0}
+.modal-body table tr th {font-weight: 500;padding-bottom: 6px;color: #FF7400;}
+.modal-body table td { padding: 5px 0 4px; border-bottom: 1px dotted #CCC;}
+.modal-body table td .removeLink{ padding-right: 2%; float: left; margin: 3px 0;}
+.modal-body table td .img_item{width: 14%; padding-right: 2%;float: left;max-height: 40px;}
+.modal-body table td + td, .modal-body table th + th { text-align: center }
+.modal-body table td + td +td, .modal-body table th + th +th{ text-align: right }
+
+
+.modal-body .update-message { display:none; margin: 6px 0; color: red;}
+.modal-body .emptyCart{}
+
+.modal-content, .btn, input {border-radius: 0;}
+.btn { padding: 8px 12px;}
+.btn-default {color: #333333;background-color: #e7e7e7;  border-color: #dadada;}
+
+.btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open .dropdown-toggle.btn-default {color: #333333;background-color: #d3d3d3;  border-color: #bbbbbb;}
+/* end modal popup */
+    

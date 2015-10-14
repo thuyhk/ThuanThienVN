@@ -1,0 +1,23 @@
+﻿@model Product
+
+@using HGT.Web.Extensions
+@using HGT.Core
+@using HGT.Entities.Models;
+
+@{    
+    var imgDefault = Globals.AbsoluteImageDefault;    
+}
+
+@if (Model != null)
+{
+
+    <a href="@Globals.ResolveClientUrl(Model.Category.Alias + "/" + Model.Alias)" title="@Model.Alias">
+        <div class="col-sm-4">
+            <div class="inner">
+                <img src="@Globals.AbsoluteThumbPath(ConstantKeys.ProductFolder, Model.Thumbnail)" onerror="this.onerror = null; this.src = '@imgDefault'" alt="@Model.Name" />
+                <h4>@Model.Name</h4>
+                @*<p>@Html.Raw(Model.Brief)</p>*@
+            </div>
+        </div>
+    </a>
+}

@@ -1,0 +1,56 @@
+﻿@model ProductSettingModel
+
+@using HGT.Web.Models
+@using HGT.Core.Paging
+
+@{
+    ViewBag.Title = ViewBag.CategoryName;
+
+    var pageInfo = ViewData["PageInfoModel"] as PagingInfo;
+    pageInfo = pageInfo ?? new PagingInfo();
+    pageInfo.ShowAllPages = false;
+    var showPaging = new HGT.Web.Extensions.SiteControl();
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3">
+            @{Html.RenderAction("_ListCategories", "Category");}
+        </div>
+        <div class="col-sm-9 no-padding">
+            @if (Model.Results != null && Model.Results.Count > 0)
+            {
+                <div class="product-list">
+                    <!--features_items-->
+                    <h2 class="title text-center">@ViewBag.Title</h2>
+                    @foreach (var item in Model.Results)
+                    {
+                        @Html.Partial("_ProductBox", item)     
+                    }
+                    <div class="clearfix"></div>
+                    @if (Model.TotalPages > 1)
+                    {
+                        <div class="pager">
+                            @showPaging.PageLinks(pageInfo)
+                        </div>
+                    }
+                </div>
+         
+            }
+            else
+            {    
+                <div class="product-list">
+                    <!--features_items-->
+                    <h2 class="title text-center">@ViewBag.Title</h2>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('.product-list .col-sm-4 .product-image-wrapper').responsiveEqualHeightGrid();
+        });
+    </script>
+}

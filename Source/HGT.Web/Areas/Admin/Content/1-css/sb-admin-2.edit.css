@@ -1,0 +1,173 @@
+/*Kendo*/
+.table-bordered > tbody > tr > td {
+    border-bottom: 0;
+    border-right: 0;
+    padding: 2px 8px;
+    line-height: 32px;
+}
+
+    .table-bordered > tbody > tr > td img {
+        max-height: 42px;
+    }
+
+.table > caption + thead > tr:first-child > th, .table > colgroup + thead > tr:first-child > th, .table > thead:first-child > tr:first-child > th, .table > caption + thead > tr:first-child > td, .table > colgroup + thead > tr:first-child > td, .table > thead:first-child > tr:first-child > td {
+    border-right: 0;
+}
+
+.k-grid tbody .k-button, .k-ie8 .k-grid tbody button.k-button {
+    border: 0;
+    min-width: 0;
+}
+
+.k-alt, .k-separator {
+    background-color: #FFFFFF;
+}
+
+.table-striped > tbody > tr:nth-child(odd) > td, .table-striped > tbody > tr:nth-child(odd) > th {
+    background-color: #F9F9F9;
+}
+
+.k-button:hover {
+    background: none;
+}
+
+.k-grid-header .k-header > .k-link {
+    color: #0083EB;
+}
+
+.k-grid-header .k-header {
+    color: #0083EB;
+    font-weight: 700 !important;
+    font-size: 13px;
+}
+
+.k-grid td {
+    overflow: initial !important;
+}
+
+.txt_align_c {
+    text-align: center;
+}
+
+
+/*Css button Top*/
+.wr_btn_action {
+    border-radius: 3px;
+    float: right;
+    display: table-cell;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    width: auto;
+}
+
+.btnEdit .btn {
+    margin-right: 5px;
+    padding: 2px 6px;
+}
+
+/* css table */
+/**top*/
+.header-nav a.btn.account {
+    padding: 6px 10px 5px 0!important;
+}
+
+.header-nav .avatar {
+    width: 60px;
+    float: left;
+}
+
+    .header-nav .avatar img {
+        margin: -4px 0 -14px 10px;
+        height: 30px;
+        width: 30px;
+        -webkit-border-radius: 50em;
+        -moz-border-radius: 50em;
+        border-radius: 50em;
+    }
+
+.header-nav .user {
+    display: inline-block;
+    text-align: left;
+    margin-top: 0;
+    padding: 2px 11px 0 5px;
+}
+
+    .header-nav .user .hello {
+        display: block;
+        font-size: 12px;
+        padding-bottom: 3px;
+        font-weight: bold;
+    }
+
+    .header-nav .user .name {
+        display: block;
+        margin-top: -6px!important;
+        font-size: 13px;
+    }
+/*****************************/
+.col-lg-12Edit {
+    padding: 0 3%;
+    width: 94%;
+}
+
+.form-controlEdit {
+    display: block;
+    width: 96%;
+    padding: 6px 2%;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.btn-center {
+    text-align: center;
+    margin: auto;
+}
+
+.mt30 {
+    margin-top: 30px;
+    clear: both;
+}
+
+.form-group .p1 {
+    width: 25%;
+    float: left;
+}
+.clearfix
+{
+    clear: both;
+}
+.mb10
+{
+    margin-bottom: 10px;
+}
+
+table.orderDetail { border-spacing: 0 ;  margin: 0 2%; width: 96%; }
+table.orderDetail tr:first-child th{font-weight:bold}
+table.orderDetail tr:last-child td{border-bottom: 0}
+table.orderDetail tr.totalOrder td{padding-top: 8px}
+table.orderDetail td { padding: 5px 0 4px; border-bottom: 1px dotted #CCC;}
+table.orderDetail td .removeLink{ padding-right: 4%; float: left; margin: 3px 0;}
+table.orderDetail td .img_item{width: 16%; padding-right: 4%;float: left;max-height: 40px;}
+table.orderDetail td + td, table.orderDetail td + td + td { text-align: right }
+table.orderDetail th { padding-bottom: 12px; text-align: left; font-size: 14px; font-weight: 500; color: #000000; border-bottom: 1px dotted #CCC; text-transform: uppercase;}
+table.orderDetail th + th { text-align: right }
+table.orderDetail  p { margin: 20px 0 0; float: left; width: 100%;}
+table.orderDetail  p.continious{float:right;width: auto;}
+table.orderDetail  p input.txt5 { margin: 0 5px 0 0; padding: 0; float: left; width: 70% }
+table.orderDetail  p label { cursor: pointer; float: left; width: 100% }
+table.orderDetail  p label input { margin: 5px 3px 0 0; border: none; height: inherit; width: 16px }
+table.orderDetail span.unitItem{width:35%;  float:right; font-size:13px}
+
+table.orderDetail tr .title{width: 52%;}
+table.orderDetail tr .price{width: 28%;}
+table.orderDetail tr .quantity{width: 20%;}

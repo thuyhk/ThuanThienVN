@@ -1,0 +1,11 @@
+﻿@model IEnumerable<HGT.Web.Models.ProductViewModel>
+
+<h2>Sản phẩm nổi bật</h2>
+<div id="owl1">
+    @foreach (var item in Model)
+    {
+        <div class="item1">
+            @Html.Partial("_ProductBox", item)
+        </div>
+    }
+</div>

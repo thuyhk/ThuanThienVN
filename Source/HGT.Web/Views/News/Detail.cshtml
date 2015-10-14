@@ -1,0 +1,30 @@
+﻿@model News
+
+@using HGT.Entities.Models;
+
+@{
+    ViewBag.Title = Model.Title;
+    var tmp = ViewBag.CategoryLink as string;
+}
+
+@section styles{
+    <link href="@Url.Content("~/content/menu-list.css")" rel="stylesheet" />
+}
+<div id="wr-two-col" class="row">
+    <div class="col-sm-3">
+        @{Html.RenderAction("_ListCategories", "Category");}
+    </div>
+    <div class="col-sm-9">
+        <!-- breadcrumb -->
+        <ol class="breadcrumb">
+            <li><a href="/">Trang chủ</a></li>
+            <li>@Html.Raw(tmp)</li>
+            <li>@ViewBag.Title</li>
+        </ol>
+        <div class="clearfix"></div>
+        <div id="news">
+            @Html.Raw(Model.Content)
+        </div>
+    </div>
+</div>
+

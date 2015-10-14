@@ -1,0 +1,14 @@
+﻿<nav class="nav">
+    <ul class="nav-list">
+        <li class="nav-item"><a href="/" title="Hjem">Trang chủ</a></li>
+        <li class="nav-item">@Html.RouteLink("Giới thiệu", "Introduction")</li>
+        <li class="nav-item">@Html.RouteLink("Sản phẩm", "ListAllCategories")
+           @* @{Html.RenderAction("_NavMenuCategories", "Category");}*@
+        </li>
+        <li class="nav-item">@Html.RouteLink("Tin tức", "News")</li>
+       @* <li class="nav-item"><a href="#" title="Min side">Hình ảnh dự án</a> </li>*@
+        <li class="nav-item">@Html.RouteLink("Liên hệ", "Contact")</li>
+    </ul>
+</nav>
+<!-- /Nav -->
+<div class="clear"></div>

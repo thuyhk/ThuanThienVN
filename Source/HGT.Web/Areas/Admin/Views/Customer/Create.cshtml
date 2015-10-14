@@ -1,0 +1,231 @@
+﻿@model HGT.Admin.Models.UserModel
+@using HGT.Admin;
+@using Kendo.Mvc.UI;
+@{
+    ViewBag.Title = "Add Customer";
+    string save = "Save";
+    string reset = "Reset";
+}
+
+@section styles
+{
+    <style type="text/css">
+        #imgLogo, #imgUploaded {
+            max-height: 120px;
+        }
+
+        .profile-info-row select {
+            width: 99%;
+            height: 24px;
+            border: 0;
+            padding: 2px 5px !important;
+        }
+    </style>
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="page-header">
+            <h1>@ViewBag.Title</h1>
+            <div class="navbar-right" style="margin-top: -56px;">
+                <button type="submit" class="btn btn-primary btnSave"><i class="fa  fa-save fa-fw"></i>@save</button>
+                <button type="reset" class="btn btn-primary btnReset"><i class="fa fa-eraser fa-fw"></i>@reset</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("Create", "Customer", FormMethod.Post, new { @id = "createForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.UserId)
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.FullName) <span>*</span>
+                @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", tabindex = "1" })
+                <p class="help-block">
+                    @Html.ValidationMessageFor(model => Model.FullName, null, new { @class = "" })
+                </p>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.UserName) <span>*</span>
+                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", tabindex = "1" })
+                <p class="help-block">
+                    @Html.ValidationMessageFor(model => Model.UserName, null, new { @class = "" })
+                </p>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password) <span>*</span>
+                @Html.PasswordFor(model => model.Password, new { @class = "form-control", tabindex = "1" })
+                <p class="help-block">
+                    @Html.ValidationMessageFor(model => Model.Password, null, new { @class = "" })
+                </p>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ConfirmPassword) <span>*</span>
+                @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control", tabindex = "1" })
+                <p class="help-block">
+                    @Html.ValidationMessageFor(model => Model.ConfirmPassword, null, new { @class = "" })
+                </p>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email) <span>*</span>
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", tabindex = "1" })
+                <p class="help-block">
+                    @Html.ValidationMessageFor(model => Model.Email, null, new { @class = "" })
+                </p>
+            </div>
+
+        </div>
+        <div class="col-lg-6">
+            <div class="checkbox">
+                <label>
+                    @Html.CheckBoxFor(model => model.Active, new { @class = "", tabindex = "1" }) active
+                </label>
+
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Phone)
+                @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", tabindex = "1" })
+
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Mobile)
+                @Html.TextBoxFor(model => model.Mobile, new { @class = "form-control", tabindex = "1" })
+
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Image)
+                <span class="profile-picture">
+                    <img id="imgLogo" class="editable img-responsive  editable-empty" src="@Url.Content("~/Customerfiles/images/default.jpg")" alt="@Model.Image" />
+                    <img id="imgUploaded" class="editable img-responsive  editable-empty" src="" alt="Add Customer" style="display: none" />
+                </span>
+                <div class="space-12"></div>
+            </div>
+            <div class="form-group">
+                @(Html.Kendo().Upload()
+                            .Multiple(false)
+                            .Name("file")
+                            .Async(a => a
+                                .Save("SaveLogoUpload", "Customer")
+                                .Remove("RemoveLogoUpload", "Customer")
+                                .AutoUpload(true)
+                            )
+                            .Events(events => events
+                                .Select("onSelect")
+                                .Success("onSuccess")
+                            )
+                        )
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12" style="text-align: right">
+            <button type="submit" class="btn btn-primary btnSave"><i class="fa  fa-save fa-fw"></i>@save</button>
+            <button type="reset" class="btn btn-primary btnReset"><i class="fa fa-eraser fa-fw"></i>@reset</button>
+        </div>
+    </div>
+}
+<!-- /.row -->
+@section scripts{
+    <script type="text/javascript">
+        //event enter
+        function keypressHandler(e) {
+            if (e.which == 13) {
+                $(this).blur();
+                $('.btnSave').focus().click();//give your submit an ID
+            }
+        }
+        $('#createForm').keypress(keypressHandler);
+        //
+
+        function cancel() {
+            var siteUrl = null;
+            siteUrl = "/admin/Customer/";
+            window.location = siteUrl;
+            return false;
+
+        }
+        //var validatable = $("#createCustomers").kendoValidator().data("kendoValidator");
+        var emailBool = true;
+        var UserNameBool = true;
+        var validatable = $("#createForm").kendoValidator({
+            onfocusout: true,
+            onkeyup: true,
+            rules: {
+                UserName: function (input) {
+                    if (input.is("[name=UserName]")) {
+                        if (input.val() != '') {
+                            $.post("/admin/Customer/DoesUserNameExist", {
+                                UserName: $("#UserName").val(),
+                                UserId: "@Model.UserId"
+                            }, function (data) { UserNameBool = data; })
+                            return UserNameBool;
+                        }
+                    }
+                    return true;
+                },
+                email: function (input) {
+                    if (input.is("[name=Email]")) {
+                        if ($("#Email").val() != '') {
+                            $.post("/admin/Customer/DoesCustomerEmailExist", {
+                                email: $("#Email").val(),
+                                UserId: "@Model.UserId"
+                            }, function (data) { emailBool = data; })
+                            return emailBool;
+                        }
+                    }
+                    return true;
+                }
+            },
+            messages: {
+                UserName: "Customer name exist. Please select Customer name other.",
+                email: "Email exist. Please select email other."
+            }
+        }).data("kendoValidator");
+
+        $(".btnSave").click(function () {
+            if (validatable.validate() === false) {
+                return false;
+            } else {
+                $("#createForm").submit();
+            }
+        });
+
+        $(".btnReset").click(function () {
+            $("#createForm")[0].reset();
+        });
+
+        // select image
+        function onSelect(e) {
+            $.each(e.files, function (index, value) {
+                if (!checkImageUpload(value)) {
+                    ConfirmMessageBox(null, "Please insert an image file...", function () { }, false);
+                    e.preventDefault();
+                    return;
+                }
+            });
+        };
+
+        // upload success
+        function onSuccess(e) {
+            var responseTxt = jQuery.parseJSON(e.XMLHttpRequest.responseText);
+            var srcValue = responseTxt.PictureUrl;
+
+            if (srcValue != null) {
+                $("#imgLogo").hide();
+                $("#imgUploaded").attr('src', srcValue).show();
+            }
+        }
+    </script>
+}

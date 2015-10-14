@@ -1,0 +1,191 @@
+﻿@model ProductViewModel
+
+@using HGT.Web.Models
+
+@{
+    
+    if (Model.Id > 0)
+    {
+        ViewBag.Title = Model.Name ?? "";
+    }
+    else
+    {
+        ViewBag.Title = "Không tìm thấy sản phẩm";
+    }
+
+    var imgDefault = HGT.Core.Globals.ImageDefault;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3">
+            @{Html.RenderAction("_ListCategories", "Category");}
+        </div>
+        <div class="col-sm-9 no-padding">
+
+            @if (Model.Id > 0)
+            {    
+                <div class="product-details">
+                    <!--product-details-->
+                    <div class="col-sm-5">
+                        <div class="view-product">
+                            <img src="@Model.PictureDefault" onerror="this.onerror = null; this.src = '@imgDefault'" alt="" />
+                            @*<h3>ZOOM</h3>*@
+                        </div>
+                        @*<div id="similar-product" class="carousel slide" data-ride="carousel">
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <a href="">
+                            <img src="images/product-details/similar1.jpg" alt=""></a>
+                        <a href="">
+                            <img src="images/product-details/similar2.jpg" alt=""></a>
+                        <a href="">
+                            <img src="images/product-details/similar3.jpg" alt=""></a>
+                    </div>
+                    <div class="item">
+                        <a href="">
+                            <img src="images/product-details/similar1.jpg" alt=""></a>
+                        <a href="">
+                            <img src="images/product-details/similar2.jpg" alt=""></a>
+                        <a href="">
+                            <img src="images/product-details/similar3.jpg" alt=""></a>
+                    </div>
+                    <div class="item">
+                        <a href="">
+                            <img src="images/product-details/similar1.jpg" alt=""></a>
+                        <a href="">
+                            <img src="images/product-details/similar2.jpg" alt=""></a>
+                        <a href="">
+                            <img src="images/product-details/similar3.jpg" alt=""></a>
+                    </div>
+
+                </div>
+
+                <!-- Controls -->
+                <a class="left item-control" href="#similar-product" data-slide="prev">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                <a class="right item-control" href="#similar-product" data-slide="next">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </div>*@
+
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="product-information">
+                            <!--/product-information-->
+                            @*<img src="images/product-details/new.jpg" class="newarrival" alt="" />*@
+                            <h2>@Model.Name</h2>
+                            <p><b>Mã SP:</b> @Model.Code</p>
+                            @*<img src="images/product-details/rating.png" alt="" />*@
+                            <p>
+                                <b>Giá:</b>
+                                @if (Model.CallPrice || Model.Price.Equals(0))
+                                {
+                                    <span>Liên hệ</span>
+                                }
+                                else
+                                {
+                                    <span>@Model.Price.ToString("#,###") đ</span>
+                                }
+                            </p>
+                            <p>
+                                @*<b>Số lượng:</b>
+                    <input type="text" value="3" />*@
+                                <button type="button" class="btn btn-fefault cart "  onclick="quickCart(@Model.Id);">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    Đặt hàng
+                                </button>                                
+                                @*<a href="#" class="btn btn-default cart" data-id="@Model.Id" data-toggle="modal" data-target="#myModal" onclick="addToQuickCart(@Model.Id);" ><i class="fa fa-shopping-cart"></i>Đặt mua</a>*@
+                            </p>                            
+
+                            @*<a href="#">
+                                <img src="images/product-details/share.png" class="share img-responsive" alt="" /></a>*@
+                        </div>
+                        <!--/product-information-->
+                    </div>
+                </div>
+                <!--/product-details-->
+                            if (!string.IsNullOrEmpty(Model.Content))
+                            {
+                <div class="category-tab shop-details-tab">
+                    <!--category-tab-->
+                    <div class="col-sm-12">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#details" data-toggle="tab">Thông tin chi tiết</a></li>
+                            @*<li><a href="#companyprofile" data-toggle="tab">Hình ảnh</a></li>*@
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade active in" id="details">
+                            @Html.Raw(Model.Content)
+                        </div>
+
+                        @*<div class="tab-pane fade" id="companyprofile">
+                <div class="col-sm-3">
+                    <div class="product-image-wrapper">
+                        <div class="single-products">
+                            <div class="productinfo text-center">
+                                <img src="images/home/gallery1.jpg" alt="" />
+                                <h2>$56</h2>
+                                <p>Easy Polo Black Edition</p>
+                                <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="product-image-wrapper">
+                        <div class="single-products">
+                            <div class="productinfo text-center">
+                                <img src="images/home/gallery3.jpg" alt="" />
+                                <h2>$56</h2>
+                                <p>Easy Polo Black Edition</p>
+                                <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="product-image-wrapper">
+                        <div class="single-products">
+                            <div class="productinfo text-center">
+                                <img src="images/home/gallery2.jpg" alt="" />
+                                <h2>$56</h2>
+                                <p>Easy Polo Black Edition</p>
+                                <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="product-image-wrapper">
+                        <div class="single-products">
+                            <div class="productinfo text-center">
+                                <img src="images/home/gallery4.jpg" alt="" />
+                                <h2>$56</h2>
+                                <p>Easy Polo Black Edition</p>
+                                <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+
+                    </div>
+                </div>
+                <!--/category-tab-->
+                            }
+
+                            { Html.RenderAction("_ListProductsSameCategory", "Category", new { categoryId = Model.CategoryId, productId = Model.Id }); }
+            }
+            else
+            {    
+ @Html.Partial("_NotFoundContent")
+            }
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,6 @@
+﻿.fa-fw {text-align:inherit}
+.loading {text-align: center;top: 0;height: 100%;position: fixed;margin: 0 auto;width: 100%;z-index: 9999;background: rgba(57, 15, 61, 0.26) url('/userfiles/images/loading.gif') no-repeat center 50%;filter: alpha(opacity=50);  opacity: .5;}
+.tooltip-inner {background: #FF9100;padding: 5px 10px;border-radius: 0;}
+.tooltip-alert.alert-danger {background: none;color: #fff;font-weight: 600;font-size: 13px;}
+.tooltip.top .tooltip-arrow {border-top-color: #FF9100;}
+.has-error .form-control{border-color: #a94442 !important;} 

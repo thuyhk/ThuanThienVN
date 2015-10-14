@@ -1,0 +1,30 @@
+﻿@{
+    var appSetting = HGT.Core.AppSettings.Settings;
+    ViewBag.Title = "Trang chủ";
+
+}
+@section styles{
+    <link href="@Url.Content("~/Content/slider.css")" rel="stylesheet" />
+}
+<section id="homePage">
+    @{Html.RenderAction("_Slider", "Home");}
+    @{Html.RenderAction("_Services", "Home");}
+    <div class="clearfix"></div>
+    @*<div class="row">
+        <div class="col-md-4">aa</div>
+        <div class="col-md-4">aa</div>
+        <div class="col-md-4">aa</div>
+    </div>*@
+
+</section>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#services .inner p').responsiveEqualHeightGrid();
+            $('#slider .item:first, .carousel-indicators li:first').addClass('active');
+            //new WOW().init();
+        });
+    </script>
+    @*<script src="~/Scripts/jquery.scrollTo.js"></script>
+    <script src="~/Scripts/wow.min.js"></script>*@
+}

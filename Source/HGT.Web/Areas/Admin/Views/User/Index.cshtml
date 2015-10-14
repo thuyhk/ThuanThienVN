@@ -1,0 +1,134 @@
+﻿@model int
+@using HGT.Admin;
+@using HGT.Core.Enums;
+
+@{
+    ViewBag.Title = "Manage users page";
+
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="page-header">
+            <h1>List users</h1>
+            @if(Model >= (int)RoleType.Administrator)
+            {
+                <div class="navbar-right" style="margin-top: -56px;">
+                    <a class="btn btn-primary" href="@Url.Action("Create", "User", new { area = "Admin" })">
+                        <i class="fa fa-plus-square fa-fw"></i>Add new item</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding-bottom: 20px;">
+    <div class="col-md-4 navbar-right">
+        @{Html.RenderPartial("~/Areas/Admin/Views/User/_Search.cshtml");}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div id="grid" style="padding: 0; margin: 0">
+            <table class="table table-striped table-bordered table-hover mb0 mt30">
+                <colgroup>
+                    <col />
+                    <col />
+                    <col />
+                    <col />
+                    <col />
+                    <col />
+                    <col />
+                </colgroup>
+                <thead class="k-grid-header">
+                    <tr>
+                        <th class="k-header" data-field="FullName" data-title="FullName" scope="col">Full Name</th>
+                        <th class="k-header" data-field="UserName" data-title="UserName" scope="col">User</th>
+                        <th class="k-header hidden-610" data-field="Email" data-title="Email" scope="col">Email</th>
+                        <th class="k-header hidden-410" data-field="Active" data-title="Active" scope="col">Acitve</th>
+                        <th class="k-header hidden-480" data-field="RoleName" data-title="RoleName" scope="col">Role Name</th>
+                        <th scope="col" class="txt_align_c"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="t-no-data">
+                        <td colspan="8"></td>
+                    </tr>
+                </tbody>
+            </table>
+            @{Html.RenderPartial("~/Areas/Admin/Views/Shared/_GridPager.cshtml");}
+        </div>
+    </div>
+</div>
+<!-- /.row -->
+@section scripts
+{
+    <script type="text/javascript" src="~/Areas/Admin/Scripts/kendo.common.js"></script>
+    <script type="text/javascript" src="~/Areas/Admin/Scripts/user.list.js"></script>
+}
+@*view detail*@
+<script type="text/x-kendo-template" id="ViewDetailUser">
+       <div id="modal">
+    <div class="col-lg-12Edit">
+        <div class="row">
+            <div class="form-group">
+                <span class="p1">Full name </span>: <label id="FullName"></label>
+            </div>
+            <div class="form-group">
+                <span class="p1">User name </span>: <label id="UserName"></label>
+            </div>
+            <div class="form-group">
+                <span class="p1">Email </span>: <label id="Email"></label>
+            </div>
+            <div class="form-group">
+                <span class="p1">Role name </span>: <label id="RoleName"></label>
+            </div>
+            <div class="form-group">
+                <span class="p1">Active </span>: <input disabled="disabled" id="Active" name="Active" type="checkbox">
+            </div>
+            <div class="form-group">
+                <span class="p1">Phone </span>: <label id="Phone"></label>
+            </div>
+            <div class="form-group">
+                <span class="p1">Mobile </span>: <label id="Mobile"></label>
+            </div>
+            <div class="form-group">
+                <span class="p1">Image </span>:
+                <br/>
+                <img src="" id="Image" alt="" style="max-width:100px"/>
+            </div>
+        </div>
+    </div>
+</div> 
+</script>
+
+
+<script type="text/javascript">
+    //show popup change password
+    function ShowDetail(id) {
+
+        $.ajax({
+            url: "/admin/user/Details",
+            type: "POST",
+            data: { id: id },
+            success: function (result) {
+                $('#modal #FullName').text(result.FullName);
+                $('#modal #UserName').text(result.UserName);
+                $('#modal #Email').text(result.Email);
+                $('#modal #RoleName').text(result.RoleName);
+                $('#modal #Phone').text(result.Phone == null ? '' : result.Phone);
+                $('#modal #Mobile').text(result.Mobile == null ? '' : result.Mobile);
+
+                $('#modal #Active').prop('checked', result.Active);
+                if (result.Image != '')
+                    $('#modal #Image').attr("src", result.Image);
+
+            }
+        });
+
+        var dialog = new CRMDialog("modal-mask");
+        var kendoWindow = dialog.showDialog("User Detail", $("#ViewDetailUser").html(), 400, 370);
+        kendoWindow.end();
+    }
+</script>
